@@ -6,6 +6,12 @@
 \usepackage[english]{babel}
 \usepackage[absolute,overlay]{textpos}
 \usepackage{ifdraft}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{matrix}
+\usetikzlibrary{arrows.meta}
+\usepackage{amsmath} % for aligned
+\usepackage{listofitems} % for \readlist to create arrays
 
 \input{commands/general_commands}
 \input{commands/math_commands}
@@ -21,6 +27,26 @@
   }%
   {%
   }
+% TiKz
+\tikzset{%
+  every neuron/.style={
+    circle,
+    draw,
+    %minimum size=1cm
+  },
+  neuron missing/.style={
+    draw=none,
+    scale=2.5,
+    text height=0.333cm,
+    execute at begin node=\color{black}$\vdots$
+  },
+}
+% Notation
+\def\params{\vector{theta}}
+\def\example{\vector{x}}
+\def\output{o}
+\def\layer{\ell}
+
 
 \title{Introduction to Machine Learning}
 \author{Sylvain Caillou \and Mathieu Dubois}
@@ -30,5 +56,21 @@
 \begin{document}
 
 \frame{\titlepage}
+
+\begin{frame}
+  \frametitle{Goal}
+  \begin{itemize}
+  \item ML is a vast and expanding universe
+  \item There is more than way to do it
+  \item Let's start with simple examples to introduce some concepts
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Quick history}
+
+\end{frame}
+
+\include{a_simple_example}
 
 \end{document}
