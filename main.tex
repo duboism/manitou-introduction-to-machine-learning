@@ -1,0 +1,34 @@
+\documentclass[10pt]{beamer}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{ifdraft}
+
+\input{commands/general_commands}
+\input{commands/math_commands}
+
+% Options, definitions and styles
+% Grid
+\TPGrid{100}{100}
+\ifdraft
+  {%
+    \TPoptions{%
+      showboxes=true,%
+    }%
+  }%
+  {%
+  }
+
+\title{Introduction to Machine Learning}
+\author{Sylvain Caillou \and Mathieu Dubois}
+\institute{L2IT}
+\date{2024-07-05}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\end{document}

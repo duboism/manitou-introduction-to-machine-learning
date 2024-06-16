@@ -1,0 +1,40 @@
+%
+% General commands
+%
+% $Author: duboism $
+% $LastChangedDate: 2011-06-21 21:26:47 +0200 (mar. 21 juin 2011) $
+
+% TODO: better way to do that:
+%  - find the current language (babel var?) and then apply a "foreign word" style
+% (would work whatever the current language is)
+
+% Latin words
+\def\latinstyle{\textit}
+\newcommand{\latin}[1]{\latinstyle{#1}}
+\newcommand{\ie}{\latin{i.e.}}
+\newcommand{\eg}{\latin{e.g.}}
+\newcommand{\cf}{\latin{cf.}}
+\newcommand{\etc}{\latin{etc.}}
+\newcommand{\vs}{\latin{versus}}
+
+\def\greekstyle{\textit}
+\newcommand{\greek}[1]{\greekstyle{#1}}
+
+% english words
+\let\engstyle\textit
+\newcommand{\english}[1]{\foreignlanguage{english}{\engstyle{#1}}}
+
+% table titles
+% TODO: better ways of doing that:
+% - as an option of tabular?
+% - only one command (whatever the mode)
+\let\tabletitlestyle\textbf
+\let\mathtabletitlestyle\mathbf
+\newcommand{\tabletitle}[1]{\tabletitlestyle{#1}}
+\newcommand{\mathtabletitle}[1]{\ensuremath{\mathtabletitlestyle{#1}}}
+
+% Index
+\def\indexstyle{\textbf}
+\newcommand{\putindex}[1]{\indexstyle{#1}\index{#1@#1}}
+\newcommand{\putindexsee}[2]{\indexstyle{#1}\index{#1@#1|see{#2}}}
+\newcommand{\putindexcat}[2]{\indexstyle{#1}\index{#2@#2!{#1}}}

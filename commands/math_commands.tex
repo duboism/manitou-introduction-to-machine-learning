@@ -1,0 +1,232 @@
+%
+% Math commands
+%
+% $Author: duboism $
+% $LastChangedDate: 2013-01-15 16:56:30 +0100 (mar. 15 janv. 2013) $
+
+%\usepackage{amsmath, amssymb, amsthm, textcomp, stmaryrd}
+%\usepackage{textcase}
+
+%%%%%%%%%%%
+% General %
+%%%%%%%%%%%
+
+%\newtheorem{definition}{Définition}
+%\newtheorem{thm}{Théorème}
+%\newtheorem{prop}{Proposition}
+%\newtheorem{exemple}{Exemple}
+%\newtheorem{NB}{NB}
+
+% Sets
+\def\setextleftdelim{\lbrace}
+\def\setextrightdelim{\rbrace}
+\newcommand{\setext}[1]{\ensuremath{\left \setextleftdelim {#1} \right \setextrightdelim}} % Ensemble en extension: {x1, ..., xn}
+\def\setpredicatesep{,}
+\newcommand{\setpredicate}[2]{\ensuremath{\left \setextleftdelim {#1} \setpredicatesep {#2} \right \setextrightdelim}} % Ensemble en intension: {xi, 1<= i <= n}
+\def\setstyle{\mathcal}
+\newcommand{\set}[1]{\ensuremath{\setstyle{#1}}}
+\newcommand{\card}[1]{\ensuremath{\left | #1 \right |}}
+
+% Well known sets
+\def\setN{\mathbb{N}}
+\def\setZ{\mathbb{Z}}
+\def\setQ{\mathbb{Q}}
+\def\setR{\mathbb{R}}
+\def\setC{\mathbb{C}}
+
+% Tuples
+\def\tupleleftdelim{(}
+\def\tuplerightdelim{)}
+\newcommand{\couple}[2]{\ensuremath{\left \tupleleftdelim {#1}, {#2} \right \tuplerightdelim}}
+\newcommand{\tupleext}[1]{\ensuremath{\left \tupleleftdelim {#1} \right \tuplerightdelim}} % Tuple en extension: (x1, ..., xn)
+\def\tupleintsep{_}
+\newcommand{\tupleint}[2]{\ensuremath{\left \tupleleftdelim {#1} \right \tuplerightdelim \tupleintsep {#2}}} % Tuple en intension: (xi)_{1 <= i <= n}
+\def\tuplestyle{\mathbf}
+\newcommand{\tuple}[1]{\ensuremath{\tuplestyle{#1}}}
+
+
+% Intervals: http://en.wikipedia.org/wiki/Interval_%28mathematics%29#Notations_for_intervals
+\def\intervalleftdelim{[}
+\def\intervalrightdelim{]}
+\def\intervallodelim{\intervalrightdelim} % left-open symbol
+\def\intervalrodelim{\intervalleftdelim} % right-open symbol
+\newcommand{\interval}[2]{\ensuremath{\left \intervalleftdelim {#1}, {#2} \right \intervalrightdelim}}
+\newcommand{\lointerval}[2]{\ensuremath{\left \intervallodelim {#1}, {#2} \right \intervalrightdelim}}
+\newcommand{\rointerval}[2]{\ensuremath{\left \intervalleftdelim {#1}, {#2} \right \intervalrodelim}}
+\newcommand{\ointerval}[2]{\ensuremath{\left \intervallodelim {#1}, {#2} \right \intervalrodelim}}
+
+% Integer intervals
+\def\intintervalleftdelim{\llbracket}
+\def\intintervalrightdelim{\rrbracket}
+\def\intintervallodelim{\intintervalrightdelim} % left-open symbol
+\def\intintervalrodelim{\intintervalleftdelim} % right-open symbol
+\newcommand{\intinterval}[2]{\ensuremath{\left \intintervalleftdelim {#1}, {#2} \right \intintervalrightdelim}}
+\newcommand{\lointinterval}[2]{\ensuremath{\left \intintervallodelim {#1}, {#2} \right \intintervalrightdelim}}
+\newcommand{\rointinterval}[2]{\ensuremath{\left \intintervalleftdelim {#1}, {#2} \right \intintervalrodelim}}
+\newcommand{\ointinterval}[2]{\ensuremath{\left \intintervallodelim {#1}, {#2} \right \intintervalrodelim}}
+
+% Functions and operators
+\def\functionstyle{\mathrm}
+\newcommand{\func}[1]{\ensuremath{\functionstyle{#1}}}
+\newcommand{\apply}[2]{\ensuremath{#1 \left ( {#2} \right )}}
+\def\opstyle{\mathrm}
+\newcommand{\op}[1]{\ensuremath{\opstyle{#1}}}
+\newcommand{\applyop}[2]{\ensuremath{#1 \left [ {#2} \right ]}}
+
+% Vectors, Matrices, ...
+\def\vectorextleftdelim{[}
+\def\vectorextrightdelim{]}
+\newcommand{\vectorext}[1]{\ensuremath{\left \vectorextleftdelim {#1} \right \vectorextrightdelim}}
+\newcommand{\vectorstyle}[1]{\mathbf{#1}}
+\renewcommand{\vector}[1]{\ensuremath{\vectorstyle{#1}}}
+\newcommand{\vectorElem}[2]{\ensuremath{#1 \left [ #2 \right ]}}
+
+\def\matrixextleftdelim{[}
+\def\matrixextrightdelim{]}
+\newcommand{\matrixext}[1]{\ensuremath{\left \matrixextleftdelim {#1} \right \matrixrightdelim}}
+\def\matrixstyle{\mathbf}
+\renewcommand{\matrix}[1]{\ensuremath{\matrixstyle{#1}}}
+\newcommand{\matrixElem}[3]{\ensuremath{#1 \left [ {#2}, {#3} \right ]}}
+\newcommand{\matrixLinElem}[2]{\ensuremath{#1 \left [ #2 \right ]}}
+
+% Scalar product
+\def\dotprodleftdelim{\left \langle}
+\def\dotprodrightdelim{\right \rangle}
+\def\dotprodcentraldelim{,}
+\newcommand{\dotprod}[2]{\ensuremath{\dotprodleftdelim #1 \dotprodcentraldelim #2 \dotprodrightdelim}}
+
+% Vector product
+\def\vectorprodsymbol{\times}
+\newcommand{\vectorprod}[2]{#1 \vectorprodsymbol #2}
+
+% TODO:
+% - sets: set builder notation? http://en.wikipedia.org/wiki/Set_builder_notation
+% - set theory: define synonyms for common opertaions (union <-> \bigcup, intersection <-> \bigcap, etc.)
+% - matrix
+% - indexing should be done on class basis: setelement, matrix element, imageelement, ...
+% - limits: use \def instead of \newcommand?
+% - probabilities: use \DeclareMathOperator? There is a \Pr operator in \LaTeX
+
+% Integral
+\def\dsymb{\mathrm{d}}
+\newcommand{\intover}[1]{\dsymb #1}
+
+% Limits
+\newcommand{\tendsto}[1]{\ensuremath{\rightarrow #1}}
+\newcommand{\tendstoP}{\ensuremath{\overset{P}{\rightarrow}}}
+
+% Optimal quantity
+\def\optsymbol{\star}
+\newcommand{\opt}[1]{\ensuremath{\overset{\optsymbol}{#1}}}
+
+% Estimation of a quantity
+\def\estimsymbol{\widehat}
+\newcommand{\estim}[1]{\ensuremath{\estimsymbol{#1}}}
+
+%%%%%%%%%%%%%%%%%
+% Probabilities %
+%%%%%%%%%%%%%%%%%
+\newcommand{\RV}[1]{\ensuremath{\MakeTextUppercase{#1}}}
+\newcommand{\cond}[2]{{#1} | {#2}}
+
+
+% Discrete probability
+\def\probSymbol{P}
+\newcommand{\prob}[1]{\ensuremath{\apply{\func{\probSymbol}}{#1}}}
+\newcommand{\condprob}[2]{\ensuremath{\prob{\cond{#1}{#2}}}}
+
+% PDF
+\def\pdfSymbol{p}
+\newcommand{\pdf}[1]{\ensuremath{\apply{\func{\pdfSymbol}}{#1}}}
+\newcommand{\condpdf}[2]{\ensuremath{\pdf{\cond{#1}{#2}}}}
+
+% Operators
+\newcommand{\expectation}[1]{\ensuremath{\applyop{\op{\mathbb{E}}}{#1}}}
+\newcommand{\var}[1]{\ensuremath{\applyop{\op{Var}}{#1}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+% General operations %
+%%%%%%%%%%%%%%%%%%%%%%
+
+% Argmax & friends
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+% BigO and friends
+% From: http://www.tug.org/pipermail/texhax/2004-January/001496.html
+% See also: http://xw2k.nist.gov/dads//HTML/bigOnotation.html
+\DeclareMathOperator{\BigOmicron}{O}
+\DeclareMathOperator{\littleomicron}{o}
+\DeclareMathOperator{\BigOmega}{\Omega}
+\DeclareMathOperator{\littleomega}{\omega}
+\DeclareMathOperator{\BigTheta}{\Theta}
+
+\newcommand{\boundedabove}[1]{\BigOmicron \left ( {#1} \right )}
+\newcommand{\dominated}[1]{\littleomicron \left ( {#1} \right )}
+
+\newcommand{\boundedbelow}[1]{\BigOmega \left ( {#1} \right )}
+\newcommand{\dominates}[1]{\littleomega \left ( {#1} \right )}
+
+\newcommand{\boundedabovebelow}[1]{\BigTheta \left ( {#1} \right )}
+\newcommand{\similar}[2]{{#1} \sim {#2}}
+
+% Norms
+\def\normleftdelim{\|}
+\def\normrightdelim{\|}
+\newcommand{\pnorm}[2]{\ensuremath{\left \normleftdelim {#1} \right \normrightdelim_{#2}}}
+\newcommand{\norm}[1]{\ensuremath{\left \normleftdelim {#1} \right \normrightdelim}}
+\newcommand{\abs}[1]{\ensuremath{\left | {#1} \right |}}
+
+% Special functions
+\newcommand{\ceil}[1]{\ensuremath{\left \lceil {#1} \right \rceil}}
+\newcommand{\floor}[1]{\ensuremath{\left \lfloor {#1} \right \rfloor}}
+\DeclareMathOperator{\sgn}{sgn}
+
+% Convolution
+\def\convsymbol{\star}
+\DeclareMathOperator*{\conv}{\convsymbol}
+\newcommand{\convvar}[1]{\ensuremath{\conv_{#1}}} % argument is used to specify convolution variables
+
+%%%%%%%%%%%%%%%%%%%%
+% Image processing %
+%%%%%%%%%%%%%%%%%%%%
+
+\let\imagestyle\mathbf
+\newcommand{\image}[1]{\ensuremath{\imagestyle{#1}}}
+\newcommand{\imagepixel}[3]{\ensuremath{\image{#1} \left ( #2, #3 \right )}}
+\newcommand{\gausskernel}[3]{\ensuremath{\frac{1}{\sqrt{2\pi} #3} \exp^{-\frac{(#1+#2)^2}{2 #3^2}} }}
+
+% SIFT
+\newcommand{\siftkernel}{\gausskernel{x}{y}{\sqrt{2}}}
+
+%\newcommand{\convdd}[4]{\int_3 \int_4 #1 #2}
+
+%%%%%%%%%%%%
+% Learning %
+%%%%%%%%%%%%
+
+\DeclareMathOperator{\error}{error}
+
+% Probabilistic robotics
+\newcommand{\stateSymbol}{x}
+\newcommand{\state}{\vector{\stateSymbol}}
+\newcommand{\obsSymbol}{z}
+\newcommand{\obs}{\vector{\obsSymbol}}
+\newcommand{\controlSymbol}{u}
+\newcommand{\control}{\vector{\controlSymbol}}
+\newcommand{\aggState}{\tilde{x}}
+\newcommand{\stateRVSymbol}{\RV{\stateSymbol}}
+\newcommand{\stateRV}{\vector{\stateRVSymbol}}
+\newcommand{\obsRVSymbol}{\RV{\obsSymbol}}
+\newcommand{\obsRV}{\vector{\obsRVSymbol}}
+\newcommand{\controlRVSymbol}{\RV{\controlSymbol}}
+\newcommand{\controlRV}{\vector{\controlRVSymbol}}
+\newcommand{\aggStateRV}{\RV{\aggState}}
+
+\newcommand{\val}[2]{\ensuremath{{#1}_{#2}}}
+\newcommand{\seq}[3]{\ensuremath{{#1}_{{#2}:{#3}}}}
+
+\newcommand{\bel}{\func{bel}}
+\newcommand{\belBeforeObs}{\overline{{\bel}}}
+
