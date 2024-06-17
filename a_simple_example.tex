@@ -48,12 +48,21 @@
     \begin{tikzpicture}[>=stealth]
       % Inspired by https://tex.stackexchange.com/a/153974
 
-      % Input image
+      % Input image and grid
       % This part is inspired by https://tex.stackexchange.com/a/128648
+      % and a lot of trial and error for the grid (including a bit of ChatGPT)
+      % Apparently, the idea is to fix the size of the image and then the grid
+      % flows
+      % I use 56px (twice the real size) so that it looks OK and computations are easy.
       \def\xInputImage{0}
       \def\nameInputImage{input-name}
-      \node[inner sep=0pt,draw=black] (\nameInputImage) at (\xInputImage,0)
-      {\includegraphics[width=.20\textwidth]{img/Mnist_8.png}};
+      \node[anchor=center,inner sep=0pt,draw=black] (\nameInputImage) at (\xInputImage,0) {
+        \includegraphics[width=56px,height=56px]{img/Mnist_8.png}
+      };
+      \begin{scope}
+        \clip (\nameInputImage.south west) rectangle (\nameInputImage.north east);
+        \draw[step=2px,gray,very thin] (\nameInputImage.south west) grid (56px, 56px);
+      \end{scope}
 
       \onslide<2->{
       % Input layer
@@ -65,10 +74,11 @@
 
       % Connections from input image to input layer
       % No loop here cause we need to shift the positions
-      \draw [->] (\nameInputImage)++(-0.85,0.85) -- (\nameInput-1);
-      \draw [->] (\nameInputImage)++(-0.70,0.85) -- (\nameInput-2);
-      \draw [->] (\nameInputImage)++(-0.55,0.85) -- (\nameInput-3);
-      \draw [->] (\nameInputImage)++(0.85,-0.85) -- (\nameInput-4);
+      % It uses the scale introduced above
+      \draw [->] (\nameInputImage)++(-27px,27px) -- (\nameInput-1);
+      \draw [->] (\nameInputImage)++(-25px,27px) -- (\nameInput-2);
+      \draw [->] (\nameInputImage)++(-23px,27px) -- (\nameInput-3);
+      \draw [->] (\nameInputImage)++(27px,-27px) -- (\nameInput-4);
       }
 
       \onslide<3->{
