@@ -17,7 +17,16 @@
       \end{itemize}
     \end{column}
     \begin{column}{0.5\textwidth}
-      \includegraphics[width=\columnwidth]{img/MnistExamples.png}
+      \begin{tikzpicture}[>=stealth]
+        \node[anchor=south west,inner sep=0] (image) at (0,0) {
+          \includegraphics[width=\columnwidth]{img/MnistExamples.png}
+        };
+        \onslide<2->{
+        \begin{scope}[x={(image.south east)},y={(image.north west)}]
+          \draw[red,ultra thick] (0.22,0.15) rectangle (0.28,0.25);
+        \end{scope}
+        }
+      \end{tikzpicture}
       \url{http://yann.lecun.com/exdb/mnist/index.html}
     \end{column}
   \end{columns}
