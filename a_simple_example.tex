@@ -10,10 +10,11 @@
         \begin{itemize}
         \item Lots of methods have been tested with it
         \end{itemize}
-      \item The task is to recognize the digit on the image
       \item All images have the same size and aspect ratio (non-trivial
         pre-processing)
-      \item The label is known
+      \item The label is known: $\trainingSet = \setpredicate{\couple{\example_{i}}{\knownLabel_{i}}}{i=1..\nTrainingSamples}$
+      \item The task is to recognize the digit on the image \ie{} we are looking
+        for a function: $\decisionFunc: \, \setR^{\dimExample} \mapsto \intinterval{0}{9}$
       \end{itemize}
     \end{column}
     \begin{column}{0.5\textwidth}
@@ -33,29 +34,39 @@
 \end{frame}
 
 \begin{frame}
+  % Items and figure are synchronized
   \frametitle{Multi-layer perceptron: computation}
   \begin{textblock}{50}(0,10)
     \begin{itemize}
     \item 1957 but many improvements since
+    \item Very loose biological inspiration
     \item<2-> Input layer
       \begin{itemize}
       \item flatten image: $\output^{1}_{k} = \matrixLinElem{\matrix{I}}{k}$
       \end{itemize}
+      % We will show 2 hidden layers, hence this item is on slides 3 and 4
     \item<3-> Hidden layers
       \begin{itemize}
       \item Weighted sum:
-      \item Activation function:\\
-        ReLU $\output^{\layer+1}_{k}$
+        $s^{\layer+1}_{k} = \sum_{p=1}^{N_{\layer}} {\color{red} \weight^{\layer}_{pk}} \output^{\layer}_{p}$
+      \item Activation function $\activFunc$:
+        \begin{align*}
+          \output^{\layer+1}_{k} & = & \apply{\ReLUFunc}{s^{\layer+1}_{k}} \\
+                                 & = & \apply{\ReLUFuncExt}{0, s^{\layer+1}_{k}}
+        \end{align*}
       \end{itemize}
-    \item<4-> Output layer
+    \item<5-> Output layer
       \begin{itemize}
-      \item Softmax:
+      \item Softmax: $\output^{n}_{k} = \frac{\apply{\exp}{s^{n}_{k}}}{\sum_{j=1}^{10} \apply{\exp}{s^{n}_{j}}}$
       \end{itemize}
     \end{itemize}
   \end{textblock}
   \begin{textblock}{70}(30,20)
     \begin{tikzpicture}[>=stealth]
       % Inspired by https://tex.stackexchange.com/a/153974
+      % We display a MLP with 2 hidden layers for OCR
+      % The input image and the output layer are always displayed
+      % The layers (input and the 2 hidden) and their connections appear after
 
       % Input image and grid
       % This part is inspired by https://tex.stackexchange.com/a/128648
@@ -90,8 +101,8 @@
       \draw [->] (\nameInputImage)++(27px,-27px) -- (\nameInput-4);
       }
 
-      \onslide<3->{
       % First hidden layer
+      \onslide<3->{
       \def\xHiddenI{3.6}
       \def\nameHiddenI{hidden1}
       \node [align=center, above] at (\xHiddenI,2.2) {Hidden \\ layer \\ {\tiny 200 units}};
@@ -102,8 +113,10 @@
       \foreach \i in {1,...,4}
       \foreach \j in {1,...,3}
       \draw [->] (\nameInput-\i) -- (\nameHiddenI-\j);
+      }
 
       % Second hidden layer
+      \onslide<4->{
       \def\xHiddenII{5.4}
       \def\nameHiddenII{hidden2}
       \node [align=center, above] at (\xHiddenII,2.2) {Hidden \\ layer \\ {\tiny 150 units}};
@@ -123,7 +136,7 @@
       \foreach \m [count=\y] in {0,1,missing,9}
       \node [every neuron/.try, neuron \m/.try ] (\nameOutput-\m) at (\xOutput,1.8-0.7*\y) {};
 
-      \onslide<4->{
+      \onslide<5->{
       % Connection from second hidden layer to output layer
       \foreach \i in {1,2,3}
       \foreach \j in {0,1,9}
