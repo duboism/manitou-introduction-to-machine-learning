@@ -4,6 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[english]{babel}
+\usepackage[style=authortitle,giveninits=true,sorting=none,backend=biber]{biblatex}
 \usepackage[absolute,overlay]{textpos}
 \usepackage{ifdraft}
 \usepackage{tikz}
@@ -42,7 +43,20 @@
     execute at begin node=\color{black}$\vdots$
   },
 }
-% Notation
+% Bibliography and citation style
+\addbibresource{references.bib}
+\DeclareNameAlias{author}{last-first}
+\DeclareBibliographyCategory{general}
+\addtocategory{general}{stuart2021}
+\addtocategory{general}{bishop2006}
+\addtocategory{general}{james2023}
+\addtocategory{general}{barra2021}
+\DeclareBibliographyCategory{deep_learning}
+\addtocategory{deep_learning}{goodfellow2016}
+\addtocategory{deep_learning}{zhang2023}
+\addtocategory{deep_learning}{chollet2021}
+
+% Notations
 \def\trainingSet{\set{S}}
 \def\nTrainingSamples{m}
 \def\example{\vector{x}}
@@ -72,5 +86,7 @@
 \include{introduction}
 
 \include{a_simple_example}
+
+\include{how_to_go_further}
 
 \end{document}
