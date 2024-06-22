@@ -10,11 +10,22 @@
         \begin{itemize}
         \item Lots of methods have been tested with it
         \end{itemize}
-      \item All images have the same size and aspect ratio (non-trivial
-        pre-processing)
-      \item The label is known: $\trainingSet = \setpredicate{\couple{\example_{i}}{\knownLabel_{i}}}{i=1..\nTrainingSamples}$
-      \item The task is to recognize the digit on the image \ie{} we are looking
-        for a function: $\decisionFunc: \, \setR^{\dimExample} \mapsto \intinterval{0}{9}$
+      \item The task is to recognize the digit on the image
+        % \ie{} we are looking
+        % for a function: $\decisionFunc: \, \setR^{\dimExample} \mapsto \intinterval{0}{9}$
+      \item<2-> All images have the same size ($28 \times 28$) and aspect ratio
+        \begin{itemize}
+        \item Non-trivial pre-processing
+        \end{itemize}
+      \item<2-> The label is known
+      \item<3-> Train set: 60 000 images
+        \begin{itemize}
+        \item $\trainingSet =
+          \setpredicate{\couple{\example_{i}}{\knownLabel_{i}}}{i=1..\nTrainingSamples}$
+        \item $\example_i \in \setR^{\dimExample}, \dimExample = 784$
+        \item $\knownLabel_i \in \intinterval{0}{9}$
+        \end{itemize}
+      \item<3-> Test set: 10 000 images
       \end{itemize}
     \end{column}
     \begin{column}{0.5\textwidth}
