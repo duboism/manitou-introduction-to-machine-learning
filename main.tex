@@ -71,17 +71,22 @@
 \def\nTrainingSamples{m}
 \def\example{\vector{x}}
 \def\dimExample{n}
-\def\knownLabel{y}
+\def\knownLabel{u}
+\def\predLabel{y}
+\def\nClasses{K}
 \def\decisionFunc{\func{h}}
 \def\params{\vector{\theta}}
 \def\output{o}
-\def\layer{\ell}
+\def\layer{l}
 \def\weight{w}
 \def\weightMatrix{\matrix{W}}
 \def\activFunc{\func{\sigma}}
 \def\ReLUFunc{\func{ReLU}}
 \def\ReLUFuncExt{\func{\max}}
 \def\softMaxFunc{\func{SoftMax}}
+\def\lossFunc{\func{\ell}}
+\def\learningRate{\alpha}
+\DeclareMathOperator{\grad}{\nabla}
 
 % Acronyms
 \acrodef{ML}{Machine Learning}
