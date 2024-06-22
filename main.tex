@@ -12,6 +12,11 @@
 \usetikzlibrary{positioning}
 \usetikzlibrary{matrix}
 \usetikzlibrary{arrows.meta}
+\usepackage{pgfplots}
+% Trick to make pgfplots work with aux_dir
+% (https://tex.stackexchange.com/a/444407)
+% This uses the value in latexmkrc (not great, not terrible)
+\pgfkeys{/pgf/plot/gnuplot call={cd build && gnuplot}}
 \usepackage{amsmath} % for aligned
 \usepackage{listofitems} % for \readlist to create arrays
 \usepackage{stmaryrd}
