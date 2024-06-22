@@ -63,8 +63,24 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Multi-layer perceptron: computation}
-  \begin{textblock}{100}(5,10)
+  \note{
+    \begin{itemize}
+    \item Parametrized function
+    \item Probabilistic classifier:
+      \begin{align*}
+        \begin{aligned}
+          & \decisionFunc_{\params} : & \setR^{\dimExample} & \rightarrow & \interval{0}{1}^{\nClasses} \\
+        \end{aligned}
+      \end{align*}
+      where
+      $\vector{\predLabel} = \apply{\decisionFunc_{\params}}{\example}$ is a vector such
+      that $\vectorElem{\vector{\predLabel}}{k}$ is $\prob{\example = k}$
+    \item Importance of non-linear activation function
+    \end{itemize}
+  }
+
+  \frametitle{\acl{MLP}: Computation}
+  \begin{textblock}{100}(5,20)
     \begin{tikzpicture}[>=stealth]
       % Inspired by https://tex.stackexchange.com/a/153974
       % We display a MLP with 2 hidden layers for OCR
@@ -75,15 +91,15 @@
       % Parameters
       \def\xInputImage{0}
       \def\nameInputImage{input-name}
-      \def\xInput{2.2}
+      \def\xInput{2.0}
       \def\nameInput{input}
-      \def\xHiddenI{4.4}
+      \def\xHiddenI{4.3}
       \def\nameHiddenI{hidden1}
       \def\xHiddenII{6.6}
       \def\nameHiddenII{hidden2}
-      \def\xOutput{8.8}
+      \def\xOutput{8.9}
       \def\nameOutput{output}
-      \def\xProba{9.2}
+      \def\xProba{9.4}
       \def\nameProba{proba}
       \def\missing{missing}
 
@@ -115,9 +131,20 @@
       \draw [->] (\nameInputImage)++(-25px,27px) -- (\nameInput-2);
       \draw [->] (\nameInputImage)++(-23px,27px) -- (\nameInput-3);
       \draw [->] (\nameInputImage)++(27px,-27px) -- (\nameInput-784);
+      }
 
       % Description of the output
-      \node[anchor=north west] at (\xInput-1, -2.2) {$\output^{1}_{k} = \matrixLinElem{\matrix{I}}{k}$} ;
+      \onslide<2>{
+      \node[text width=3cm,anchor=north west] at (\xInput-1, -2.2) {{\footnotesize
+          $\output^{1}_{k} = \vectorElem{\example}{k}$
+      }} ;
+      }
+
+      % Matrix form
+      \onslide<3->{
+      \node[text width=3cm,anchor=north west] at (\xInput-1, -2.2) {{\footnotesize
+          $\output^{1} = \example$
+      }} ;
       }
 
       % First hidden layer
@@ -137,15 +164,12 @@
       \draw[->] (\nameInput-\p) -- node {${\color{red} \weight^{2}_{\k,\p}}$} (\nameHiddenI-\k);
 
       % Description of the output
-      \node[text width=5,anchor=north west] at (\xHiddenI-1, -2.2) {{\footnotesize
-          \begin{align*}
-            \begin{aligned}
-              & s^{2}_{k}      & = & \sum_{p=1}^{N_{1}} {\color{red} \weight^{2}_{k,p}} \output^{1}_{p} \\
-              & \output^{2}_{k} & = & \ \apply{\activFunc}{s^{2}_{k}} \\
-              &                     & = & \apply{\ReLUFuncExt}{0, s^{2}_{k}}
-            \end{aligned}
-          \end{align*}
-        }};
+      \node[text width=3cm,anchor=north west] at (\xHiddenI-1, -2.2) {{\footnotesize
+          $s^{2}_{k} = \sum_{p=1}^{N_{1}} {\color{red} \weight^{2}_{k,p}} \output^{1}_{p} $
+      }};
+      \node[text width=5cm,anchor=north west] at (\xHiddenI-1, -3.0) {{\footnotesize
+          $\output^{2}_{k} = \apply{\ReLUFuncExt}{0, s^{2}_{k}}$ ($\ReLUFunc$)
+      }};
       }
 
       % Other connections from input layer to first hidden layer
@@ -154,13 +178,9 @@
       \foreach \i in {1,2,3,784}
       \foreach \j in {1,...,3}
       \draw[->] (\nameInput-\i) -- (\nameHiddenI-\j);
-      \node[text width=3] at (\xHiddenI-1, -2.4) {{
-          \begin{equation*}
-            %\begin{aligned}
-            \vector{\output^{2}} = \apply{\activFunc}{{\color{red}\weightMatrix^{2}}\vector{\output^{1}}}
-            %\end{aligned}
-          \end{equation*}
-        }};
+      \node[text width=3cm,anchor=north west] at (\xHiddenI-1, -2.2) {{\footnotesize
+          $\vector{\output^{2}} = \apply{\activFunc}{{\color{red}\weightMatrix^{2}}\vector{\output^{1}}}$
+      }};
       }
 
       % Second hidden layer
@@ -175,20 +195,16 @@
       \foreach \j in {1,2,3}
       \draw [->] (\nameHiddenI-\i) -- (\nameHiddenII-\j);
 
-      \node[text width=3,anchor=north west] at (\xHiddenII-1, -2.2) {{
-          \begin{equation*}
-            %\begin{aligned}
-            \vector{\output^{3}} = \apply{\activFunc}{{\color{red}\weightMatrix^{3}}\vector{\output^{2}}}
-            %\end{aligned}
-          \end{equation*}
-        }};
+      \node[text width=3cm,anchor=north west] at (\xHiddenII-1, -2.2) {{\footnotesize
+          $\vector{\output^{3}} = \apply{\activFunc}{{\color{red}\weightMatrix^{3}}\vector{\output^{2}}}$
+      }};
       }
 
       % Output layer
       \node [align=center, above] at (\xOutput,2.2) {% Output \\ layer \\
         {\tiny 10 $\softMaxFunc$ units}};
       \foreach \m [count=\y] in {0,1,missing,9}
-      \node [every neuron/.try, neuron \m/.try ] (\nameOutput-\m) at (\xOutput,1.8-0.7*\y) {};
+      \node [every neuron/.try, neuron \m/.try ] (\nameOutput-\m) at (\xOutput,1.6-0.7*\y) {};
 
       \onslide<6->{
       % Connection from second hidden layer to output layer
@@ -197,19 +213,17 @@
       \draw [->] (\nameHiddenII-\i) -- (\nameOutput-\j);
 
       % Description of output
-      \node[text width=3,anchor=north west] at (\xOutput-1, -2.2) {{\footnotesize
-          \begin{align*}
-            \begin{aligned}
-              & s^{4}_{k}      & = & \sum_{p=1}^{N_{4}} {\color{red} \weight^{3}_{k,p}} \output^{3}_{p} \\
-              & \output^{4}_{k} & = & \frac{\apply{\exp}{s^{4}_{k}}}{\sum_{j=1}^{10} \apply{\exp}{s^{4}_{j}}}
-            \end{aligned}
-          \end{align*}
-        }};
+      \node[text width=3cm,anchor=north west] at (\xOutput-1, -2.2) {{\footnotesize
+          $s^{4}_{k} = \sum_{p=1}^{N_{3}} {\color{red} \weight^{4}_{k,p}} \output^{3}_{p}$
+      }};
+      \node[text width=5cm,anchor=north west] at (\xOutput-1, -3.0) {{\footnotesize
+          $\output^{4}_{k} = \frac{\apply{\exp}{s^{4}_{k}}}{\sum_{j=1}^{10} \apply{\exp}{s^{4}_{j}}}$
+      }};
       }
 
       % Output probabilities
       \foreach \m [count=\y] in {0,1,missing,9}
-      \node (\nameProba-\m) at (\xProba,1.8-0.7*\y) {\ifx\m\missing\else {\tiny $\prob{\m}$}\fi};
+      \node (\nameProba-\m) at (\xProba,1.6-0.7*\y) {\ifx\m\missing\else {\tiny $\prob{\m}$}\fi};
     \end{tikzpicture}
 
   \end{textblock}
