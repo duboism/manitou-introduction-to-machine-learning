@@ -50,14 +50,14 @@
   \begin{textblock}{80}(5, 20)
     \acl{MLP}:
     \begin{itemize}
-    \item<1-> 1957
+    \item<1-> Introduced in 1957
       \begin{itemize}
-      \item First perceptrons without hidden layer and activation function were
+      \item First perceptrons without hidden layers and activation functions were
         very limited
       \item Many improvements since then
+      \item Lots of variations
       \end{itemize}
-    \item<1-> Very loose biological inspiration
-    \item<1-> Lots of variations
+    \item<1-> Loose biological inspiration
     \end{itemize}
   \end{textblock}
 \end{frame}
@@ -65,7 +65,6 @@
 \begin{frame}
   \note{
     \begin{itemize}
-    \item Parametrized function
     \item Probabilistic classifier:
       \begin{align*}
         \begin{aligned}
@@ -75,6 +74,8 @@
       where
       $\vector{\predLabel} = \apply{\decisionFunc_{\params}}{\example}$ is a vector such
       that $\vectorElem{\vector{\predLabel}}{k}$ is $\prob{\example = k}$
+    \item Feed-forward
+    \item Parametrized function
     \item Importance of non-linear activation function
     \end{itemize}
   }
@@ -143,7 +144,7 @@
       % Matrix form
       \onslide<3->{
       \node[text width=3cm,anchor=north west] at (\xInput-1, -2.2) {{\footnotesize
-          $\output^{1} = \example$
+          $\vector{\output}^{1} = \example$
       }} ;
       }
 
