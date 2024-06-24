@@ -1,7 +1,15 @@
 \section[A simple example: MLP]{A simple example: classify handwritten digits with a \acl{MLP}}
 
 \begin{frame}
+  \note{
+    \begin{itemize}
+      \item Preprocessing
+      \item Supervised learning
+    \end{itemize}
+  }
+
   \frametitle{The MNIST dataset}
+
   \begin{columns}
     \begin{column}{0.5\textwidth}
       \begin{itemize}
@@ -9,22 +17,21 @@
         \begin{itemize}
         \item Lots of methods have been tested with it
         \end{itemize}
-      \item The task is to recognize the digit on the image
-        % \ie{} we are looking
-        % for a function: $\decisionFunc: \, \setR^{\dimExample} \mapsto \intinterval{0}{9}$
       \item<2-> All images have the same size ($28 \times 28$) and aspect ratio
         \begin{itemize}
         \item Non-trivial pre-processing
         \end{itemize}
-      \item<2-> The label is known
-      \item<3-> Train set: 60 000 images
+      \item<2-> Train set: 60 000 images
         \begin{itemize}
         \item $\trainingSet =
           \setpredicate{\couple{\example_{i}}{\knownLabel_{i}}}{i=1..\nTrainingSamples}$
         \item $\example_i \in \setR^{\dimExample}, \dimExample = 784$
         \item $\knownLabel_i \in \intinterval{0}{9}$
         \end{itemize}
-      \item<3-> Test set: 10 000 images
+      \item<2-> Test set: 10 000 images
+      \item<3-> The task is to recognize the digit on the image
+        % \ie{} we are looking
+        % for a function: $\decisionFunc: \, \setR^{\dimExample} \mapsto \intinterval{0}{9}$
       \end{itemize}
     \end{column}
     \begin{column}{0.5\textwidth}
@@ -32,7 +39,7 @@
         \node[anchor=south west,inner sep=0] (image) at (0,0) {
           \includegraphics[width=\columnwidth]{img/MnistExamples.png}
         };
-        \onslide<2->{
+        \onslide<3->{
         \begin{scope}[x={(image.south east)},y={(image.north west)}]
           \draw[red,ultra thick] (0.22,0.15) rectangle (0.28,0.25);
         \end{scope}
