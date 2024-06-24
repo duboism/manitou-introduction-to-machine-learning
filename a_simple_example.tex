@@ -279,7 +279,7 @@
 
       % \draw[very thin,color=gray] (-0.1,-0.1) grid (3.9,3.9);
       \draw[->] (-0.2,0) -- (4.2,0) node[right] {$\params$};
-      \draw[->] (0,-0.2) -- (0,4.2) node[above right] {$\apply{\lossFunc}{\apply{\decisionFunc}{\example_i}, \knownLabel_i})$};
+      \draw[->] (0,-0.2) -- (0,4.2) node[above right] {$\apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i})$};
       % Display loss function
       \draw[color=blue] plot function{(x-2)**2+0.3} node[right] {};
 
@@ -294,4 +294,57 @@
     \end{center}
   \end{textblock}
 \end{frame}
+
+\begin{frame}
+  \frametitle{\acl{MLP}: Backpropagation computation}
+  \begin{itemize}
+    \item Gradient computation in large dimension:
+    
+    $
+    \nabla_\theta \ell(h_{\theta}( \mathbf{x}_i, u_i)) = 
+    \left( \frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i)) }{\partial w_{1,1}^1},\ldots,\frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i)) }{\partial w_{p,k}^l},\ldots,\frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i)) }{\partial w_{N_{L-1},N_{L}}^{N_{L-1}}} \right)^T
+    $
+
+    %$
+    %\nabla_\theta \frac{1}{m} \sum_{i=1}^m \ell(h_{\theta}( \mathbf{x}_i, u_i)) = 
+    %\frac{1}{m} \sum_{i=1}^m \left( \frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i)) }{\partial w_{1,1}^1},\ldots,\frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i)) }{\partial w_{p,k}^l},\ldots,\frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i)) }{\partial w_{N_{L-1},N_{L}}^{N_{L-1}}} \right)^T
+    %$
+
+    \item Analytical calculation is possible, but the $h_{\theta}$ is derived from composite functions layer after layer.
+    \item Uses the chain rule to compute partial derivatives.
+
+    %$
+    %\frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i)) }{\partial w_{p,k}^l} = 
+    %\frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i))}{\partial o_k^{l+1}} \frac{\partial o_k^{l+1}}{\partial s_k^{l+1}} \frac{\partial s_k^{l+1}}{\partial w_{p,k}^{l}}
+    %$
+  \end{itemize}
+
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{\acl{MLP}: Backpropagation computation}
+  \begin{itemize}
+    \item Apply the chain rule at layer $l$:
+    
+    $
+    \frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i)) }{\partial w_{p,k}^l} = 
+    \frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i))}{\partial o_k^{l+1}} \frac{\partial o_k^{l+1}}{\partial s_k^{l+1}} \frac{\partial s_k^{l+1}}{\partial w_{p,k}^{l}}
+    $
+
+    \item $\frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i))}{\partial o_k^{l+1}}$: known at the $l+1$ layer. $\frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i))}{\partial o_k^{L}}$: last layer, $\ell$ must be differentiable w.r.t $o_k^{L}$.
+    
+    %\item $\frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i))}{\partial o_k^{L}}$: last layer, $\ell$ must be differentiable w.r.t $o_k^{L}$
+    
+    \item $\frac{\partial o_k^{l+1}}{\partial s_k^{l+1}}$: $o_k^{l+1} = \varphi(s_k^{l+1})$, $\varphi$ as intermediate or final activation function must be differentiable.
+    
+    \item $\frac{\partial s_k^{l+1}}{\partial w_{p,k}^{l}} = \frac{\partial}{\partial w_{p,k}^{l}} \sum_{p' \in \left\{1,\ldots,N_l \right\}}  w_{p', k}^{l}o_{p'}^{k}= \frac{\partial^{pk} }{\partial w_{p,k}^{l}}  w_{p, k}^{l}o_{p}^{l}=o_{p}^{l}$
+
+  \end{itemize}
+
+
+  
+\end{frame}
+
+
 
