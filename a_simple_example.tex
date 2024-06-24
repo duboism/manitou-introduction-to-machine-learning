@@ -54,12 +54,11 @@
   \frametitle{\acl{MLP}: Introduction}
 
   \begin{textblock}{80}(5, 20)
-    \acl{MLP}:
     \begin{itemize}
-    \item<1-> Introduced in 1957
+    \item<1-> First perceptrons without hidden layers and activation functions
+      (introduced in 1957) were
+      very limited
       \begin{itemize}
-      \item First perceptrons without hidden layers and activation functions were
-        very limited
       \item Many improvements since then
       \item Lots of variations
       \end{itemize}
@@ -185,8 +184,8 @@
       \foreach \i in {1,2,3,784}
       \foreach \j in {1,...,3}
       \draw[->] (\nameInput-\i) -- (\nameHiddenI-\j);
-      \node[text width=3cm,anchor=north west] at (\xHiddenI-1, -2.2) {{\footnotesize
-          $\vector{\output^{2}} = \apply{\activFunc}{{\color{red}\weightMatrix^{2}}\vector{\output^{1}}}$
+      \node[text width=3cm,anchor=north west] at (\xHiddenI-1.2, -2.2) {{\footnotesize
+          $\vector{\output^{2}} = \apply{\ReLUFunc}{{\color{red}\weightMatrix^{2}}\vector{\output^{1}}}$
       }};
       }
 
@@ -202,8 +201,8 @@
       \foreach \j in {1,2,3}
       \draw [->] (\nameHiddenI-\i) -- (\nameHiddenII-\j);
 
-      \node[text width=3cm,anchor=north west] at (\xHiddenII-1, -2.2) {{\footnotesize
-          $\vector{\output^{3}} = \apply{\activFunc}{{\color{red}\weightMatrix^{3}}\vector{\output^{2}}}$
+      \node[text width=3cm,anchor=north west] at (\xHiddenII-1, -2.4) {{\footnotesize
+          $\vector{\output^{3}} = \apply{\ReLUFunc}{{\color{red}\weightMatrix^{3}}\vector{\output^{2}}}$
       }};
       }
 
@@ -218,19 +217,36 @@
       \foreach \i in {1,2,3}
       \foreach \j in {0,1,9}
       \draw [->] (\nameHiddenII-\i) -- (\nameOutput-\j);
+      }
 
       % Description of output
-      \node[text width=3cm,anchor=north west] at (\xOutput-1, -2.2) {{\footnotesize
+      \onslide<6>{
+      \node[text width=3cm,anchor=north west] at (\xOutput-0.5, -2.2) {{\footnotesize
           $s^{4}_{k} = \sum_{p=1}^{N_{3}} {\color{red} \weight^{4}_{k,p}} \output^{3}_{p}$
       }};
-      \node[text width=5cm,anchor=north west] at (\xOutput-1, -3.0) {{\footnotesize
+      \node[text width=5cm,anchor=north west] at (\xOutput-0.5, -3.0) {{\footnotesize
           $\output^{4}_{k} = \frac{\apply{\exp}{s^{4}_{k}}}{\sum_{j=1}^{10} \apply{\exp}{s^{4}_{j}}}$
       }};
       }
 
+      \onslide<7->{
+      \node[text width=3cm,anchor=north west] at (\xOutput-0.7, -2.2) {{\footnotesize
+          $\vector{\output^{4}} = \apply{\softMaxFunc}{{\color{red}\weightMatrix^{4}}\vector{\output^{3}}}$
+      }};
+      }
+
+
       % Output probabilities
       \foreach \m [count=\y] in {0,1,missing,9}
       \node (\nameProba-\m) at (\xProba,1.6-0.7*\y) {\ifx\m\missing\else {\tiny $\prob{\m}$}\fi};
+
+      \onslide<7->{
+      \node[text width=10cm,anchor=north west] at (-1, -3) {{\footnotesize
+          \acsu{MLP} is a parametrized function $\decisionFunc_{\params}$ where
+          ${\color{red}\params}$ = vector containing the {\tiny $784 \times
+          200 + 200 \times 150 + 150 \times 10 = $} 188 300 weights
+      }};
+      }
     \end{tikzpicture}
 
   \end{textblock}
@@ -239,54 +255,59 @@
 
 
 \begin{frame}
-  \frametitle{\acl{MLP}: Learning}
+  \frametitle{\acl{MLP}: Learning (1/2)}
+
+  \begin{textblock}{90}(5,15)
+    \begin{itemize}
+    \item Adjust $\params$ to give a better performance
+    \item<2-> Loss function for an example:
+      $\apply{\lossFunc}{%
+        \apply{\decisionFunc_{\params}}{%
+          \example_i
+        },
+        \knownLabel_i
+      }$
+    \item<2-> Find:
+      \[
+        \estim{\params} = \argmin_{\params}{
+          \frac{1}{\nTrainingSamples} \sum_{i=1}^{\nTrainingSamples}
+          \apply{\lossFunc}{
+            \apply{\decisionFunc_\params}{\example_i},
+            \knownLabel_i
+          }
+        }
+      \]
+    \end{itemize}
+  \end{textblock}
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{\acl{MLP}: Learning (2/2)}
 
   \begin{textblock}{45}(5,15)
     \begin{itemize}
-    \item \acsu{MLP} is a parametrized function: $\decisionFunc_{\params} :
-      \setR^{\dimExample} \rightarrow \interval{0}{1}^{\nClasses}$
+    \item How to minimize $\lossFunc$?
+    \item<2-> Gradient descent:
       \begin{itemize}
-      \item ${\color{red}\params}$ = vector containing the {\tiny $784 \times
-          200 + 200 \times 150 + 150 \times 10 = $} 188 300 weights
-      \item Adjust $\params$ to give a better performance
+      \item Gradient of $\lossFunc$ at $\params_{t}$: $\apply{\grad_{\params}\lossFunc}{\params_{t}}$
+      \item<3-> $\params_{t+1} \leftarrow \params_{t} - \learningRate \apply{\grad_{\params}\lossFunc}{\params_{t}}$
       \end{itemize}
-      \item<2-> Loss function for an example:
-        $\apply{\lossFunc}{%
-          \apply{\decisionFunc_{\params}}{%
-            \example_i
-          },
-          \knownLabel_i
-        }$
-      \item<2-> Find:
-        \[
-          \estim{\params} = \argmin_{\params}{
-            \frac{1}{\nTrainingSamples} \sum_{i=1}^{\nTrainingSamples}
-            \apply{\lossFunc}{
-              \apply{\decisionFunc_\params}{\example_i},
-              \knownLabel_i
-            }
-          }
-        \]
-      \item<3-> Gradient descent:
-        \begin{itemize}
-        \item Gradient of $\lossFunc$ at $\params_{t}$: $\grad\lossFunc_{\params_{t}}$
-        \item $\params_{t+1} \leftarrow \params_{t} - \learningRate \grad\lossFunc_{\params_{t}}$
-        \end{itemize}
-      \end{itemize}
+    \end{itemize}
   \end{textblock}
   \begin{textblock}{50}(50,30)
     \begin{center}
     \begin{tikzpicture}[domain=0:4]
-      \onslide<3->{
       % Display a 1-D analytical loss function (x-2)**2 + 0.3
       % to illustrate
       \def\paramsInit{3} % Current value of the parameter
       \def\lossInit{1.3} % Current value of the loss
-      \def\grad{2}       % Gradient
+      \def\gradVal{2}    % Value of the gradient
 
       % \draw[very thin,color=gray] (-0.1,-0.1) grid (3.9,3.9);
       \draw[->] (-0.2,0) -- (4.2,0) node[right] {$\params$};
-      \draw[->] (0,-0.2) -- (0,4.2) node[above right] {$\apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i})$};
+      \draw[->] (0,-0.2) -- (0,4.2) node[above right] {$\apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i}$};
       % Display loss function
       \draw[color=blue] plot function{(x-2)**2+0.3} node[right] {};
 
@@ -295,12 +316,15 @@
       \draw[dashed] (\paramsInit, 0) -- (\paramsInit, \lossInit) {};
 
       % Gradient at \paramsInit
-      \draw[->,color=red,thick] (\paramsInit, \lossInit) -- (\paramsInit + 0.5, \lossInit + 0.5*\grad) {};
+      \onslide<2->{
+      \draw[->,color=red,thick] (\paramsInit, \lossInit) -- (\paramsInit + 0.5, \lossInit + 0.5*\gradVal) {};
+      \node[anchor=west] at (\paramsInit + 0.5, \lossInit + 0.5*\gradVal) {${\color{red}\apply{\grad_{\params}\lossFunc}{\params_{t}}}$};
       }
     \end{tikzpicture}
     \end{center}
   \end{textblock}
 \end{frame}
+
 
 \begin{frame}
   \frametitle{\acl{MLP}: Backpropagation computation}
