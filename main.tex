@@ -27,6 +27,12 @@
 
 % Options, definitions and styles
 \setbeameroption{show notes on second screen}
+\AtBeginSection[]{%
+  \begin{frame}
+    \frametitle{Outline}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
 % Grid
 \TPGrid{100}{100}
 \ifdraft
@@ -106,10 +112,22 @@
 
 \frame{\titlepage}
 
+\begin{frame}
+  \frametitle{Goal}
+  \begin{itemize}
+  \item \ac{ML} is a vast and expanding universe
+  \item There is more than way to do it
+  \item Let's start with simple examples to introduce some concepts
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Outline}
+  \tableofcontents
+\end{frame}
+
 \include{introduction}
 
 \include{a_simple_example}
-
-\include{how_to_go_further}
 
 \end{document}
