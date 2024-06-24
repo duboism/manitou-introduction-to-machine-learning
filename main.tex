@@ -30,7 +30,13 @@
 \AtBeginSection[]{%
   \begin{frame}
     \frametitle{Outline}
-    \tableofcontents[currentsection]
+    \tableofcontents[currentsection,subsectionstyle=show/show/hide]
+  \end{frame}
+}
+\AtBeginSubsection[]{%
+  \begin{frame}
+    \frametitle{Outline}
+    \tableofcontents[currentsection,currentsubsection]
   \end{frame}
 }
 % Grid
@@ -102,6 +108,7 @@
 % Acronyms
 \acrodef{ML}{Machine Learning}
 \acrodef{MLP}{Multi-Layer Perceptron}
+\acrodef{CNN}{Convolutional Neural Networks}
 
 \title{Introduction to Machine Learning}
 \author{Sylvain Caillou \and Mathieu Dubois}
@@ -131,11 +138,13 @@
 
 \begin{frame}
   \frametitle{Outline}
-  \tableofcontents
+  \tableofcontents[hidesubsections]
 \end{frame}
 
 \include{introduction}
 
 \include{a_simple_example}
+
+\include{a_more_convolved_example}
 
 \end{document}
