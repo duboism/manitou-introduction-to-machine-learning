@@ -299,52 +299,61 @@
   \frametitle{\acl{MLP}: Backpropagation computation}
   \begin{itemize}
     \item Gradient computation in large dimension:
-    
+
     $
-    \nabla_\theta \ell(h_{\theta}( \mathbf{x}_i, u_i)) = 
-    \left( \frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i)) }{\partial w_{1,1}^1},\ldots,\frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i)) }{\partial w_{p,k}^l},\ldots,\frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i)) }{\partial w_{N_{L-1},N_{L}}^{N_{L-1}}} \right)^T
+    \grad_{\params} \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} =
+    \left( \frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{1,1}^1},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{N_{4},N_{3}}^{4}} \right)^T
     $
 
     %$
-    %\nabla_\theta \frac{1}{m} \sum_{i=1}^m \ell(h_{\theta}( \mathbf{x}_i, u_i)) = 
-    %\frac{1}{m} \sum_{i=1}^m \left( \frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i)) }{\partial w_{1,1}^1},\ldots,\frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i)) }{\partial w_{p,k}^l},\ldots,\frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i)) }{\partial w_{N_{L-1},N_{L}}^{N_{L-1}}} \right)^T
+    %\grad_{\params} \frac{1}{m} \sum_{i=1}^m \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} =
+    %\frac{1}{m} \sum_{i=1}^m \left( \frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{1,1}^1},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{N_{L-1},N_{L}}^{N_{L-1}}} \right)^T
     %$
-
-    \item Analytical calculation is possible, but the $h_{\theta}$ is derived from composite functions layer after layer.
-    \item Uses the chain rule to compute partial derivatives.
-
+    \begin{itemize}
+    \item Analytical calculation is possible but tedious
+    \end{itemize}
+  \item $\decisionFunc_{\params}$ is a
+      composition of functions:
+      \[
+        \apply{\decisionFunc_{\params}}{\example} = \apply{\softMaxFunc}{%
+          \weightMatrix^4 \times
+          \apply{\ReLUFunc}{%
+            \weightMatrix^3 \times
+            \apply{\ReLUFunc}{%
+              \weightMatrix^2 \times \example
+            }
+          }
+        }
+      \]
+      \begin{itemize}
+      \item Uses the chain rule to compute partial derivatives.
+      \end{itemize}
     %$
-    %\frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i)) }{\partial w_{p,k}^l} = 
-    %\frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i))}{\partial o_k^{l+1}} \frac{\partial o_k^{l+1}}{\partial s_k^{l+1}} \frac{\partial s_k^{l+1}}{\partial w_{p,k}^{l}}
+    %\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l} =
+    %\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{l+1}} \frac{\partial o_k^{l+1}}{\partial s_k^{l+1}} \frac{\partial s_k^{l+1}}{\partial w_{k,p}^{l}}
     %$
   \end{itemize}
 
-  
 \end{frame}
 
 \begin{frame}
   \frametitle{\acl{MLP}: Backpropagation computation}
   \begin{itemize}
     \item Apply the chain rule at layer $l$:
-    
+
     $
-    \frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i)) }{\partial w_{p,k}^l} = 
-    \frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i))}{\partial o_k^{l+1}} \frac{\partial o_k^{l+1}}{\partial s_k^{l+1}} \frac{\partial s_k^{l+1}}{\partial w_{p,k}^{l}}
+    \frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l} =
+    \frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{l+1}} \frac{\partial o_k^{l+1}}{\partial s_k^{l+1}} \frac{\partial s_k^{l+1}}{\partial w_{k,p}^{l}}
     $
 
-    \item $\frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i))}{\partial o_k^{l+1}}$: known at the $l+1$ layer. $\frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i))}{\partial o_k^{L}}$: last layer, $\ell$ must be differentiable w.r.t $o_k^{L}$.
-    
-    %\item $\frac{\partial \ell(h_{\theta}( \mathbf{x}_i, u_i))}{\partial o_k^{L}}$: last layer, $\ell$ must be differentiable w.r.t $o_k^{L}$
-    
-    \item $\frac{\partial o_k^{l+1}}{\partial s_k^{l+1}}$: $o_k^{l+1} = \varphi(s_k^{l+1})$, $\varphi$ as intermediate or final activation function must be differentiable.
-    
-    \item $\frac{\partial s_k^{l+1}}{\partial w_{p,k}^{l}} = \frac{\partial}{\partial w_{p,k}^{l}} \sum_{p' \in \left\{1,\ldots,N_l \right\}}  w_{p', k}^{l}o_{p'}^{k}= \frac{\partial^{pk} }{\partial w_{p,k}^{l}}  w_{p, k}^{l}o_{p}^{l}=o_{p}^{l}$
+    \item $\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{l+1}}$: known at the $l+1$ layer. $\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{L}}$: last layer, $\lossFunc$ must be differentiable w.r.t $o_k^{L}$.
+
+    %\item $\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{L}}$: last layer, $\lossFunc$ must be differentiable w.r.t $o_k^{L}$
+
+    \item $\frac{\partial o_k^{l+1}}{\partial s_k^{l+1}}$: $o_k^{l+1} = \activFunc(s_k^{l+1})$, $\activFunc$ as intermediate or final activation function must be differentiable.
+
+    \item $\frac{\partial s_k^{l+1}}{\partial w_{k,p}^{l}} = \frac{\partial}{\partial w_{k,p}^{l}} \sum_{p' \in \left\{1,\ldots,N_l \right\}}  w_{p', k}^{l}o_{p'}^{k}= \frac{\partial^{pk} }{\partial w_{k,p}^{l}}  w_{p, k}^{l}o_{p}^{l}=o_{p}^{l}$
 
   \end{itemize}
 
-
-  
 \end{frame}
-
-
-
