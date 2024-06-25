@@ -167,11 +167,11 @@
       \onslide<3>{
       \foreach \p in {1,2,3,784}
       \foreach \k in {1}
-      \draw[->] (\nameInput-\p) -- node {${\color{red} \weight^{2}_{\k,\p}}$} (\nameHiddenI-\k);
+      \draw[->] (\nameInput-\p) -- node {${\color{red} \weight^{1}_{\k,\p}}$} (\nameHiddenI-\k);
 
       % Description of the output
       \node[text width=3cm,anchor=north west] at (\xHiddenI-1, -2.2) {{\footnotesize
-          $s^{2}_{k} = \sum_{p=1}^{N_{1}} {\color{red} \weight^{2}_{k,p}} \output^{1}_{p} $
+          $s^{2}_{k} = \sum_{p=1}^{N_{1}} {\color{red} \weight^{1}_{k,p}} \output^{1}_{p} $
       }};
       \node[text width=5cm,anchor=north west] at (\xHiddenI-1, -3.0) {{\footnotesize
           $\output^{2}_{k} = \apply{\ReLUFuncExt}{0, s^{2}_{k}}$ ($\ReLUFunc$)
@@ -185,7 +185,7 @@
       \foreach \j in {1,...,3}
       \draw[->] (\nameInput-\i) -- (\nameHiddenI-\j);
       \node[text width=3cm,anchor=north west] at (\xHiddenI-1.2, -2.2) {{\footnotesize
-          $\vector{\output^{2}} = \apply{\ReLUFunc}{{\color{red}\weightMatrix^{2}}\vector{\output^{1}}}$
+          $\vector{\output^{2}} = \apply{\ReLUFunc}{{\color{red}\weightMatrix^{1}}\vector{\output^{1}}}$
       }};
       }
 
@@ -202,7 +202,7 @@
       \draw [->] (\nameHiddenI-\i) -- (\nameHiddenII-\j);
 
       \node[text width=3cm,anchor=north west] at (\xHiddenII-1, -2.4) {{\footnotesize
-          $\vector{\output^{3}} = \apply{\ReLUFunc}{{\color{red}\weightMatrix^{3}}\vector{\output^{2}}}$
+          $\vector{\output^{3}} = \apply{\ReLUFunc}{{\color{red}\weightMatrix^{2}}\vector{\output^{2}}}$
       }};
       }
 
@@ -222,7 +222,7 @@
       % Description of output
       \onslide<6>{
       \node[text width=3cm,anchor=north west] at (\xOutput-0.5, -2.2) {{\footnotesize
-          $s^{4}_{k} = \sum_{p=1}^{N_{3}} {\color{red} \weight^{4}_{k,p}} \output^{3}_{p}$
+          $s^{4}_{k} = \sum_{p=1}^{N_{3}} {\color{red} \weight^{3}_{k,p}} \output^{3}_{p}$
       }};
       \node[text width=5cm,anchor=north west] at (\xOutput-0.5, -3.0) {{\footnotesize
           $\output^{4}_{k} = \frac{\apply{\exp}{s^{4}_{k}}}{\sum_{j=1}^{10} \apply{\exp}{s^{4}_{j}}}$
@@ -231,7 +231,7 @@
 
       \onslide<7->{
       \node[text width=3cm,anchor=north west] at (\xOutput-0.7, -2.2) {{\footnotesize
-          $\vector{\output^{4}} = \apply{\softMaxFunc}{{\color{red}\weightMatrix^{4}}\vector{\output^{3}}}$
+          $\vector{\output^{4}} = \apply{\softMaxFunc}{{\color{red}\weightMatrix^{3}}\vector{\output^{3}}}$
       }};
       }
 
@@ -327,13 +327,13 @@
 
 
 \begin{frame}
-  \frametitle{\acl{MLP}: Backpropagation computation}
+  \frametitle{\acl{MLP}: Back-propagation (1/2)}
   \begin{itemize}
     \item Gradient computation in large dimension:
 
     $
     \grad_{\params} \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} =
-    \left( \frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{1,1}^1},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{N_{4},N_{3}}^{4}} \right)^T
+    \left( \frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{1,1}^1},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{N_{4},N_{3}}^{3}} \right)^T
     $
 
     %$
@@ -347,11 +347,11 @@
       composition of functions:
       \[
         \apply{\decisionFunc_{\params}}{\example} = \apply{\softMaxFunc}{%
-          \weightMatrix^4 \times
+          \weightMatrix^3 \times
           \apply{\ReLUFunc}{%
-            \weightMatrix^3 \times
+            \weightMatrix^2 \times
             \apply{\ReLUFunc}{%
-              \weightMatrix^2 \times \example
+              \weightMatrix^1 \times \example
             }
           }
         }
@@ -368,23 +368,30 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{\acl{MLP}: Backpropagation computation}
+  \frametitle{\acl{MLP}: Back-propagation (2/2)}
+  \begin{block}{Derivation of the gradient}
   \begin{itemize}
-    \item Apply the chain rule at layer $l$:
+    \item Apply the chain rule at layer $\ell$:
 
     $
-    \frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l} =
-    \frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{l+1}} \frac{\partial o_k^{l+1}}{\partial s_k^{l+1}} \frac{\partial s_k^{l+1}}{\partial w_{k,p}^{l}}
+    \frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^\ell} =
+    \frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{\ell+1}} \frac{\partial o_k^{\ell+1}}{\partial s_k^{\ell+1}} \frac{\partial s_k^{\ell+1}}{\partial w_{k,p}^{\ell}}
     $
 
-    \item $\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{l+1}}$: known at the $l+1$ layer. $\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{L}}$: last layer, $\lossFunc$ must be differentiable w.r.t $o_k^{L}$.
+    \item $\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{\ell+1}}$: known at the $\ell+1$ layer. $\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{L}}$: last layer, $\lossFunc$ must be differentiable w.r.t $o_k^{L}$.
 
     %\item $\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{L}}$: last layer, $\lossFunc$ must be differentiable w.r.t $o_k^{L}$
 
-    \item $\frac{\partial o_k^{l+1}}{\partial s_k^{l+1}}$: $o_k^{l+1} = \activFunc(s_k^{l+1})$, $\activFunc$ as intermediate or final activation function must be differentiable.
+    \item $\frac{\partial o_k^{\ell+1}}{\partial s_k^{\ell+1}}$: $o_k^{\ell+1} = \activFunc(s_k^{\ell+1})$, $\activFunc$ as intermediate or final activation function must be differentiable.
 
-    \item $\frac{\partial s_k^{l+1}}{\partial w_{k,p}^{l}} = \frac{\partial}{\partial w_{k,p}^{l}} \sum_{p' \in \left\{1,\ldots,N_l \right\}}  w_{p', k}^{l}o_{p'}^{k}= \frac{\partial^{pk} }{\partial w_{k,p}^{l}}  w_{p, k}^{l}o_{p}^{l}=o_{p}^{l}$
+    \item $\frac{\partial s_k^{\ell+1}}{\partial w_{k,p}^{\ell}} = \frac{\partial}{\partial w_{k,p}^{\ell}} \sum_{p' \in \left\{1,\ldots,N_l \right\}}  w_{p', k}^{\ell}o_{p'}^{k}= \frac{\partial }{\partial w_{k,p}^{\ell}}  w_{p, k}^{\ell}o_{p}^{\ell}=o_{p}^{\ell}$
 
-  \end{itemize}
+    \end{itemize}
+  \end{block}
 
+  \begin{block}{General idea}<2->
+    \begin{itemize}
+    \item Back-propagation is a generic idea for feed-forward models
+    \end{itemize}
+  \end{block}
 \end{frame}
