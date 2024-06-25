@@ -14,11 +14,13 @@
 
   \nocite{*}
 
-  AI:
-  \printbibliography[heading=none,category=AI]
+  \begin{block}{AI}<1->
+    \printbibliography[heading=none,category=AI]
+  \end{block}
 
-  \ac{ML}:
-  \printbibliography[heading=none,category=ML]
+  \begin{block}{\ac{ML}}<2->
+    \printbibliography[heading=none,category=ML]
+  \end{block}
 \end{frame}
 
 \begin{frame}
@@ -32,17 +34,29 @@
 \begin{frame}
   \frametitle{Courses \& tutorials}
 
-  Courses:
-  \begin{itemize}
-  \item Coursera MOOC:
-    \url{https://www.coursera.org/specializations/machine-learning-introduction} (more or less based on \href{https://cs230.stanford.edu/}{Stanford CS230 (Deep Learning)})
-  \item FIDLE (Formation Introduction au Deep LEarning): \url{https://fidle.cnrs.fr/}
-    (yearly course with practical examples in French)
-  \end{itemize}
+  \begin{block}{Courses}<1->
+    \begin{itemize}
+    \item Coursera MOOC:
+      \url{https://www.coursera.org/specializations/machine-learning-introduction} (more or less based on \href{https://cs230.stanford.edu/}{Stanford CS230 (Deep Learning)})
+    \item FIDLE (Formation Introduction au Deep LEarning): \url{https://fidle.cnrs.fr/}
+      (yearly course with practical examples in French)
+    \end{itemize}
+  \end{block}
 
-  Tutorials:
-  \begin{itemize}
-  \item PyTorch tutorials: \url{https://pytorch.org/tutorials/} (in-depth
-    tutorials about PyTorch)
-  \end{itemize}
+  \begin{block}{Challenges}<2->
+    \begin{itemize}
+    \item Kaggle: \url{https://www.kaggle.com/}
+    \item ENS Challenge Data: \url{https://challengedata.ens.fr/}
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Tutorials}<3->
+    \begin{itemize}
+    \item PyTorch tutorials: \url{https://pytorch.org/tutorials/} (in-depth
+      tutorials about PyTorch)
+    \item scikit-lear tutorials:
+      \url{https://scikit-learn.org/stable/user_guide.html} (in depth tutorials
+      about scikit-learn)
+    \end{itemize}
+  \end{block}
 \end{frame}
