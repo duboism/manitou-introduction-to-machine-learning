@@ -257,30 +257,38 @@
 \begin{frame}
   \frametitle{\acl{MLP}: Learning (1/2)}
 
-  \begin{textblock}{90}(5,15)
+  \begin{block}{Goal}
+    Adjust $\params$ to give a better performance
+  \end{block}
+
+  \begin{block}{How to measure performance?}<2->
+    %Bad prediction: $\predLabel_i =
+    %\apply{\decisionFunc_\params}{\example_i}$ is far from $\knownLabel_i$
     \begin{itemize}
-    \item Adjust $\params$ to give a better performance
-    \item<2-> Loss function for an example:
-      $\apply{\lossFunc}{%
-        \apply{\decisionFunc_{\params}}{%
-          \example_i
-        },
-        \knownLabel_i
-      }$
-    \item<2-> Find:
-      \[
-        \estim{\params} = \argmin_{\params}{
-          \frac{1}{\nTrainingSamples} \sum_{i=1}^{\nTrainingSamples}
-          \apply{\lossFunc}{
+    \item<3-> Define a loss function $\lossFunc: \exampleSet \times \labelSet
+      \rightarrow \setR^+$ such that $\apply{\lossFunc}{
             \apply{\decisionFunc_\params}{\example_i},
             \knownLabel_i
-          }
-        }
-      \]
+          }$ is high if $\apply{\decisionFunc_\params}{\example_i}$ is far from
+          $\knownLabel_i$
+     \item<4-> Minimize $\lossFunc$ (as a function of $\params$)
+     \item<5-> The correct loss function depends on the problem
     \end{itemize}
-  \end{textblock}
-\end{frame}
+  \end{block}
 
+  \begin{block}{In our example}<6->
+    \begin{itemize}
+    \item $\predLabel_i$ is a vector $\vectorext{\prob{0}, \prob{1}, \cdots,
+        \prob{8}, \prob{9}}^T$
+    \item<2-> $u_i$ is a vector $\vectorext{0, 0, \cdots, 1, 0}^T$ (one-hot
+      encoding)
+    \item<3-> Cross-entropy loss:
+      \[
+        \apply{\lossFunc}{\apply{\decisionFunc_\params}{\example_i}, \knownLabel_i}= - \sum_{c=1}^{10} \vectorElem{u_i}{c} \apply{\log}{\vectorElem{\predLabel_i}{c}}
+     \]
+    \end{itemize}
+  \end{block}
+\end{frame}
 
 
 \begin{frame}

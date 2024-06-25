@@ -17,7 +17,7 @@
 % (https://tex.stackexchange.com/a/444407)
 % This uses the value in latexmkrc (not great, not terrible)
 \pgfkeys{/pgf/plot/gnuplot call={cd build && gnuplot}}
-\usepackage{amsmath} % for aligned
+\usepackage{mathtools} % for aligned
 \usepackage{listofitems} % for \readlist to create arrays
 \usepackage{stmaryrd}
 \usepackage{acronym}
@@ -87,9 +87,11 @@
 
 % Notations
 \def\trainingSet{\set{S}}
+\def\exampleSet{\set{X}}
 \def\nTrainingSamples{m}
 \def\example{\vector{x}}
 \def\dimExample{n}
+\def\labelSet{\set{Y}}
 \def\knownLabel{u}
 \def\predLabel{y}
 \def\nClasses{K}
