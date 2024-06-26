@@ -3,8 +3,32 @@
 \begin{frame}
   \note{
     \begin{itemize}
-      \item Preprocessing
-      \item Supervised learning
+      \item Explain why we will talk about the MLP
+    \end{itemize}
+  }
+
+  \frametitle{\acl{MLP}: Introduction}
+
+  \begin{textblock}{80}(5, 20)
+    \begin{itemize}
+    \item<1-> First perceptrons (introduced in 1957) were very limited
+      \begin{itemize}
+      \item Many improvements since: hidden layers and activation functions
+      \item Lots of variations
+      \end{itemize}
+    \item<1-> Loose biological inspiration
+    \end{itemize}
+  \end{textblock}
+\end{frame}
+
+
+\begin{frame}
+  \note{
+    \begin{itemize}
+    \item Classification task
+    \item Supervised learning
+    \item Preprocessing
+    \item Split test-train
     \end{itemize}
   }
 
@@ -13,25 +37,30 @@
   \begin{columns}
     \begin{column}{0.5\textwidth}
       \begin{itemize}
-      \item Classic dataset
+      \item Classic dataset:
         \begin{itemize}
         \item Lots of methods have been tested with it
         \end{itemize}
-      \item<2-> All images have the same size ($28 \times 28$) and aspect ratio
+      \item<2-> The task is to recognize the digit on the image
+        % \ie{} we are looking
+        % for a function: $\decisionFunc: \, \setR^{\dimExample} \mapsto
+        % \intinterval{0}{9}$
         \begin{itemize}
-        \item Non-trivial pre-processing
+          \item Classification
         \end{itemize}
-      \item<2-> Train set: 60 000 images
+      \item<3-> Train set: 60 000 images
         \begin{itemize}
         \item $\trainingSet =
           \setpredicate{\couple{\example_{i}}{\knownLabel_{i}}}{i=1..\nTrainingSamples}$
         \item $\example_i \in \setR^{\dimExample}, \dimExample = 784$
         \item $\knownLabel_i \in \intinterval{0}{9}$
         \end{itemize}
-      \item<2-> Test set: 10 000 images
-      \item<3-> The task is to recognize the digit on the image
-        % \ie{} we are looking
-        % for a function: $\decisionFunc: \, \setR^{\dimExample} \mapsto \intinterval{0}{9}$
+      \item<3-> Test set: 10 000 images
+      \item<4-> Pre-processing:
+        \begin{itemize}
+        \item All images have the same size ($28 \times 28$)
+        \item Centered around center of mass of the pixels
+        \end{itemize}
       \end{itemize}
     \end{column}
     \begin{column}{0.5\textwidth}
@@ -39,7 +68,7 @@
         \node[anchor=south west,inner sep=0] (image) at (0,0) {
           \includegraphics[width=\columnwidth]{img/MnistExamples.png}
         };
-        \onslide<3->{
+        \onslide<2->{
         \begin{scope}[x={(image.south east)},y={(image.north west)}]
           \draw[red,ultra thick] (0.22,0.15) rectangle (0.28,0.25);
         \end{scope}
@@ -50,22 +79,6 @@
   \end{columns}
 \end{frame}
 
-\begin{frame}
-  \frametitle{\acl{MLP}: Introduction}
-
-  \begin{textblock}{80}(5, 20)
-    \begin{itemize}
-    \item<1-> First perceptrons without hidden layers and activation functions
-      (introduced in 1957) were
-      very limited
-      \begin{itemize}
-      \item Many improvements since then
-      \item Lots of variations
-      \end{itemize}
-    \item<1-> Loose biological inspiration
-    \end{itemize}
-  \end{textblock}
-\end{frame}
 
 \begin{frame}
   \note{
@@ -86,7 +99,7 @@
   }
 
   \frametitle{\acl{MLP}: Computation}
-  \begin{textblock}{100}(5,20)
+  \begin{textblock}{100}(5,15)
     \begin{tikzpicture}[>=stealth]
       % Inspired by https://tex.stackexchange.com/a/153974
       % We display a MLP with 2 hidden layers for OCR
@@ -240,10 +253,11 @@
       \foreach \m [count=\y] in {0,1,missing,9}
       \node (\nameProba-\m) at (\xProba,1.6-0.7*\y) {\ifx\m\missing\else {\tiny $\prob{\m}$}\fi};
 
+      % Description (put above for clarity)
       \onslide<7->{
-      \node[text width=10cm,anchor=north west] at (-1, -3) {{\footnotesize
+      \node[text width=10cm,anchor=north west] at (-1, 3.5) {{\footnotesize
           \acsu{MLP} is a parametrized function $\decisionFunc_{\params}$ where
-          ${\color{red}\params}$ = vector containing the {\tiny $784 \times
+          ${\color{red}\params}$ is the vector containing the {\tiny $784 \times
           200 + 200 \times 150 + 150 \times 10 = $} 188 300 weights
       }};
       }
@@ -261,31 +275,36 @@
     Adjust $\params$ to give a better performance
   \end{block}
 
-  \begin{block}{How to measure performance?}<2->
+  \begin{block}{General idea}<2->
     %Bad prediction: $\predLabel_i =
     %\apply{\decisionFunc_\params}{\example_i}$ is far from $\knownLabel_i$
     \begin{itemize}
-    \item<3-> Define a loss function $\lossFunc: \exampleSet \times \labelSet
-      \rightarrow \setR^+$ such that $\apply{\lossFunc}{
+    \item<2-> Define a loss function $\lossFunc$ such that $\apply{\lossFunc}{
             \apply{\decisionFunc_\params}{\example_i},
             \knownLabel_i
           }$ is high if $\apply{\decisionFunc_\params}{\example_i}$ is far from
           $\knownLabel_i$
-     \item<4-> Minimize $\lossFunc$ (as a function of $\params$)
-     \item<5-> The correct loss function depends on the problem
+     \item<3-> Minimize $\lossFunc$ (as a function of $\params$)
+     \item<4-> The correct loss function depends on the problem
     \end{itemize}
   \end{block}
 
-  \begin{block}{In our example}<6->
+  \begin{block}{In our example}<5->
     \begin{itemize}
     \item $\predLabel_i = \apply{\decisionFunc_\params}{\example_i}$ is a vector $\vectorext{\prob{0}, \prob{1}, \cdots,
         \prob{8}, \prob{9}}^T$
-    \item<2-> $u_i$ is a vector $\vectorext{0, 0, \cdots, 1, 0}^T$ (one-hot
-      encoding)
-    \item<3-> Cross-entropy loss:
-      \[
-        \apply{\lossFunc}{\apply{\decisionFunc_\params}{\example_i}, \knownLabel_i}= - \sum_{c=1}^{10} \vectorElem{u_i}{c} \apply{\log}{\vectorElem{\predLabel_i}{c}}
-     \]
+    \item $u_i$ is a the label \onslide<6->{$\rightarrow$ transform it $\vectorext{0, 0, \cdots, 1, 0}^T$ (one-hot
+      encoding)}
+  \item<7-> Cross-entropy loss:
+    \begin{center}
+      $
+        \apply{\lossFunc}{\apply{\decisionFunc_\params}{\example_i},
+          \knownLabel_i} = \only<7>{- \sum_{c=1}^{10} \vectorElem{u_i}{c}
+          \apply{\log}{\vectorElem{\predLabel_i}{c}}}
+                           \only<8->{- \apply{\log}{\prob{8}}}
+      $
+    \end{center}
+    \item<9-> Cross-entropy is more general
     \end{itemize}
   \end{block}
 \end{frame}
