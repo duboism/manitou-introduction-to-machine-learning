@@ -43,7 +43,7 @@
         \end{itemize}
       \item<2-> The task is to recognize the digit on the image
         % \ie{} we are looking
-        % for a function: $\decisionFunc: \, \setR^{\dimExample} \mapsto
+        % for a function: $\hyp: \, \setR^{\dimExample} \mapsto
         % \intinterval{0}{9}$
         \begin{itemize}
           \item Classification
@@ -86,11 +86,11 @@
     \item Probabilistic classifier:
       \begin{align*}
         \begin{aligned}
-          & \decisionFunc_{\params} : & \setR^{\dimExample} & \rightarrow & \interval{0}{1}^{\nClasses} \\
+          & \hyp_{\params} : & \setR^{\dimExample} & \rightarrow & \interval{0}{1}^{\nClasses} \\
         \end{aligned}
       \end{align*}
       where
-      $\vector{\predLabel} = \apply{\decisionFunc_{\params}}{\example}$ is a vector such
+      $\vector{\predLabel} = \apply{\hyp_{\params}}{\example}$ is a vector such
       that $\vectorElem{\vector{\predLabel}}{k}$ is $\prob{\example = k}$
     \item Feed-forward
     \item Parametrized function
@@ -256,7 +256,7 @@
       % Description (put above for clarity)
       \onslide<7->{
       \node[text width=10cm,anchor=north west] at (-1, 3.5) {{\footnotesize
-          \acsu{MLP} is a parametrized function $\decisionFunc_{\params}$ where
+          \acsu{MLP} is a parametrized function $\hyp_{\params}$ where
           ${\color{red}\params}$ is the vector containing the {\tiny $784 \times
           200 + 200 \times 150 + 150 \times 10 = $} 188 300 weights
       }};
@@ -277,12 +277,12 @@
 
   \begin{block}{General idea}<2->
     %Bad prediction: $\predLabel_i =
-    %\apply{\decisionFunc_\params}{\example_i}$ is far from $\knownLabel_i$
+    %\apply{\hyp_\params}{\example_i}$ is far from $\knownLabel_i$
     \begin{itemize}
     \item<2-> Define a loss function $\lossFunc$ such that $\apply{\lossFunc}{
-            \apply{\decisionFunc_\params}{\example_i},
+            \apply{\hyp_\params}{\example_i},
             \knownLabel_i
-          }$ is high if $\apply{\decisionFunc_\params}{\example_i}$ is far from
+          }$ is high if $\apply{\hyp_\params}{\example_i}$ is far from
           $\knownLabel_i$
      \item<3-> Minimize $\lossFunc$ (as a function of $\params$)
      \item<4-> The correct loss function depends on the problem
@@ -291,14 +291,14 @@
 
   \begin{block}{In our example}<5->
     \begin{itemize}
-    \item $\predLabel_i = \apply{\decisionFunc_\params}{\example_i}$ is a vector $\vectorext{\prob{0}, \prob{1}, \cdots,
+    \item $\predLabel_i = \apply{\hyp_\params}{\example_i}$ is a vector $\vectorext{\prob{0}, \prob{1}, \cdots,
         \prob{8}, \prob{9}}^T$
     \item $u_i$ is a the label \onslide<6->{$\rightarrow$ transform it $\vectorext{0, 0, \cdots, 1, 0}^T$ (one-hot
       encoding)}
   \item<7-> Cross-entropy loss:
     \begin{center}
       $
-        \apply{\lossFunc}{\apply{\decisionFunc_\params}{\example_i},
+        \apply{\lossFunc}{\apply{\hyp_\params}{\example_i},
           \knownLabel_i} = \only<7>{- \sum_{c=1}^{10} \vectorElem{u_i}{c}
           \apply{\log}{\vectorElem{\predLabel_i}{c}}}
                            \only<8->{- \apply{\log}{\prob{8}}}
@@ -334,7 +334,7 @@
 
       % \draw[very thin,color=gray] (-0.1,-0.1) grid (3.9,3.9);
       \draw[->] (-0.2,0) -- (4.2,0) node[right] {$\params$};
-      \draw[->] (0,-0.2) -- (0,4.2) node[above right] {$\apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i}$};
+      \draw[->] (0,-0.2) -- (0,4.2) node[above right] {$\apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}$};
       % Display loss function
       \draw[color=blue] plot function{(x-2)**2+0.3} node[right] {};
 
@@ -359,21 +359,21 @@
     \item Gradient computation in large dimension:
 
     $
-    \grad_{\params} \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} =
-    \left( \frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{1,1}^1},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{N_{4},N_{3}}^{3}} \right)^T
+    \grad_{\params} \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} =
+    \left( \frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{1,1}^1},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{N_{4},N_{3}}^{3}} \right)^T
     $
 
     %$
-    %\grad_{\params} \frac{1}{m} \sum_{i=1}^m \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} =
-    %\frac{1}{m} \sum_{i=1}^m \left( \frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{1,1}^1},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{N_{L-1},N_{L}}^{N_{L-1}}} \right)^T
+    %\grad_{\params} \frac{1}{m} \sum_{i=1}^m \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} =
+    %\frac{1}{m} \sum_{i=1}^m \left( \frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{1,1}^1},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{N_{L-1},N_{L}}^{N_{L-1}}} \right)^T
     %$
     \begin{itemize}
     \item Analytical calculation is possible but tedious
     \end{itemize}
-  \item $\decisionFunc_{\params}$ is a
+  \item $\hyp_{\params}$ is a
       composition of functions:
       \[
-        \apply{\decisionFunc_{\params}}{\example} = \apply{\softMaxFunc}{%
+        \apply{\hyp_{\params}}{\example} = \apply{\softMaxFunc}{%
           \weightMatrix^3 \times
           \apply{\ReLUFunc}{%
             \weightMatrix^2 \times
@@ -387,8 +387,8 @@
       \item Uses the chain rule to compute partial derivatives.
       \end{itemize}
     %$
-    %\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l} =
-    %\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{l+1}} \frac{\partial o_k^{l+1}}{\partial s_k^{l+1}} \frac{\partial s_k^{l+1}}{\partial w_{k,p}^{l}}
+    %\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l} =
+    %\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{l+1}} \frac{\partial o_k^{l+1}}{\partial s_k^{l+1}} \frac{\partial s_k^{l+1}}{\partial w_{k,p}^{l}}
     %$
   \end{itemize}
 
@@ -401,13 +401,13 @@
     \item Apply the chain rule at layer $\ell$:
 
     $
-    \frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^\ell} =
-    \frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{\ell+1}} \frac{\partial o_k^{\ell+1}}{\partial s_k^{\ell+1}} \frac{\partial s_k^{\ell+1}}{\partial w_{k,p}^{\ell}}
+    \frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^\ell} =
+    \frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{\ell+1}} \frac{\partial o_k^{\ell+1}}{\partial s_k^{\ell+1}} \frac{\partial s_k^{\ell+1}}{\partial w_{k,p}^{\ell}}
     $
 
-    \item $\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{\ell+1}}$: known at the $\ell+1$ layer. $\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{L}}$: last layer, $\lossFunc$ must be differentiable w.r.t $o_k^{L}$.
+    \item $\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{\ell+1}}$: known at the $\ell+1$ layer. $\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{L}}$: last layer, $\lossFunc$ must be differentiable w.r.t $o_k^{L}$.
 
-    %\item $\frac{\partial \apply{\lossFunc}{\apply{\decisionFunc_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{L}}$: last layer, $\lossFunc$ must be differentiable w.r.t $o_k^{L}$
+    %\item $\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{L}}$: last layer, $\lossFunc$ must be differentiable w.r.t $o_k^{L}$
 
     \item $\frac{\partial o_k^{\ell+1}}{\partial s_k^{\ell+1}}$: $o_k^{\ell+1} = \activFunc(s_k^{\ell+1})$, $\activFunc$ as intermediate or final activation function must be differentiable.
 
