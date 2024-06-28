@@ -1,6 +1,6 @@
 \section{Introduction}
 
-\subsection{History}
+\subsection[History of AI and ML]{History of \acl{AI} and \acl{ML}}
 
 \begin{frame}
   \note{
@@ -155,4 +155,140 @@
     }
   \end{textblock}
 
+\end{frame}
+
+
+\subsection{Some current challenges}
+
+
+% Copied from FIDLE lesson 2
+\begin{frame}
+  \note{
+    \begin{itemize}
+    \item Modern data are of many different types
+      \begin{itemize}
+      \item Some tasks can only be applied to some type
+      \item Some algorithms/methods are specific to some type
+      \end{itemize}
+    \item Numerical representation
+    \end{itemize}
+  }
+  \frametitle{Types of data}
+
+  \begin{textblock}{90}(5, 10)
+    The world is made of different types of data (picture from FIDLE):
+    \begin{center}
+      \includegraphics[width=\textwidth]{img/Data_Types.png}
+    \end{center}
+  \end{textblock}
+
+  \begin{textblock}{90}(5, 60)
+    \onslide<2->{
+      To process them, we (usually) have to represent them numerically:
+      \begin{itemize}
+      \item Scalars, vectors, matrices, ...
+      \item Time series
+      \item Tokens
+      \item Graphs
+      \item Point clouds
+      \end{itemize}
+    }
+  \end{textblock}
+\end{frame}
+
+
+% Inspired by barra2006 (p. 7)
+\begin{frame}
+  \note{
+    \begin{itemize}
+    \item Give an overview of the 4V
+    \item How would you rate GW data?
+    \end{itemize}
+  }
+  \frametitle{Big data}
+
+  \begin{block}{Not only size.}
+    One or several V:
+    \begin{itemize}
+    \item<2-> \emph{Volume}: data characterised by a large volume
+      \begin{itemize}
+      \item TB, PB, EB,.. ?
+      \item Big is when you can't handle the data on one computer
+      \item How to process large amounts of data?
+      \end{itemize}
+    \item<3-> \emph{Velocity}: the growth rate of data is large
+      \begin{itemize}
+      \item 180h of new content every minute on Youtube
+      \item How to cope with the rate of new data?
+      \end{itemize}
+    \item<4-> \emph{Variety}: the type and support of data is very different
+      \begin{itemize}
+      \item CSV files, images, videos, \etc{}
+      \item Unstructured or semi-structured data
+      \item How to find relations between those data?
+      \end{itemize}
+    \item<5-> \emph{Veracity}: data may not be reliable or truthful
+      \begin{itemize}
+      \item How to draw correct conclusions?
+      \end{itemize}
+    \item<6-> Other Vs?
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+
+% Present the challenges of data
+\begin{frame}
+  \frametitle{Data hell}
+
+  \begin{textblock}{90}(5, 15)
+    \begin{block}{Obtaining good data is hard}
+      \begin{itemize}
+      \item<2-> Quantity:
+        \begin{itemize}
+        \item Too little: learning is hard
+        \item Too much: technical difficulties
+        \end{itemize}
+      \item<3-> Representativity:
+        \begin{itemize}
+        \item Systematic biases
+        \end{itemize}
+      \item<4-> Outliers, glitches
+      \item<5-> Legal issues:
+        \begin{itemize}
+        \item GDPR
+        \item Medical research
+        \item Copyrights
+        \item Confidentiality
+        \end{itemize}
+      \end{itemize}
+      \onslide<6->{
+        Data acquisition, cleaning and normalization can take up to 80\% of the
+        time
+      }
+    \end{block}
+  \end{textblock}
+\end{frame}
+
+
+% Present the important steps in a project
+\begin{frame}
+  \frametitle{How to fail a \ac{ML} project}
+
+\end{frame}
+
+
+% Challenges of ML
+\begin{frame}
+  \frametitle{Challenges}
+
+  \begin{textblock}{90}(5, 15)
+    \begin{itemize}
+    \item Privacy
+    \item Discrimination
+    \item Safety
+    \item Security
+    \item Copyrights
+    \end{itemize}
+  \end{textblock}
 \end{frame}
