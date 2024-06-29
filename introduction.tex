@@ -120,6 +120,7 @@
     \item Rise of learning due to work of previous period
     \item Rise of deep learning since 2012
     \item Importance of the amount of data
+    \item Less theory
     \end{itemize}
   }
   \frametitle{Rise of Machine Learning and Deep Learning (2000-2024)}
@@ -158,8 +159,7 @@
 \end{frame}
 
 
-\subsection{Some current challenges}
-
+\subsection{A word on data}
 
 % Copied from FIDLE lesson 2
 \begin{frame}
@@ -184,13 +184,14 @@
 
   \begin{textblock}{90}(5, 60)
     \onslide<2->{
-      To process them, we (usually) have to represent them numerically:
+      To process them, we have to represent them numerically:
       \begin{itemize}
       \item Scalars, vectors, matrices, ...
       \item Time series
       \item Tokens
       \item Graphs
       \item Point clouds
+      \item \etc{}
       \end{itemize}
     }
   \end{textblock}
@@ -201,6 +202,7 @@
 \begin{frame}
   \note{
     \begin{itemize}
+    \item Big Data is not just a matter of size
     \item Give an overview of the 4V
     \item How would you rate GW data?
     \end{itemize}
@@ -208,9 +210,9 @@
   \frametitle{Big data}
 
   \begin{block}{Not only size.}
-    One or several V:
+    Data characterized by one or several V:
     \begin{itemize}
-    \item<2-> \emph{Volume}: data characterised by a large volume
+    \item<2-> \emph{Volume}: the volume of data is large
       \begin{itemize}
       \item TB, PB, EB,.. ?
       \item Big is when you can't handle the data on one computer
@@ -239,6 +241,12 @@
 
 % Present the challenges of data
 \begin{frame}
+  \note{
+    \begin{itemize}
+    \item Provide some insights on data hell
+    \item How would you rate GW data?
+    \end{itemize}
+  }
   \frametitle{Data hell}
 
   \begin{textblock}{90}(5, 15)
@@ -252,12 +260,13 @@
       \item<3-> Representativity:
         \begin{itemize}
         \item Systematic biases
+        \item Useless dimensions
         \end{itemize}
       \item<4-> Outliers, glitches
       \item<5-> Legal issues:
         \begin{itemize}
         \item GDPR
-        \item Medical research
+        \item Medical or other sensitive research
         \item Copyrights
         \item Confidentiality
         \end{itemize}
@@ -272,23 +281,127 @@
 
 
 % Present the important steps in a project
+% Inspired by barra2006, chapter 2, section 1
 \begin{frame}
-  \frametitle{How to fail a \ac{ML} project}
+  \frametitle{Steps in a \ac{ML} project}
 
+  \begin{textblock}{90}(5, 15)
+    \begin{enumerate}
+      % 1.1.1 and 1.1.3
+    \item Get familiar with the application domain and the type of data
+      % 1.1.2
+    \item Get the data and clarify input \& output of each step
+      % 1.1.4
+    \item Clean and normalize the data
+      % 1.1.5
+    \item Explore data:
+      \begin{itemize}
+      \item Descriptive statistics
+      \item Visualization
+      \end{itemize}
+      % 1.1.7 (and 1.1.6)
+    \item Compare various methods:
+      \begin{itemize}
+      \item Take into account the technical limits (computational power \&
+        storage, \etc{})
+      \item Establish a baseline (``classic method'') and compare other methods
+        to it
+      \end{itemize}
+      % 1.1.8 and 1.1.9
+    \item Optimimze and evaluate the method
+    \item Deploy \& monitor the solution:
+      \begin{itemize}
+      \item Might require a different implementation to face run time constaints
+      \end{itemize}
+    \end{enumerate}
+  \end{textblock}
 \end{frame}
 
 
-% Challenges of ML
+\subsection{Benefits, risks and challenges}
+
+% Benefits/risks of ML
+\begin{frame}
+  \note{
+    \begin{itemize}
+    \item Present benefits and risks
+    \item Almost each benefit as a potential counterpart
+    \end{itemize}
+  }
+  \frametitle{Benefits and risks}
+
+  \begin{textblock}{45}(5, 15)
+    \begin{block}{Benefits}
+      % Large scale deployment of \ac{ML} technology could benefit to:
+      \begin{itemize}
+      \item Deeper understanding of some phenomena:
+        \begin{itemize}
+        \item Prediction, classification, \etc{}
+        \item Quantitative approach in Social Sciences
+        \item Better modelling
+        \end{itemize}
+      \item Better services:
+        \begin{itemize}
+        \item Personalized medecine, smart cities, smart grids, \etc{}
+        \item Personal assistant
+        \end{itemize}
+      \end{itemize}
+    \end{block}
+  \end{textblock}
+
+  \begin{textblock}{45}(50, 15)
+    \begin{block}{Risks}<2->
+      % Large scale deployment of \ac{ML} technology could be detrimental to:
+      \begin{itemize}
+      \item Ethical aspects:
+        \begin{itemize}
+        \item Blind decision, discrimination
+        \end{itemize}
+      \item Legal aspects:
+        \begin{itemize}
+        \item Privacy, safety, security, copyrights
+        \end{itemize}
+      \item Cognitive effects:
+        \begin{itemize}
+        \item Loss of skills
+        \item Attention span
+        \end{itemize}
+      \item Economical aspects:
+        \begin{itemize}
+        \item Disparition of jobs
+        \item Over-importance of some companies
+        \end{itemize}
+      \item Environmental impact
+      \end{itemize}
+    \end{block}
+  \end{textblock}
+\end{frame}
+
+
+% Challenges
+% TODO: move in General Introduction?
 \begin{frame}
   \frametitle{Challenges}
 
   \begin{textblock}{90}(5, 15)
     \begin{itemize}
-    \item Privacy
-    \item Discrimination
-    \item Safety
-    \item Security
-    \item Copyrights
+    \item<1-> \ac{xAI}:
+      \begin{itemize}
+      \item Opening the black-box
+      \item Interpretability: begin able to build indicators on the decision model
+        (which variables are the most important, understand parts of the model)
+      \item Explicability: being able to explain the decision of the model
+      \end{itemize}
+    \item<2-> Ethical \ac{AI}:
+      \begin{itemize}
+      \item Ethical guidelines regarding fundamental values, including such things as individual rights, privacy, non-discrimination, and non-manipulation
+      \end{itemize}
+    \item<3-> More technical challenges:
+      \begin{itemize}
+      \item Unsupervised learning
+      \item New protocols: online learning, active learning
+      \item Better understanding of data
+      \end{itemize}
     \end{itemize}
   \end{textblock}
 \end{frame}
