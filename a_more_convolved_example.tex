@@ -1,40 +1,146 @@
 \section{A more convolved example: \acl{CNN}}
 
+
 \begin{frame}
   \frametitle{\acl{CNN}: Introduction}
 
-  \begin{itemize}
-  \item Introduced in 1989 - 1995
-  \item Specialized for images-like structure
-  \item Once again roughly biologically inspired
-  \item Influential in the rise of deep-learning
-  \item Same task than in the previous section
-  \end{itemize}
+  \begin{textblock}{90}(5, 15)
+    \begin{itemize}
+    \item Introduced in 1989 - 1995
+    \item Specialized for image-like structures
+    \item Once again roughly biologically inspired
+    \item Influential in the rise of deep-learning
+    \item Same task than in the previous section
+    \end{itemize}
+  \end{textblock}
 \end{frame}
 
-\begin{frame}
+
+\begin{frame}[label=CNN_Overview]
   \note{
     \begin{itemize}
     \item Feed-forward
     \item Special layers
     \end{itemize}
   }
-  \frametitle:{\acl{CNN}: computation}
+  \frametitle{\acl{CNN}: Computation}
 
   \begin{textblock}{90}(5,10)
     \begin{center}
       \includegraphics[width=\textwidth]{img/CNN.png}
+      Taken from FIDLE
     \end{center}
+  \end{textblock}
+
+  \begin{textblock}{45}(5,60)
+    \begin{itemize}
+    \item Feed-forward architecture
+    \item Special layers
+      \begin{itemize}
+      \item<2-> \hyperlink{Convolutional_Layers}{Convolutional layers}
+        \onslide<3->{
+          \begin{itemize}
+          \item Kernels are learned
+          \end{itemize}
+        }
+      \item<4-> \hyperlink{Pooling_Layers}{Pooling layers}: no weights
+      \end{itemize}
+    \item<5-> \ac{MLP}
+    \end{itemize}
+  \end{textblock}
+
+  \begin{textblock}{45}(50,60)
+    \onslide<6->{
+      \begin{itemize}
+      \item The idea is that the layers extract more and more abstract features
+      \item Weights are shared: less parameters to learn
+      \item Use the \emph{structure} of the image
+      \end{itemize}
+    }
   \end{textblock}
 \end{frame}
 
-\begin{frame}
-  \frametitle{\acl{CNN}: Convolutions}
 
-  \begin{textblock}{90}(5,10)
+% TODO: hyperlinks
+\begin{frame}[label=Convolutional_Layers]
+  \frametitle{\acl{CNN}: Convolutional Layers}
+
+  \begin{textblock}{90}(5, 10)
     \begin{center}
       \includegraphics[width=\textwidth]{img/Convolution.png}
+      Taken from FIDLE
     \end{center}
+  \end{textblock}
+
+  % Cheat a bit on the size
+  \begin{textblock}{46}(5, 75)
+    \begin{itemize}
+    \item Common operation in image processing
+    \item $\matrix{K}$ acts as a filter
+    \end{itemize}
+    %\hyperlink{CNN_Overview}{\beamergotobutton{Go back}}
+  \end{textblock}
+
+  \begin{textblock}{45}(50, 75)
+    \includegraphics[width=\textwidth]{img/CNN_Filter.png}
+  \end{textblock}
+\end{frame}
+
+
+% TODO: hyperlinks
+\begin{frame}[label=Pooling_Layers]
+  \frametitle{\acl{CNN}: Pooling Layers}
+
+  \begin{textblock}{90}(5, 10)
+    \begin{center}
+      \includegraphics[width=\textwidth]{img/CNN_Pooling.png}
+      Taken from FIDLE
+    \end{center}
+  \end{textblock}
+
+  \begin{textblock}{45}(5, 75)
+    Crude downsampling (dimensionality reduction)\\
+    %\hyperlink{CNN_Overview}{\beamergotobutton{Go back}}
+  \end{textblock}
+\end{frame}
+
+
+\begin{frame}
+  \note{
+    \begin{itemize}
+    \item We can use back-propagation but we must do some computation
+    \item Don't present the computation
+    \end{itemize}
+  }
+  \frametitle{\acl{CNN}: Learning}
+
+  \begin{textblock}{90}(5, 15)
+    \begin{itemize}
+    \item<1-> It's a feed-forward model so we know we can use back-propagation
+    \item<2-> We have to compute the gradients for convolutional layers!
+    \end{itemize}
+  \end{textblock}
+
+  \begin{textblock}{90}(5, 30)
+    \onslide<3->{
+      \begin{center}
+        \includegraphics[width=\textwidth]{img/Backpropagation_CNN.png}
+      \end{center}
+      Taken from FIDLE (notations slightly different)
+    }
+  \end{textblock}
+\end{frame}
+
+
+% TODO: add weights ?
+\begin{frame}
+  \frametitle{\acl{CNN}: Results and interpretation}
+
+  \begin{textblock}{90}(5, 15)
+    \begin{itemize}
+    \item Error rate on MNIST test set $< 1\%$
+    \item<2-> Much better than \ac{MLP} for other tasks/datasets
+    \end{itemize}
   \end{textblock}
 \end{frame}
 
@@ -42,23 +148,30 @@
 \begin{frame}
   \frametitle{What have we learned so far?}
 
-  \begin{itemize}
-  \item No magic!
-  \item A bit of Neural Networks:
+  \begin{textblock}{90}(5, 15)
     \begin{itemize}
-    \item Neurons: activation function
-    \item Architecture: layers and weights
-    \item Learning: back-propagation
+    \item<1-> No magic!
+      \begin{itemize}
+      \item YOU have to do the math
+      \end{itemize}
+    \item<2-> A bit of Neural Networks:
+      \begin{itemize}
+      \item Neurons: weighted sum and activation function
+      \item Architecture: layers and weights
+      \item Learning: back-propagation
+      \end{itemize}
+    \item<3-> Neural networks are very flexible:
+      \begin{itemize}
+      \item Mathematical foundations are not great, not terrible
+      \item Be very careful with biological analogies
+      \end{itemize}
+    \item<4-> ML is not only about models:
+      \begin{itemize}
+      \item Understand the data to design a model
+      \item Need a lot of data \& computational power
+      \item Data hell
+      \item It's a job!
+      \end{itemize}
     \end{itemize}
-  \item Neural networks are very flexible:
-    \begin{itemize}
-    \item Universal approximation theorem(s)
-    \item Mathematical foundations are not great, not terrible
-    \end{itemize}
-  \item ML is not only about training models:
-    \begin{itemize}
-    \item Need a lot of data \& computational power
-    \end{itemize}
-  \item Data hell
-  \end{itemize}
+  \end{textblock}
 \end{frame}
