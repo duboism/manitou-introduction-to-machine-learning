@@ -21,12 +21,14 @@
 \usepackage{listofitems} % for \readlist to create arrays
 \usepackage{stmaryrd}
 \usepackage{acronym}
+\usepackage{algorithm2e}
 
 \input{commands/general_commands}
 \input{commands/math_commands}
 
 % Options, definitions and styles
 \setbeameroption{show notes on second screen}
+\DeclareFontShape{T1}{cmss}{b}{n}{<->ssub * cmss/bx/n}{}
 \AtBeginSection[]{%
   \begin{frame}
     \frametitle{Outline}

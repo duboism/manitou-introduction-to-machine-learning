@@ -321,22 +321,25 @@
 \end{frame}
 
 
-\begin{frame}
+\begin{frame}[label=MLP_learning_2]
   \frametitle{\acl{MLP}: Learning (2/2)}
 
   \begin{textblock}{45}(5,15)
-    \begin{itemize}
-    \item How to minimize $\lossFunc$?
-    \item<2-> Gradient descent:
-      \begin{itemize}
-      \item Gradient of $\lossFunc$ at $\params_{t}$: $\apply{\grad_{\params}\lossFunc}{\params_{t}}$
-      \item<3-> $\params_{t+1} \leftarrow \params_{t} - \learningRate \apply{\grad_{\params}\lossFunc}{\params_{t}}$
-      \end{itemize}
-    \end{itemize}
+    \begin{block}{How to minimize $\lossFunc$?}
+      \onslide<2->{
+        If we know the gradient of $\lossFunc$ at $\params_{t}$ we can update:
+        \[
+          \params_{t+1} \leftarrow \params_{t} - \learningRate
+          \apply{\grad_{\params}\lossFunc}{\params_{t}}
+        \]
+      }
+    \end{block}
   \end{textblock}
-  \begin{textblock}{50}(50,30)
+
+  % Cheat a bit on the position
+  \begin{textblock}{50}(50,12)
     \begin{center}
-    \begin{tikzpicture}[domain=0:4]
+    \begin{tikzpicture}[domain=0:4,yscale=0.8]
       % Display a 1-D analytical loss function (x-2)**2 + 0.3
       % to illustrate
       \def\paramsInit{3} % Current value of the parameter
@@ -361,28 +364,67 @@
     \end{tikzpicture}
     \end{center}
   \end{textblock}
+
+  \begin{textblock}{45}(5, 50)
+    \onslide<3->{
+      \begin{block}{Gradient descent}
+        \begin{algorithm}[H]
+          \SetAlgoLined
+          \DontPrintSemicolon
+          \SetKwFunction{Initialize}{Initialize\_Weights}
+          \SetKwFunction{Convergence}{Convergence}
+          \SetKwFunction{ComputeGrad}{Compute\_Grad}
+
+          $\params \leftarrow \Initialize()$\;
+          \While{$\neg \Convergence()$}{
+            \For{$\example_i \in \trainingSet$}{
+              $grad \leftarrow \ComputeGrad(\params)$\;
+              $\params \leftarrow \params - \learningRate \times grad $\;
+            }
+          }
+          Return $\params$\;
+        \end{algorithm}
+      \end{block}
+    }
+  \end{textblock}
+
+  \begin{textblock}{45}(50, 60)
+    \onslide<4->{
+      \begin{itemize}
+      \item Generic algorithm
+      \item<5-> We must compute $\apply{\grad_{\params}\lossFunc}{\params_{t}}$
+      % \item Many practical adjustments:
+      %   \begin{itemize}
+      %   \item Initialization
+      %   \item Mini-batch, shuffling
+      %   \item Convergence criteria
+      %   \item Smarter minimization algorithm
+      %   \end{itemize}
+    \end{itemize}
+  }
+  \end{textblock}
 \end{frame}
 
 
 \begin{frame}
-  \frametitle{\acl{MLP}: Back-propagation (1/2)}
-  \begin{itemize}
-    \item Gradient computation in large dimension:
+  \frametitle{\acl{MLP}: Compute the gradient (1/2)}
 
-    $
-    \grad_{\params} \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} =
-    \left( \frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{1,1}^1},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{N_{4},N_{3}}^{3}} \right)^T
-    $
+  \begin{textblock}{90}(5, 15)
+    \begin{itemize}
+    \item Gradient:
+      $
+      \grad_{\params} \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} =
+      \left( \frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{1,1}^1},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{N_{4},N_{3}}^{3}} \right)^T
+      $
 
     %$
     %\grad_{\params} \frac{1}{m} \sum_{i=1}^m \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} =
     %\frac{1}{m} \sum_{i=1}^m \left( \frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{1,1}^1},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{N_{L-1},N_{L}}^{N_{L-1}}} \right)^T
     %$
-    \begin{itemize}
-    \item Analytical calculation is possible but tedious
-    \end{itemize}
-  \item $\hyp_{\params}$ is a
-      composition of functions:
+      \begin{itemize}
+      \item Analytical calculation is possible but tedious
+      \end{itemize}
+    \item $\hyp_{\params}$ is a composition of functions:
       \[
         \apply{\hyp_{\params}}{\example} = \apply{\softMaxFunc}{%
           \weightMatrix^3 \times
@@ -395,43 +437,47 @@
         }
       \]
       \begin{itemize}
-      \item Uses the chain rule to compute partial derivatives.
+      \item Use the chain rule to compute partial derivatives.
       \end{itemize}
     %$
     %\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l} =
     %\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{l+1}} \frac{\partial o_k^{l+1}}{\partial s_k^{l+1}} \frac{\partial s_k^{l+1}}{\partial w_{k,p}^{l}}
     %$
-  \end{itemize}
-
+    \end{itemize}
+  \end{textblock}
 \end{frame}
 
 \begin{frame}
-  \frametitle{\acl{MLP}: Back-propagation (2/2)}
-  \begin{block}{Derivation of the gradient}
-  \begin{itemize}
-    \item Apply the chain rule at layer $\ell$:
+  \frametitle{\acl{MLP}: Compute the gradient (2/2)}
 
-    $
-    \frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^\ell} =
-    \frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{\ell+1}} \frac{\partial o_k^{\ell+1}}{\partial s_k^{\ell+1}} \frac{\partial s_k^{\ell+1}}{\partial w_{k,p}^{\ell}}
-    $
+  \begin{textblock}{90}(5, 15)
+    \begin{block}{Derivation of the gradient}
+      \begin{itemize}
+      \item Apply the chain rule at layer $\ell$:
+        $
+        \frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^\ell} =
+        \frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{\ell+1}} \frac{\partial o_k^{\ell+1}}{\partial s_k^{\ell+1}} \frac{\partial s_k^{\ell+1}}{\partial w_{k,p}^{\ell}}
+        $
 
-    \item $\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{\ell+1}}$: known at the $\ell+1$ layer. $\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{L}}$: last layer, $\lossFunc$ must be differentiable w.r.t $o_k^{L}$.
+      \item $\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{\ell+1}}$: known at the $\ell+1$ layer. $\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{L}}$: last layer, $\lossFunc$ must be differentiable w.r.t $o_k^{L}$.
 
     %\item $\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{L}}$: last layer, $\lossFunc$ must be differentiable w.r.t $o_k^{L}$
 
-    \item $\frac{\partial o_k^{\ell+1}}{\partial s_k^{\ell+1}}$: $o_k^{\ell+1} = \activFunc(s_k^{\ell+1})$, $\activFunc$ as intermediate or final activation function must be differentiable.
+      \item $\frac{\partial o_k^{\ell+1}}{\partial s_k^{\ell+1}}$: $o_k^{\ell+1} = \activFunc(s_k^{\ell+1})$, $\activFunc$ as intermediate or final activation function must be differentiable.
 
-    \item $\frac{\partial s_k^{\ell+1}}{\partial w_{k,p}^{\ell}} = \frac{\partial}{\partial w_{k,p}^{\ell}} \sum_{p' \in \left\{1,\ldots,N_l \right\}}  w_{p', k}^{\ell}o_{p'}^{k}= \frac{\partial }{\partial w_{k,p}^{\ell}}  w_{p, k}^{\ell}o_{p}^{\ell}=o_{p}^{\ell}$
+      \item $\frac{\partial s_k^{\ell+1}}{\partial w_{k,p}^{\ell}} = \frac{\partial}{\partial w_{k,p}^{\ell}} \sum_{p' \in \left\{1,\ldots,N_l \right\}}  w_{p', k}^{\ell}o_{p'}^{k}= \frac{\partial }{\partial w_{k,p}^{\ell}}  w_{p, k}^{\ell}o_{p}^{\ell}=o_{p}^{\ell}$
 
     \end{itemize}
-  \end{block}
+    \end{block}
+  \end{textblock}
 
-  \begin{block}{General idea}<2->
-    \begin{itemize}
-    \item Back-propagation is a generic idea for feed-forward models
-    \end{itemize}
-  \end{block}
+  \begin{textblock}{90}(5, 65)
+    \begin{block}{General idea}<2->
+      \begin{itemize}
+      \item Back-propagation works for all feed-forward architectures
+      \end{itemize}
+    \end{block}
+  \end{textblock}
 \end{frame}
 
 
@@ -481,21 +527,60 @@
 \subsection{Results}
 
 \begin{frame}
+  \note{
+    \begin{itemize}
+    \item Importance of evaluation:
+      \begin{itemize}
+      \item Especially in the face of ethical issues
+      \item Teams dedicated to that (Guigui mon amour :)
+      \end{itemize}
+    \item Results of MLP
+    \end{itemize}
+  }
   \frametitle{\acl{MLP}: Results and interpretation}
+
+  \begin{textblock}{90}(5, 15)
+    \begin{block}{Evaluation metrics}
+      \begin{itemize}
+      \item Evaluation metrics plays a crucial role in ML
+      \item Can be different than the loss function
+      \item The metric to use depends on the task
+      \end{itemize}
+    \end{block}
+  \end{textblock}
+
+  \begin{textblock}{90}(5, 40)
+    \onslide<2->{
+      \begin{block}{In our example}
+        \begin{itemize}
+        \item The most natural metric is the accuracy (\ie{} correct prediction
+          rate) on the test set
+        \item \ac{MLP} car reach an error rate of $\approx 3\%$
+        \end{itemize}
+      \end{block}
+    }
+  \end{textblock}
+\end{frame}
+
+
+\begin{frame}
+  \note{
+    \begin{itemize}
+    \item Tentative interpretation
+    \item Link to \acf{xAI}
+    \end{itemize}
+  }
+  \frametitle{\acl{MLP}: Interpretation}
 
   % Cheat a bit on the height so figure is larger
   \begin{textblock}{90}(5, 10)
-    \begin{block}{Error rate on MNIST test set}
-      $\approx 3\%$
-    \end{block}
-
-    \onslide<2->{
-      \begin{block}{Can we understand how does it work?}
+    \begin{block}{Can we understand how does it work?}
+      \onslide<2->{
         Plot the first weights:
         \begin{center}
           \includegraphics[width=0.5\textwidth]{img/MLP_Weights.png}
         \end{center}
-      \end{block}
-    }
+      }
+    \end{block}
   \end{textblock}
 \end{frame}
