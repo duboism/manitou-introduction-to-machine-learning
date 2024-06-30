@@ -21,6 +21,7 @@
     \begin{itemize}
     \item Feed-forward
     \item Special layers
+    \item Structure of images
     \end{itemize}
   }
   \frametitle{\acl{CNN}: Computation}
@@ -55,6 +56,7 @@
       \item The idea is that the layers extract more and more abstract features
       \item Weights are shared: less parameters to learn
       \item Use the \emph{structure} of the image
+      \item Many hyper-parameters
       \end{itemize}
     }
   \end{textblock}
@@ -116,17 +118,19 @@
 
   \begin{textblock}{90}(5, 15)
     \begin{itemize}
-    \item<1-> It's a feed-forward model so we know we can use back-propagation
-    \item<2-> We have to compute the gradients for convolutional layers!
+    \item<1-> Same general principle: gradient descent of a loss function
+    \item<2-> It's a feed-forward architecture so we know we can use back-propagation
+    \item<3-> We have to compute the gradients for convolutional layers!
     \end{itemize}
   \end{textblock}
 
   \begin{textblock}{90}(5, 30)
-    \onslide<3->{
+    \onslide<4->{
       \begin{center}
         \includegraphics[width=\textwidth]{img/Backpropagation_CNN.png}
       \end{center}
-      Taken from FIDLE (notations slightly different)
+      Taken from FIDLE (notations slightly different ($\varphi \leftrightarrow
+      \activFunc$, $R \leftrightarrow \lossFunc$))
     }
   \end{textblock}
 \end{frame}
@@ -190,6 +194,7 @@
     \item<1-> No magic!
       \begin{itemize}
       \item YOU have to do the math
+      \item YOU have to do the learning, tune the hyper-parameters, \etc{}
       \end{itemize}
     \item<2-> A bit of Neural Networks:
       \begin{itemize}
@@ -202,7 +207,7 @@
       \item Mathematical foundations are not great, not terrible
       \item Be very careful with biological analogies
       \end{itemize}
-    \item<4-> ML is not only about models:
+    \item<4-> \ac{ML} is not only about models:
       \begin{itemize}
       \item Understand the data to design a model
       \item Need a lot of data \& computational power
