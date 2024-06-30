@@ -1,0 +1,78 @@
+% Appendices
+% To be used with hyper links
+
+\begin{frame}[label=Backpropagation]
+  \frametitle{\acl{MLP}: Compute the gradient (1/2)}
+
+  \begin{textblock}{90}(5, 15)
+    \begin{itemize}
+    \item Gradient:
+      $
+      \grad_{\params} \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} =
+      \left( \frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{1,1}^1},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{N_{4},N_{3}}^{3}} \right)^T
+      $
+
+    %$
+    %\grad_{\params} \frac{1}{m} \sum_{i=1}^m \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} =
+    %\frac{1}{m} \sum_{i=1}^m \left( \frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{1,1}^1},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{N_{L-1},N_{L}}^{N_{L-1}}} \right)^T
+    %$
+      \begin{itemize}
+      \item Analytical calculation is possible but tedious
+      \end{itemize}
+    \item $\hyp_{\params}$ is a composition of functions:
+      \[
+        \apply{\hyp_{\params}}{\example} = \apply{\softMaxFunc}{%
+          \weightMatrix^3 \times
+          \apply{\ReLUFunc}{%
+            \weightMatrix^2 \times
+            \apply{\ReLUFunc}{%
+              \weightMatrix^1 \times \example
+            }
+          }
+        }
+      \]
+      \begin{itemize}
+      \item Use the chain rule to compute partial derivatives.
+      \end{itemize}
+    %$
+    %\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l} =
+    %\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{l+1}} \frac{\partial o_k^{l+1}}{\partial s_k^{l+1}} \frac{\partial s_k^{l+1}}{\partial w_{k,p}^{l}}
+    %$
+    \end{itemize}
+  \end{textblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\acl{MLP}: Compute the gradient (2/2)}
+
+  \begin{textblock}{90}(5, 15)
+    \begin{block}{Derivation of the gradient}
+      \begin{itemize}
+      \item Apply the chain rule at layer $\ell$:
+        $
+        \frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^\ell} =
+        \frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{\ell+1}} \frac{\partial o_k^{\ell+1}}{\partial s_k^{\ell+1}} \frac{\partial s_k^{\ell+1}}{\partial w_{k,p}^{\ell}}
+        $
+
+      \item $\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{\ell+1}}$: known at the $\ell+1$ layer. $\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{L}}$: last layer, $\lossFunc$ must be differentiable w.r.t $o_k^{L}$.
+
+    %\item $\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{L}}$: last layer, $\lossFunc$ must be differentiable w.r.t $o_k^{L}$
+
+      \item $\frac{\partial o_k^{\ell+1}}{\partial s_k^{\ell+1}}$: $o_k^{\ell+1} = \activFunc(s_k^{\ell+1})$, $\activFunc$ as intermediate or final activation function must be differentiable.
+
+      \item $\frac{\partial s_k^{\ell+1}}{\partial w_{k,p}^{\ell}} = \frac{\partial}{\partial w_{k,p}^{\ell}} \sum_{p' \in \left\{1,\ldots,N_l \right\}}  w_{p', k}^{\ell}o_{p'}^{k}= \frac{\partial }{\partial w_{k,p}^{\ell}}  w_{p, k}^{\ell}o_{p}^{\ell}=o_{p}^{\ell}$
+
+    \end{itemize}
+    \end{block}
+  \end{textblock}
+
+  \begin{textblock}{90}(5, 65)
+    \begin{block}{General idea}<2->
+      \begin{itemize}
+      \item Back-propagation works for all feed-forward architectures
+        \hyperlink{MLP_Learning_2}{\beamergotobutton{Go back}}
+        % Back-propagates to main slide :)
+      \end{itemize}
+    \end{block}
+  \end{textblock}
+\end{frame}

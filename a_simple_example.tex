@@ -321,8 +321,28 @@
 \end{frame}
 
 
-\begin{frame}[label=MLP_learning_2]
+% This frame allows to jump to frames explaining back-propagation (file
+% appendix_mlp)
+% We come back on slide 6. The algorithm is also adapted on this slide
+\begin{frame}
+  \note{
+    \begin{itemize}
+    \item Present the general idea of gradient descent
+      \begin{itemize}
+      \item Mention epochs
+      \end{itemize}
+    \item Jump to other frames for details of back-propagation
+    \item Come back to conclude:
+      \begin{itemize}
+      \item We now have a full learning procedures for our MLP
+      \item Now you understand why it took almost 30 years :)
+      \end{itemize}
+    \end{itemize}
+  }
   \frametitle{\acl{MLP}: Learning (2/2)}
+  % Define the target to come back from the frames explaining backpropagation
+  % It's on slide 6 (see below)
+  \hypertarget<6>{MLP_Learning_2}{}
 
   \begin{textblock}{45}(5,15)
     \begin{block}{How to minimize $\lossFunc$?}
@@ -337,7 +357,7 @@
   \end{textblock}
 
   % Cheat a bit on the position
-  \begin{textblock}{50}(50,12)
+  \begin{textblock}{50}(50,10)
     \begin{center}
     \begin{tikzpicture}[domain=0:4,yscale=0.8]
       % Display a 1-D analytical loss function (x-2)**2 + 0.3
@@ -365,35 +385,57 @@
     \end{center}
   \end{textblock}
 
-  \begin{textblock}{45}(5, 50)
+  \begin{textblock}{45}(5, 55)
     \onslide<3->{
       \begin{block}{Gradient descent}
-        \begin{algorithm}[H]
-          \SetAlgoLined
-          \DontPrintSemicolon
-          \SetKwFunction{Initialize}{Initialize\_Weights}
-          \SetKwFunction{Convergence}{Convergence}
-          \SetKwFunction{ComputeGrad}{Compute\_Grad}
+        \only<3-5>{
+          \begin{algorithm}[H]
+            \SetAlgoLined
+            \DontPrintSemicolon
+            \SetKwFunction{Initialize}{Initialize\_Weights}
+            \SetKwFunction{Convergence}{Convergence}
+            \SetKwFunction{ComputeGrad}{Compute\_Grad}
 
-          $\params \leftarrow \Initialize()$\;
-          \While{$\neg \Convergence()$}{
-            \For{$\example_i \in \trainingSet$}{
-              $grad \leftarrow \ComputeGrad(\params)$\;
-              $\params \leftarrow \params - \learningRate \times grad $\;
+            $\params \leftarrow \Initialize()$\;
+            \While{$\neg \Convergence()$}{
+              \For{$\example_i \in \trainingSet$}{
+                $grad \leftarrow \ComputeGrad(\params)$\;
+                $\params \leftarrow \params - \learningRate \times grad $\;
+              }
             }
-          }
-          Return $\params$\;
-        \end{algorithm}
+            Return $\params$\;
+          \end{algorithm}
+        }
+        \only<6->{
+          \begin{algorithm}[H]
+            \SetAlgoLined
+            \DontPrintSemicolon
+            \SetKwFunction{Initialize}{Initialize\_Weights}
+            \SetKwFunction{Convergence}{Convergence}
+            \SetKwFunction{ComputeGrad}{{\color{red}Back\_Prop}}
+
+            $\params \leftarrow \Initialize()$\;
+            \While{$\neg \Convergence()$}{
+              \For{$\example_i \in \trainingSet$}{
+                $grad \leftarrow \ComputeGrad(\params)$\;
+                $\params \leftarrow \params - \learningRate \times grad $\;
+              }
+            }
+            Return $\params$\;
+          \end{algorithm}
+        }
       \end{block}
     }
   \end{textblock}
 
-  \begin{textblock}{45}(50, 60)
+  \begin{textblock}{45}(50, 55)
     \onslide<4->{
       \begin{itemize}
       \item Generic algorithm
-      \item<5-> We must compute $\apply{\grad_{\params}\lossFunc}{\params_{t}}$
-      % \item Many practical adjustments:
+      \item<5-> We must compute
+        $\apply{\grad_{\params}\lossFunc}{\params_{t}}$ \hyperlink{Backpropagation}{\beamergotobutton{Details}}
+      \item<6-> Back-propagation is an efficient method for that in feed-forward architectures
+        % \item Many practical adjustments:
       %   \begin{itemize}
       %   \item Initialization
       %   \item Mini-batch, shuffling
@@ -402,81 +444,6 @@
       %   \end{itemize}
     \end{itemize}
   }
-  \end{textblock}
-\end{frame}
-
-
-\begin{frame}
-  \frametitle{\acl{MLP}: Compute the gradient (1/2)}
-
-  \begin{textblock}{90}(5, 15)
-    \begin{itemize}
-    \item Gradient:
-      $
-      \grad_{\params} \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} =
-      \left( \frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{1,1}^1},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{N_{4},N_{3}}^{3}} \right)^T
-      $
-
-    %$
-    %\grad_{\params} \frac{1}{m} \sum_{i=1}^m \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} =
-    %\frac{1}{m} \sum_{i=1}^m \left( \frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{1,1}^1},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l},\ldots,\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{N_{L-1},N_{L}}^{N_{L-1}}} \right)^T
-    %$
-      \begin{itemize}
-      \item Analytical calculation is possible but tedious
-      \end{itemize}
-    \item $\hyp_{\params}$ is a composition of functions:
-      \[
-        \apply{\hyp_{\params}}{\example} = \apply{\softMaxFunc}{%
-          \weightMatrix^3 \times
-          \apply{\ReLUFunc}{%
-            \weightMatrix^2 \times
-            \apply{\ReLUFunc}{%
-              \weightMatrix^1 \times \example
-            }
-          }
-        }
-      \]
-      \begin{itemize}
-      \item Use the chain rule to compute partial derivatives.
-      \end{itemize}
-    %$
-    %\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^l} =
-    %\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{l+1}} \frac{\partial o_k^{l+1}}{\partial s_k^{l+1}} \frac{\partial s_k^{l+1}}{\partial w_{k,p}^{l}}
-    %$
-    \end{itemize}
-  \end{textblock}
-\end{frame}
-
-\begin{frame}
-  \frametitle{\acl{MLP}: Compute the gradient (2/2)}
-
-  \begin{textblock}{90}(5, 15)
-    \begin{block}{Derivation of the gradient}
-      \begin{itemize}
-      \item Apply the chain rule at layer $\ell$:
-        $
-        \frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{\partial w_{k,p}^\ell} =
-        \frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{\ell+1}} \frac{\partial o_k^{\ell+1}}{\partial s_k^{\ell+1}} \frac{\partial s_k^{\ell+1}}{\partial w_{k,p}^{\ell}}
-        $
-
-      \item $\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{\ell+1}}$: known at the $\ell+1$ layer. $\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{L}}$: last layer, $\lossFunc$ must be differentiable w.r.t $o_k^{L}$.
-
-    %\item $\frac{\partial \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{\partial o_k^{L}}$: last layer, $\lossFunc$ must be differentiable w.r.t $o_k^{L}$
-
-      \item $\frac{\partial o_k^{\ell+1}}{\partial s_k^{\ell+1}}$: $o_k^{\ell+1} = \activFunc(s_k^{\ell+1})$, $\activFunc$ as intermediate or final activation function must be differentiable.
-
-      \item $\frac{\partial s_k^{\ell+1}}{\partial w_{k,p}^{\ell}} = \frac{\partial}{\partial w_{k,p}^{\ell}} \sum_{p' \in \left\{1,\ldots,N_l \right\}}  w_{p', k}^{\ell}o_{p'}^{k}= \frac{\partial }{\partial w_{k,p}^{\ell}}  w_{p, k}^{\ell}o_{p}^{\ell}=o_{p}^{\ell}$
-
-    \end{itemize}
-    \end{block}
-  \end{textblock}
-
-  \begin{textblock}{90}(5, 65)
-    \begin{block}{General idea}<2->
-      \begin{itemize}
-      \item Back-propagation works for all feed-forward architectures
-      \end{itemize}
-    \end{block}
   \end{textblock}
 \end{frame}
 
