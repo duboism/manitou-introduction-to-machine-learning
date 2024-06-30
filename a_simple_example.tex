@@ -106,6 +106,8 @@
       % The input image and the output layer are always displayed
       % The layers (input and the 2 hidden) and their connections appear after
       % Description of layers are on the graph
+      % The number of neurons per layer is taken from
+      % Gradient-Based Learning Applied to Document Recognition, Le Cun et al., 1998
 
       % Parameters
       \def\xInputImage{0}
@@ -170,7 +172,7 @@
       % Connections are displayed in 2 different slides (see below)
       \onslide<3->{
       \node [align=center, above] at (\xHiddenI,2.2) {%Hidden \\ layer \\
-          {\tiny 200 $\ReLUFunc$ units}};
+          {\tiny 300 $\ReLUFunc$ units}};
       \foreach \m [count=\y] in {1,2,missing,3}
       \node [every neuron/.try, neuron \m/.try ] (\nameHiddenI-\m) at (\xHiddenI,2.5-\y) {};
       }
@@ -205,7 +207,7 @@
       % Second hidden layer
       \onslide<5->{
       \node [align=center, above] at (\xHiddenII,2.2) {% Hidden \\ layer \\
-          {\tiny 150 $\ReLUFunc$ units}};
+          {\tiny 100 $\ReLUFunc$ units}};
       \foreach \m [count=\y] in {1,2,missing,3}
       \node [every neuron/.try, neuron \m/.try ] (\nameHiddenII-\m) at (\xHiddenII,2.2-0.9*\y) {};
 
@@ -258,7 +260,7 @@
       \node[text width=10cm,anchor=north west] at (-1, 3.5) {{\footnotesize
           \acsu{MLP} is a parametrized function $\hyp_{\params}$ where
           ${\color{red}\params}$ is the vector containing the {\tiny $784 \times
-          200 + 200 \times 150 + 150 \times 10 = $} 188 300 weights
+          300 + 300 \times 100 + 100 \times 10 = $} 266 200 weights
       }};
       }
     \end{tikzpicture}
