@@ -422,3 +422,24 @@
     \end{itemize}
   \end{block}
 \end{frame}
+
+
+\begin{frame}
+  \frametitle{\acl{MLP}: Results and interpretation}
+
+  % Cheat a bit on the height so figure is larger
+  \begin{textblock}{90}(5, 10)
+    \begin{block}{Error rate on MNIST test set}
+      $\approx 3\%$
+    \end{block}
+
+    \onslide<2->{
+      \begin{block}{Can we understand how does it work?}
+        Plot the first weights:
+        \begin{center}
+          \includegraphics[width=0.5\textwidth]{img/MLP_Weights.png}
+        \end{center}
+      \end{block}
+    }
+  \end{textblock}
+\end{frame}
