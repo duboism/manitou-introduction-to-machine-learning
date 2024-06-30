@@ -16,7 +16,10 @@
 \end{frame}
 
 
-\begin{frame}[label=CNN_Overview]
+
+% This frame allows to jump to frames explaining layers (file
+% appendix_cnn)
+\begin{frame}
   \note{
     \begin{itemize}
     \item Feed-forward
@@ -25,6 +28,8 @@
     \end{itemize}
   }
   \frametitle{\acl{CNN}: Computation}
+  \hypertarget<4>{CNN_Overview_Convolutional}{}
+  \hypertarget<5>{CNN_Overview_Pooling}{}
 
   \begin{textblock}{90}(5,10)
     \begin{center}
@@ -36,17 +41,22 @@
   \begin{textblock}{45}(5,60)
     \begin{itemize}
     \item Feed-forward architecture
-    \item Special layers
+    \item<2-> \ac{MLP} at the end
+    \item<3-> Special hidden layers:
       \begin{itemize}
-      \item<2-> \hyperlink{Convolutional_Layers}{Convolutional layers}
-        \onslide<3->{
+      \item Convolutional layers \hyperlink{Convolutional_Layers}{\beamerbutton{Details}}
+        \onslide<4->{
           \begin{itemize}
           \item Kernels are learned
           \end{itemize}
         }
-      \item<4-> \hyperlink{Pooling_Layers}{Pooling layers}: no weights
+      \item Pooling layers \hyperlink{Pooling_Layers}{\beamerbutton{Details}}
+        \onslide<5->{
+          \begin{itemize}
+          \item No learning
+          \end{itemize}
+        }
       \end{itemize}
-    \item<5-> \ac{MLP}
     \end{itemize}
   \end{textblock}
 
@@ -59,50 +69,6 @@
       \item Many hyper-parameters
       \end{itemize}
     }
-  \end{textblock}
-\end{frame}
-
-
-% TODO: hyperlinks
-\begin{frame}[label=Convolutional_Layers]
-  \frametitle{\acl{CNN}: Convolutional Layers}
-
-  \begin{textblock}{90}(5, 10)
-    \begin{center}
-      \includegraphics[width=\textwidth]{img/Convolution.png}
-      Taken from FIDLE
-    \end{center}
-  \end{textblock}
-
-  % Cheat a bit on the size
-  \begin{textblock}{46}(5, 75)
-    \begin{itemize}
-    \item Common operation in image processing
-    \item $\matrix{K}$ acts as a filter
-    \end{itemize}
-    %\hyperlink{CNN_Overview}{\beamergotobutton{Go back}}
-  \end{textblock}
-
-  \begin{textblock}{45}(50, 75)
-    \includegraphics[width=\textwidth]{img/CNN_Filter.png}
-  \end{textblock}
-\end{frame}
-
-
-% TODO: hyperlinks
-\begin{frame}[label=Pooling_Layers]
-  \frametitle{\acl{CNN}: Pooling Layers}
-
-  \begin{textblock}{90}(5, 10)
-    \begin{center}
-      \includegraphics[width=\textwidth]{img/CNN_Pooling.png}
-      Taken from FIDLE
-    \end{center}
-  \end{textblock}
-
-  \begin{textblock}{45}(5, 75)
-    Crude downsampling (dimensionality reduction)\\
-    %\hyperlink{CNN_Overview}{\beamergotobutton{Go back}}
   \end{textblock}
 \end{frame}
 
