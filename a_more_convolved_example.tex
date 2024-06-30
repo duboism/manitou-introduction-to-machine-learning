@@ -132,16 +132,53 @@
 \end{frame}
 
 
-% TODO: add weights ?
 \begin{frame}
-  \frametitle{\acl{CNN}: Results and interpretation}
+  \note{
+    \begin{itemize}
+    \item Present results:
+      \begin{itemize}
+      \item 3 times less errors => 3 times less manual intervention when sorting
+        letters
+      \item Results IRL
+      \end{itemize}
+    \end{itemize}
+  }
+  \frametitle{\acl{CNN}: Results}
 
   \begin{textblock}{90}(5, 15)
-    \begin{itemize}
-    \item Error rate on MNIST test set $< 1\%$
-    \item<2-> Much better than \ac{MLP} for other tasks/datasets
-    \end{itemize}
+    \begin{block}{Results}
+      \begin{itemize}
+      \item Error rate on MNIST test set $< 1\%$
+      \item<2-> Competitive with other methods
+      \item<3-> Integrated in some cheque reading systems in 1996
+      \item<4-> Much better than \ac{MLP} for other tasks/datasets
+      \end{itemize}
+    \end{block}
   \end{textblock}
+
+\end{frame}
+
+
+\begin{frame}
+  \note{
+    \begin{itemize}
+    \item Activation maps are image-like
+    \end{itemize}
+  }
+  \frametitle{\acl{CNN}: Interpretation}
+
+  \begin{textblock}{90}(5, 15)
+    \begin{block}{Interpretation}
+      \onslide<2->{
+        Plot the activations:
+        \begin{center}
+          \includegraphics[width=\textwidth]{img/CNN_Interpretation.png}
+        \end{center}
+        First layers are easier to interpret
+      }
+      \end{block}
+  \end{textblock}
+
 \end{frame}
 
 
