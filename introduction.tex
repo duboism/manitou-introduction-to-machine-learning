@@ -1,92 +1,152 @@
 \section{Introduction}
 
+\subsection{Definition \& history}
+
+\begin{frame}
+  \note{
+    \begin{itemize}
+    \item Ask them a few hints
+    \item Talk about definitions
+    \item $DL \subset ML \subset AI$:
+      \begin{itemize}
+      \item \acs{DL} is sometimes used as a synonym for \acs{AI}
+      \item this inclusion hides the rich connection between the fields
+      \end{itemize}
+    \end{itemize}
+  }
+  \frametitle{Definition of \acs{AI} and \acs{ML}}
+
+  \begin{textblock}{90}(05,15)
+    \begin{itemize}
+    \item<2-> \acf{AI}:
+      \begin{itemize}
+      \item Discipline focused on creating systems capable of
+        performing tasks that typically require human intelligence, such as
+        problem-solving, decision-making, translation, \etc{}
+      \end{itemize}
+    \item<3-> \acf{ML}:
+      \begin{itemize}
+      \item Field of \ac{AI} focused on the development and study
+        of machines that can ``learn from experience''.
+      \item<4-> ``A computer program is said to learn from experience
+        E with respect to some class of tasks T and performance measure P if
+        its performance at tasks in T, as measured by P, improves with
+        experience E'' (Tom Mitchell).
+      \end{itemize}
+    \item<5-> \acf{DL}:
+      \begin{itemize}
+      \item Field of \ac{ML} concerned with a certain class of
+      models
+      \item Better definition later
+      \end{itemize}
+    \item<6-> $DL \subset ML \subset AI$
+    \end{itemize}
+  \end{textblock}
+
+\end{frame}
+
+
 \begin{frame}
   \note{
     \begin{itemize}
     \item Phases
-    \item Definition
     \item Brief overview of the beginning:
       \begin{itemize}
-      \item Solvay-like picture
-      \item Lot of ideas \& concrete realizations
-      \item
+      \item Lot of ideas (link with cognitive science, logic, information
+        theory, cybernetics \etc{}) \& concrete realizations (functional and OO
+        languages, algorithms, CAS, \etc{})
+      \item Herbert Simon (1958): ``Within ten years a digital computer will be
+        the world's chess champion''
+      %\item John McCarthy: ``As soon as it works, nobody calls it \ac{AI} anymore''
       \end{itemize}
     \item Winters
-    \end{itemize}
-  }
-  \frametitle{A brief history of \acs{AI} and \acs{ML}}
-
-  \begin{textblock}{45}(0,15)
-    \begin{itemize}
-    \item<1-> 1956: birth of \acl{AI}
-    \item<3-> 1959: birth of \acl{ML}
-    \item<4-> The first years saw the development of many approaches and techniques
-    \item<5-> ``Winters'' of \ac{AI}
-      \begin{itemize}
-      \item Development never halted
-      \item Kasparov \vs{} Deep Blue
-      \end{itemize}
-    \item<6-> Rise of \ac{ML} at the turn of the millennium
-    \item<7-> Rise of \acl{DL} since 2012
-      \begin{itemize}
-      \item AlexNet (2012): first \ac{DL} model to out-performs classical methods
-      \end{itemize}
-    \end{itemize}
-  \end{textblock}
-
-   \begin{textblock}{45}(50,15)
-     \only<1>{
-       \begin{center}
-         \includegraphics[width=0.9\textwidth]{img/dartmouth-conference.jpg}
-       \end{center}
-     }
-     \only<2>{
-       \begin{itemize}
-       \item {\footnotesize Discipline focused on creating systems capable of
-           performing tasks that typically require human intelligence, such as
-           problem-solving, decision-making, translation, \etc{}}
-     \end{itemize}
-   }
-   \only<3>{
-     \begin{itemize}
-     \item {\footnotesize Field of \ac{AI} focused on the development and study
-           of machines that can learn}
-     \item {\footnotesize A computer program is said to learn from experience
-         E with respect to some class of tasks T and performance measure P if
-         its performance at tasks in T, as measured by P, improves with
-         experience E (Tom Mitchell).}
-     \end{itemize}
-   }
-   \only<4>{
-     \begin{itemize}
-     \item Herbert Simon (1958): ``Within ten years a digital computer will be
-       the world's chess champion''
-     \item John McCarthy: ``As soon as it works, nobody calls it \ac{AI} anymore''
-     \end{itemize}
-    }
-    \only<5>{
       \begin{itemize}
       \item Lighthill report (1973): ``In no part of the field have the
         discoveries made so far produced the major impact that was then
         promised''
       \end{itemize}
-    }
-    \onslide<6->{
+    \item Rise of ML:
       \begin{itemize}
-        \item Practical causes:
-          \begin{itemize}
-          \item Lots of data
-          \item Processing power (GPU) and storage capability
-          \item Mature technology (langages, frameworks)
-          \end{itemize}
-        \item<7-> Neural networks are mature
-          \begin{itemize}
-          \item Advantage in terms of modularity
-          \end{itemize}
-        \end{itemize}
+      \item Practical causes:
+      \end{itemize}
+    \item Rise of DL:
+      \begin{itemize}
+      \item NN are mature
+      \end{itemize}
+    \end{itemize}
+  }
+  \frametitle{A brief history of \acs{AI} and \acs{ML}}
+
+  \begin{textblock}{90}(05,10)
+    % Display history with or without dates
+    \def\historyOverview{
+      \chronoperiode[color=black,startdate=false,stopdate=false]{1950}{1955}{
+        % Pre-history
+      }
+      \chronoperiode[color=white,startdate=false,stopdate=false]{1955}{1956}{
+        % Empty period
+      }
+      \chronoperiode[textstyle=\rotatebox{45},textdepth=39pt,color=Tomato1,datesstyle=\showDates]{1956}{1973}{
+        Beginning
+      }
+      \chronoperiode[textstyle=\rotatebox{45},textdepth=43pt,color=Grey0,datesstyle=\showDates]{1973}{1980}{
+        1st winter
+      }
+      \chronoperiode[textstyle=\rotatebox{45},textdepth=39pt,color=Grey0,datesstyle=\showDates]{1987}{2000}{
+        2nd winter
+      }
+      \chronoperiode[textstyle=\rotatebox{45},textdepth=40pt,color=Tomato2,datesstyle=\showDates]{2000}{2012}{
+        Rise of \ac{ML}
+      }
+      \chronoperiode[textstyle=\rotatebox{45},textdepth=40pt,color=Tomato3,datesstyle=\showDates]{2012}{2024}{
+        Rise of \ac{DL}
+      }
     }
-   \end{textblock}
- \end{frame}
+    \only<1>{
+      \begin{chronology}[startyear=1950,stopyear=2024,height=1cm,startdate=false,stopdate=false]
+        \def\showDates{\color{white}}
+        \historyOverview
+      \end{chronology}
+    }
+    \onslide<2->{
+      \begin{chronology}[startyear=1950,stopyear=2024,height=1cm,startdate=false,stopdate=false]
+        \def\showDates{}
+        \historyOverview
+      \end{chronology}
+    }
+  \end{textblock}
+
+  \begin{textblock}{45}(05,45)
+    \begin{itemize}
+    \item<2-> Birth of \acl{AI} and \acl{ML}:
+      \begin{itemize}
+      \item Dartmouth workshop (1956)
+      \item Development of many approaches and
+        techniques (including \acs{NN})
+      \end{itemize}
+    \item<3-> ``Winters'' of \ac{AI}
+      \begin{itemize}
+      \item Development never halted
+      \item Kasparov \vs{} Deep Blue (1997): nothing to do with \ac{ML}
+      \end{itemize}
+    \end{itemize}
+  \end{textblock}
+
+  \begin{textblock}{45}(50,45)
+    \begin{itemize}
+    \item<4-> Rise of \ac{ML} at the turn of the millennium
+      \begin{itemize}
+      \item Built on work of previous decades
+      \item Lots of data, processing and storage capability, mature technology
+      \end{itemize}
+    \item<5-> Rise of \acl{DL} since 2012
+      \begin{itemize}
+      \item AlexNet (2012): first \ac{DL} model to out-performs classical
+        methods
+      \end{itemize}
+    \end{itemize}
+  \end{textblock}
+\end{frame}
 
 
 % Benefits/risks of ML
