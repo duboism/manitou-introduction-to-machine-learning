@@ -375,8 +375,15 @@
       \begin{itemize}
       \item Generic algorithm
       \item<5-> We must compute
-        $\apply{\grad_{\params}\lossFunc}{\params_{t}}$ \hyperlink{Backpropagation}{\beamergotobutton{Details}}
-      \item<6-> Back-propagation is an efficient method for that in feed-forward architectures
+        $\apply{\grad_{\params}\lossFunc}{\params_{t}}$
+        % Display the entry and the "Details" button on slide 5
+        % Some text is added on slide 6
+      \item<5->
+        \only<6->{
+          Back-propagation is an efficient method for that in feed-forward
+          architectures
+        }
+        \hyperlink{Backpropagation}{\beamergotobutton{Details}}
         % \item Many practical adjustments:
       %   \begin{itemize}
       %   \item Initialization
