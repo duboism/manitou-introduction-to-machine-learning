@@ -4,6 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[OT1]{fontenc}
 \usepackage[english]{babel}
+\usepackage[x11names]{xcolor}
 \usepackage{pgfpages}
 \usepackage[style=authortitle,giveninits=true,sorting=none,backend=biber]{biblatex}
 \usepackage[absolute,overlay]{textpos}
@@ -22,6 +23,7 @@
 \usepackage{stmaryrd}
 \usepackage{acronym}
 \usepackage{algorithm2e}
+\usepackage{chronosys}
 
 \input{commands/general_commands}
 \input{commands/math_commands}
@@ -115,6 +117,8 @@
 \acrodef{AI}{Artificial Intelligence}
 \acrodef{xAI}{eXplainable AI}
 \acrodef{ML}{Machine Learning}
+\acrodef{NN}{Neural Networks}
+\acrodef{DL}{Deep Learning}
 \acrodef{MLP}{Multi-Layer Perceptron}
 \acrodef{CNN}{Convolutional Neural Networks}
 
@@ -126,6 +130,7 @@
 \begin{document}
 
 \frame{\titlepage}
+
 
 \begin{frame}
   \note{
@@ -140,11 +145,13 @@
     \begin{itemize}
     \item \aclu{ML} is a vast and expanding universe \onslide<2->{with $\Lambda
         > 0$}
+    \item<3-> We can't talk about everything:
       \begin{itemize}
-      \item<3-> We can't talk about everything
+      \item<4-> We will start with simple examples and then generalize
+      \item<4-> We won't talk much about GW
+      %\item<5-> At the end you should be able to understand \acs{ML} articles
       \end{itemize}
-    \item<4-> We will start with simple examples and then generalize
-    \item<5-> Next talk will introduce more advanced models
+    \item<5-> Next talk will introduce more advanced models in the context of GW
     \end{itemize}
   \end{textblock}
 \end{frame}
@@ -155,72 +162,6 @@
   \tableofcontents[hidesubsections]
 \end{frame}
 
-
-\subsection*{How to go further?}
-
-\begin{frame}
-  \note{
-    \begin{itemize}
-    \item Here are the most important slides
-    \end{itemize}
-  }
-  \frametitle{General books}
-
-  \nocite{*}
-
-  \begin{textblock}{90}(5, 15)
-    \begin{block}{AI}<1->
-      \printbibliography[heading=none,category=AI]
-    \end{block}
-
-    \begin{block}{\ac{ML}}<2->
-      \printbibliography[heading=none,category=ML]
-    \end{block}
-  \end{textblock}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Deep learning books}
-
-  \nocite{*}
-
-  \begin{textblock}{90}(5, 15)
-    \begin{block}{DL}<1->
-      \printbibliography[heading=none,category=deep_learning]
-    \end{block}
-  \end{textblock}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Courses \& tutorials}
-
-  \begin{textblock}{90}(5, 15)
-    \begin{block}{Courses}<1->
-      \begin{itemize}
-      \item Coursera MOOC:
-        \url{https://www.coursera.org/specializations/machine-learning-introduction} (more or less based on \href{https://cs230.stanford.edu/}{Stanford CS230 (Deep Learning)})
-      \item FIDLE (Formation Introduction au Deep LEarning): \url{https://fidle.cnrs.fr/}
-        (yearly course with practical examples in French)
-      \end{itemize}
-    \end{block}
-
-    \begin{block}{Challenges}<2->
-      \begin{itemize}
-      \item Kaggle: \url{https://www.kaggle.com/}
-      \item ENS Challenge Data: \url{https://challengedata.ens.fr/}
-      \end{itemize}
-    \end{block}
-
-    \begin{block}{Tutorials}<3->
-      \begin{itemize}
-      \item PyTorch tutorials: \url{https://pytorch.org/tutorials/}
-      \item scikit-learn tutorials:
-        \url{https://scikit-learn.org/stable/user_guide.html}
-      \end{itemize}
-    \end{block}
-  \end{textblock}
-\end{frame}
-
 \include{introduction}
 
 \include{a_simple_example}
@@ -228,6 +169,8 @@
 \include{a_more_convolved_example}
 
 \appendix
+
+\include{appendix_intro}
 
 \include{appendix_mlp}
 

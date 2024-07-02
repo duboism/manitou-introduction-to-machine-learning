@@ -1,113 +1,48 @@
 \section{Introduction}
 
-\subsection[History of AI and ML]{History of \acl{AI} and \acl{ML}}
+\subsection{Definition \& history}
 
 \begin{frame}
   \note{
     \begin{itemize}
-    \item 3 phases
-    \item Present birth of AI: McCarthy, Dartmouth workshop, 1956
+    \item Ask them a few hints
+    \item Talk about definitions
+    \item $DL \subset ML \subset AI$:
       \begin{itemize}
-      \item Previous ideas: philosophy, logic, Turing machine, information theory, cybernetics
-      \end{itemize}
-    \item Birth of ML as a field of AI: Arthur Samuel, 1959
-      \begin{itemize}
-      \item Adaptation instead of explicit programming
-      \item Talk about the perceptron
-      \end{itemize}
-    \item Insist on broad approaches:
-      \begin{itemize}
-      \item symbolic \vs{} connexionist
-      \item link with cognitive sciences
-      \end{itemize}
-    \item Concrete realizations:
-      \begin{itemize}
-      \item Modern programming languages: OO, more dynamic, CAS
-      \item Problem solving: navigation on graphs
-      \item Mc Carthy: as soon as it works, nobody calls it AI anymore
-      \end{itemize}
-    \item Over-optimistic preditions:
-      \begin{itemize}
-      \item Herbert Simon, 1958:  within ten years a digital computer will be
-        the world's chess champion
+      \item \acs{DL} is sometimes used as a synonym for \acs{AI}
+      \item this inclusion hides the rich connection between the fields
       \end{itemize}
     \end{itemize}
   }
-  \frametitle{Birth \& early successes (1956--1973)}
+  \frametitle{Definition of \acs{AI} and \acs{ML}}
 
-  \begin{textblock}{100} (0,10)
-    \begin{center}
-      \includegraphics[width=0.95\textwidth]{img/ai_history_1956_1973.png}
-    \end{center}
-  \end{textblock}
-
-  % Résumé de la frise
-  \begin{textblock}{50}(0, 50)
+  \begin{textblock}{90}(05,15)
     \begin{itemize}
-      \item \aclu{AI} (1956)
-        \begin{itemize}
-        \item \footnotesize Discipline focused on creating systems capable of
-          performing tasks that typically require human intelligence, such as
-          problem-solving, decision-making, translation, \etc{}.
-        \end{itemize}
-      \item<2-> \acl{ML} (1959)
-        \begin{itemize}
-        \item \footnotesize Field of AI focused on the development and study of machines that can learn from data.
-        \end{itemize}
-      \end{itemize}
-    \end{textblock}
-
-    % Résumé des réalisations
-    \begin{textblock}{50}(50, 50)
-      \begin{center}
-        \includegraphics[width=0.9\textwidth]{img/dartmouth-conference.jpg}
-      \end{center}
-    \end{textblock}
-
-\end{frame}
-
-
-\begin{frame}
-  \note{
-    \begin{itemize}
-    \item Second phase is made of so-called ``winters'' (periods of lower
-      funding or... hype)
-    \item However there was still lot of work
-    \end{itemize}
-  }
-  \frametitle{AI winters and expert systems (1973-2000)}
-
-  \begin{textblock}{100}(0,10)
-    \begin{center}
-      \includegraphics[width=0.95\textwidth]{img/ai_history_1973_2000.png}
-    \end{center}
-  \end{textblock}
-
-  % Résumé de la frise
-  \begin{textblock}{50}(0, 50)
-    \begin{itemize}
-    \item Lighthill report (1973):
+    \item<2-> \acf{AI}:
       \begin{itemize}
-      \item {\footnotesize ``In no part of the field have the discoveries made so far produced the major impact that was then promised''}
-      \item Start of the First Winter
+      \item Discipline focused on creating systems capable of
+        performing tasks that typically require human intelligence, such as
+        problem-solving, decision-making, translation, \etc{}
       \end{itemize}
-    \item<2-> Proliferation of expert systems (1980s):
+    \item<3-> \acf{ML}:
       \begin{itemize}
-      \item Practical limitations
-      \item Start of the Second Winter
+      \item Field of \ac{AI} focused on the development and study
+        of systems that can ``learn from experience''.
+      \item<4-> ``A system is said to learn from experience
+        E with respect to some class of tasks T and performance measure P if
+        its performance at tasks in T, as measured by P, improves with
+        experience E'' (Tom Mitchell).
       \end{itemize}
-    \end{itemize}
-  \end{textblock}
-
-  % Enseignements, causes, etc.
-  \begin{textblock}{50}(50, 50)
-    \begin{itemize}
-      \item<3-> Interesting work in the era:
+    \item<5-> \acf{DL}:
       \begin{itemize}
-      \item Technological development: WWW, Python, computing power
-      \item Methodological development: statistical learning theory
-      \item Deep Blue \vs{} Kasparov
-      \item Premise of deep learning
+      \item Field of \ac{ML} concerned with a certain class of
+      models
+      \item Better definition later
+      \end{itemize}
+    \item<6-> \ac{DL} $\subset$ \ac{ML} $\subset$ \ac{AI}:
+      \begin{itemize}
+      \item \ac{ML} (particularly \ac{DL}) is a necessary ingredient of \ac{AI}
+        but it's not the end of the story
       \end{itemize}
     \end{itemize}
   \end{textblock}
@@ -118,208 +53,108 @@
 \begin{frame}
   \note{
     \begin{itemize}
-    \item Rise of learning due to work of previous period
-    \item Rise of deep learning since 2012
-    \item Importance of the amount of data
-    \item Less theory
+    \item Phases
+    \item Brief overview of the beginning:
+      \begin{itemize}
+      \item Lot of ideas (link with cognitive science, logic, information
+        theory, cybernetics \etc{}) \& concrete realizations (functional and OO
+        languages, algorithms, CAS, \etc{})
+      \item Herbert Simon (1958): ``Within ten years a digital computer will be
+        the world's chess champion''
+      %\item John McCarthy: ``As soon as it works, nobody calls it \ac{AI} anymore''
+      \end{itemize}
+    \item Winters
+      \begin{itemize}
+      \item Lighthill report (1973): ``In no part of the field have the
+        discoveries made so far produced the major impact that was then
+        promised''
+      \item Kasparov \vs{} Deep Blue (1997): nothing to do with \ac{ML}
+      \end{itemize}
+    \item Rise of ML:
+      \begin{itemize}
+      \item Practical causes
+      \end{itemize}
+    \item Rise of DL:
+      \begin{itemize}
+      \item NN are mature
+      \end{itemize}
     \end{itemize}
   }
-  \frametitle{Rise of Machine Learning and Deep Learning (2000-2024)}
+  \frametitle{A brief history of \acs{AI} and \acs{ML}}
 
-  \begin{textblock}{100}(0,10)
-    \includegraphics[width=\textwidth]{img/ai_history_2000_2024.png}
-  \end{textblock}
-
-  % Commentaire de la frise
-  \begin{textblock}{50}(0, 50)
-    \begin{itemize}
-    \item Rise of \ac{ML} in the early 2000s
-    \item<2-> Deep learning era:
-      \begin{itemize}
-      \item CNN: AlexNet (2012)
-      \item Transformers (2017) leads to first LLMs (2018)
-      \end{itemize}
-    \end{itemize}
-  \end{textblock}
-
-  % Enseignements, causes, etc.
-  \begin{textblock}{50}(50, 50)
-    \onslide<3->{
-      \begin{itemize}
-      \item Neural networks are mature
-      \item Practical causes:
-        \begin{itemize}
-        \item Lots of data
-        \item Processing power (GPU) and storage capability
-        \item Mature technology (langages, frameworks)
-        \end{itemize}
-      \end{itemize}
-    }
-  \end{textblock}
-
-\end{frame}
-
-
-\subsection{A word on data}
-
-% Copied from FIDLE lesson 2
-\begin{frame}
-  \note{
-    \begin{itemize}
-    \item Modern data are of many different types
-      \begin{itemize}
-      \item Some tasks can only be applied to some type
-      \item Some algorithms/methods are specific to some type
-      \end{itemize}
-    \item Numerical representation
-    \end{itemize}
-  }
-  \frametitle{Types of data}
-
-  \begin{textblock}{90}(5, 10)
-    The world is made of different types of data (picture from FIDLE):
-    \begin{center}
-      \includegraphics[width=\textwidth]{img/Data_Types.png}
-    \end{center}
-  \end{textblock}
-
-  \begin{textblock}{90}(5, 60)
-    \onslide<2->{
-      To process them, we have to represent them numerically:
-      \begin{itemize}
-      \item Scalars, vectors, matrices, ...
-      \item Time series
-      \item Tokens
-      \item Graphs
-      \item Point clouds
-      \item \etc{}
-      \end{itemize}
-    }
-  \end{textblock}
-\end{frame}
-
-
-% Inspired by barra2006 (p. 7)
-\begin{frame}
-  \note{
-    \begin{itemize}
-    \item Big Data is not just a matter of size
-    \item Give an overview of the 4V
-    \item How would you rate GW data?
-    \end{itemize}
-  }
-  \frametitle{Big data}
-
-  \begin{block}{Not only size.}
-    Data characterized by one or several V:
-    \begin{itemize}
-    \item<2-> \emph{Volume}: the volume of data is large
-      \begin{itemize}
-      \item TB, PB, EB,.. ?
-      \item Big is when you can't handle the data on one computer
-      \item How to process large amounts of data?
-      \end{itemize}
-    \item<3-> \emph{Velocity}: the growth rate of data is large
-      \begin{itemize}
-      \item 180h of new content every minute on Youtube
-      \item How to cope with the rate of new data?
-      \end{itemize}
-    \item<4-> \emph{Variety}: the type and support of data is very different
-      \begin{itemize}
-      \item CSV files, images, videos, \etc{}
-      \item Unstructured or semi-structured data
-      \item How to find relations between those data?
-      \end{itemize}
-    \item<5-> \emph{Veracity}: data may not be reliable or truthful
-      \begin{itemize}
-      \item How to draw correct conclusions?
-      \end{itemize}
-    \item<6-> Other Vs?
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-
-% Present the challenges of data
-\begin{frame}
-  \note{
-    \begin{itemize}
-    \item Provide some insights on data hell
-    \item How would you rate GW data?
-    \end{itemize}
-  }
-  \frametitle{Data hell}
-
-  \begin{textblock}{90}(5, 15)
-    \begin{block}{Obtaining good data is hard}
-      \begin{itemize}
-      \item<2-> Quantity:
-        \begin{itemize}
-        \item Too little: learning is hard
-        \item Too much: technical difficulties
-        \end{itemize}
-      \item<3-> Representativity:
-        \begin{itemize}
-        \item Systematic biases
-        \item Useless dimensions
-        \end{itemize}
-      \item<4-> Outliers, glitches
-      \item<5-> Legal issues:
-        \begin{itemize}
-        \item GDPR
-        \item Medical or other sensitive research
-        \item Copyrights
-        \item Confidentiality
-        \end{itemize}
-      \end{itemize}
-      \onslide<6->{
-        Data acquisition, cleaning and normalization can take up to 80\% of the
-        time
+  \begin{textblock}{90}(05,10)
+    % Display history with or without dates
+    \def\historyOverview{
+      \chronoperiode[color=black,startdate=false,stopdate=false]{1950}{1955}{
+        % Pre-history
       }
-    \end{block}
+      \chronoperiode[color=white,startdate=false,stopdate=false]{1955}{1956}{
+        % Empty period
+      }
+      \chronoperiode[textstyle=\rotatebox{45},textdepth=39pt,color=Tomato1,datesstyle=\showDates]{1956}{1973}{
+        Beginning
+      }
+      \chronoperiode[textstyle=\rotatebox{45},textdepth=43pt,color=Grey0,datesstyle=\showDates]{1973}{1980}{
+        1st winter
+      }
+      \chronoperiode[textstyle=\rotatebox{45},textdepth=39pt,color=Grey0,datesstyle=\showDates]{1987}{2000}{
+        2nd winter
+      }
+      \chronoperiode[textstyle=\rotatebox{45},textdepth=40pt,color=Tomato2,datesstyle=\showDates]{2000}{2012}{
+        Rise of \ac{ML}
+      }
+      \chronoperiode[textstyle=\rotatebox{45},textdepth=40pt,color=Tomato3,datesstyle=\showDates]{2012}{2024}{
+        Rise of \ac{DL}
+      }
+    }
+    \only<1>{
+      \begin{chronology}[startyear=1950,stopyear=2024,height=1cm,startdate=false,stopdate=false]
+        \def\showDates{\color{white}}
+        \historyOverview
+      \end{chronology}
+    }
+    \onslide<2->{
+      \begin{chronology}[startyear=1950,stopyear=2024,height=1cm,startdate=false,stopdate=false]
+        \def\showDates{}
+        \historyOverview
+      \end{chronology}
+    }
+  \end{textblock}
+
+  \begin{textblock}{45}(05,45)
+    \begin{itemize}
+    \item<2-> Beginning
+      \begin{itemize}
+      \item \ac{AI}: Dartmouth workshop (1956)
+      \item<3-> \ac{ML}: Arthur Samuel (1959)
+      \item<4-> MANY approaches, techniques (including \acs{NN}), realizations
+        and hopes
+      \end{itemize}
+    \item<5-> Some ideas didn't work in the real world:
+      \begin{itemize}
+      \item ``Winters'' of \ac{AI}
+      \item<6-> Development never halted
+      \end{itemize}
+    \end{itemize}
+  \end{textblock}
+
+  \begin{textblock}{45}(50,45)
+    \begin{itemize}
+    \item<7-> Rise of \ac{ML} at the turn of the millennium
+      \begin{itemize}
+      \item Built on work of previous decades
+      \item Lots of data, processing and storage capability, mature technology
+      \end{itemize}
+    \item<8-> Rise of \acl{DL} since 2012
+      \begin{itemize}
+      \item AlexNet (2012): first \ac{DL} model to out-performs other \ac{ML}
+        methods
+      \item More on that in section TODO
+      \end{itemize}
+    \end{itemize}
   \end{textblock}
 \end{frame}
 
-
-% Present the important steps in a project
-% Inspired by barra2006, chapter 2, section 1
-\begin{frame}
-  \frametitle{Steps in a \ac{ML} project}
-
-  \begin{textblock}{90}(5, 15)
-    \begin{enumerate}
-      % 1.1.1 and 1.1.3
-    \item Get familiar with the application domain and the type of data
-      % 1.1.2
-    \item Get the data and clarify input \& output of each step
-      % 1.1.4
-    \item Clean and normalize the data
-      % 1.1.5
-    \item Explore data:
-      \begin{itemize}
-      \item Descriptive statistics
-      \item Visualization
-      \end{itemize}
-      % 1.1.7 (and 1.1.6)
-    \item Compare various methods:
-      \begin{itemize}
-      \item Take into account the technical limits (computational power \&
-        storage, \etc{})
-      \item Establish a baseline (``classic method'') and compare other methods
-        to it
-      \end{itemize}
-      % 1.1.8 and 1.1.9
-    \item Optimimze and evaluate the method
-    \item Deploy \& monitor the solution:
-      \begin{itemize}
-      \item Might require a different implementation to face run time constraints
-      \end{itemize}
-    \end{enumerate}
-  \end{textblock}
-\end{frame}
-
-
-\subsection{Benefits, risks and challenges}
 
 % Benefits/risks of ML
 \begin{frame}
@@ -329,7 +164,7 @@
     \item Almost each benefit as a potential counterpart
     \end{itemize}
   }
-  \frametitle{Benefits and risks}
+  \frametitle{Benefits and risks of \ac{ML}}
 
   \begin{textblock}{45}(5, 15)
     \begin{block}{Benefits}
@@ -338,7 +173,7 @@
       \item Deeper understanding of some phenomena:
         \begin{itemize}
         \item Prediction, classification, \etc{}
-        \item Quantitative approach in Social Sciences
+        \item Quantitative approach (Social Sciences, \etc{})
         \item Better modelling
         \end{itemize}
       \item Better services:
@@ -379,30 +214,68 @@
 \end{frame}
 
 
-% Challenges
-% TODO: move in General Introduction?
+\subsection{How to go further?}
+
 \begin{frame}
-  \frametitle{Challenges}
+  \note{
+    \begin{itemize}
+    \item Here are the most important slides
+    \end{itemize}
+  }
+  \frametitle{General books}
+
+  \nocite{*}
 
   \begin{textblock}{90}(5, 15)
-    \begin{itemize}
-    \item<1-> \acl{xAI}:
+    \begin{block}{AI}<1->
+      \printbibliography[heading=none,category=AI]
+    \end{block}
+
+    \begin{block}{\ac{ML}}<2->
+      \printbibliography[heading=none,category=ML]
+    \end{block}
+  \end{textblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Deep learning books}
+
+  \nocite{*}
+
+  \begin{textblock}{90}(5, 15)
+    \begin{block}{DL}<1->
+      \printbibliography[heading=none,category=deep_learning]
+    \end{block}
+  \end{textblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Courses \& tutorials}
+
+  \begin{textblock}{90}(5, 15)
+    \begin{block}{Courses}<1->
       \begin{itemize}
-      \item Opening the black-box
-      \item Interpretability: begin able to build indicators on the decision of the model
-        (which variables are the most important, understand parts of the model)
-      \item Explicability: being able to explain the decision of the model
+      \item Coursera MOOC:
+        \url{https://www.coursera.org/specializations/machine-learning-introduction} (more or less based on \href{https://cs230.stanford.edu/}{Stanford CS230 (Deep Learning)})
+      \item FIDLE (Formation Introduction au Deep LEarning): \url{https://fidle.cnrs.fr/}
+        (yearly course with practical examples in French)
       \end{itemize}
-    \item<2-> Ethical \ac{AI}:
+    \end{block}
+
+    \begin{block}{Hands-on}<2->
       \begin{itemize}
-      \item Ethical guidelines regarding fundamental values, including such things as individual rights, privacy, non-discrimination, and non-manipulation
+      \item Challenges:
+        \begin{itemize}
+        \item Kaggle: \url{https://www.kaggle.com/}
+        \item ENS Challenge Data: \url{https://challengedata.ens.fr/}
+        \end{itemize}
+      \item Tutorials
+        \begin{itemize}
+        \item PyTorch tutorials: \url{https://pytorch.org/tutorials/}
+        \item scikit-learn tutorials:
+          \url{https://scikit-learn.org/stable/user_guide.html}
+        \end{itemize}
       \end{itemize}
-    \item<3-> More technical challenges:
-      \begin{itemize}
-      \item Unsupervised learning
-      \item New protocols: online learning, active learning
-      \item Not just predict but \emph{understand} the data
-      \end{itemize}
-    \end{itemize}
+    \end{block}
   \end{textblock}
 \end{frame}

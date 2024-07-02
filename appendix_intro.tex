@@ -1,0 +1,80 @@
+% Present the important steps in a project
+% Inspired by barra2006, chapter 2, section 1
+\begin{frame}
+  \frametitle{Steps in a \ac{ML} project}
+
+  \begin{textblock}{90}(5, 15)
+    \begin{enumerate}
+      % 1.1.1 and 1.1.3
+    \item Get familiar with the application domain and the type of data
+      % 1.1.2
+    \item Get the data and clarify input \& output of each step
+      % 1.1.4
+    \item Clean and normalize the data
+      % 1.1.5
+    \item Explore data:
+      \begin{itemize}
+      \item Descriptive statistics
+      \item Visualization
+      \end{itemize}
+      % 1.1.7 (and 1.1.6)
+    \item Compare various methods:
+      \begin{itemize}
+      \item Take into account the technical limits (computational power \&
+        storage, \etc{})
+      \item Establish a baseline (``classic method'') and compare other methods
+        to it
+      \end{itemize}
+      % 1.1.8 and 1.1.9
+    \item Optimize and evaluate the method
+    \item Deploy \& monitor the solution:
+      \begin{itemize}
+      \item Might require a different implementation to face run time constraints
+      \end{itemize}
+    \end{enumerate}
+  \end{textblock}
+\end{frame}
+
+
+% Challenges
+% TODO: move in General Introduction?
+\begin{frame}
+  \note{
+    \begin{itemize}
+    \item Provide some insights on data hell
+    \item How would you rate GW data?
+    \item Challenges
+    \end{itemize}
+  }
+  \frametitle{Challenges}
+
+  \begin{textblock}{90}(5, 15)
+    \begin{itemize}
+    \item<1-> Obtaining good data is hard:
+      \begin{itemize}
+      \item Challenges of ``big data'': volume, velocity, variety, veracity (4V)
+      \item Systematic biases
+      \item Legal issues: GDPR, sensitive research, confidentiality
+      \item Data acquisition, cleaning and normalization can take up to 80\% of
+        the time
+      \end{itemize}
+    \item<2-> \acl{xAI}:
+      \begin{itemize}
+      \item Opening the black-box
+      \item Interpretability: begin able to build indicators on the decision of the model
+        (which variables are the most important, understand parts of the model)
+      \item Explicability: being able to explain the decision of the model
+      \end{itemize}
+    \item<3-> Ethical \ac{AI}:
+      \begin{itemize}
+      \item Ethical guidelines regarding fundamental values, including such things as individual rights, privacy, non-discrimination, and non-manipulation
+      \end{itemize}
+    \item<4-> More technical challenges:
+      \begin{itemize}
+      \item Unsupervised learning
+      \item New protocols: online learning, active learning
+      \item Not just predict but \emph{understand} the data
+      \end{itemize}
+    \end{itemize}
+  \end{textblock}
+\end{frame}
