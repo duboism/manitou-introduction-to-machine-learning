@@ -117,7 +117,7 @@
 
 % Optimal quantity
 \def\optsymbol{\star}
-\newcommand{\opt}[1]{\ensuremath{\overset{\optsymbol}{#1}}}
+\newcommand{\opt}[1]{\ensuremath{#1^{\optsymbol}}}
 
 % Estimation of a quantity
 \def\estimsymbol{\widehat}
@@ -129,6 +129,8 @@
 \newcommand{\RV}[1]{\ensuremath{\MakeTextUppercase{#1}}}
 \newcommand{\cond}[2]{{#1} | {#2}}
 
+\def\drawFromSymbol{\sim}
+\newcommand{\drawFrom}[2]{\ensuremath{#1 \drawFromSymbol #2}}
 
 % Discrete probability
 \def\probSymbol{P}
