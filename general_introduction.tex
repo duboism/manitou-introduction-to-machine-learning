@@ -1,0 +1,196 @@
+\section{General introduction}
+
+\subsection{Problems, tasks and approaches}
+
+\begin{frame}
+
+  \frametitle{General setting}
+
+  \begin{textblock}{90}(5,15)
+    % Inspired by figure 3.4 in \cite{barra2021} (p. 82)
+    \begin{tikzpicture}
+      \tikzstyle{line} = [draw, -latex', thick]
+      \def\examples{$\example_1, \example_2, \cdots, \example_{\nTrainingSamples}$}
+      \def\labels{$\knownLabel_1, \knownLabel_2, \cdots, \knownLabel_{\nTrainingSamples}$}
+      \def\predictions{${\footnotesize\apply{\hyp_{\params}}{\example_1}, \cdots, \apply{\hyp_{\params}}{\example_{\nTrainingSamples}}}$}
+
+      % Environment
+      \def\env{Environment}
+      \node[minimum width=2.5cm,ellipse,draw,thick] (\env) at (0, 0) {\env{} $\exampleSet$};
+
+      % Oracle
+      \onslide<1-3>{
+        % Node
+        \def\oracle{Oracle}
+        \node[ellipse,draw,thick,right = 2.5cm of \env] (\oracle) {\oracle{}};
+      }
+
+      % Learner
+      \def\learner{Learner}
+      \node[minimum width=2.5cm,draw,thick,below = 1.5cm of \oracle] (\learner) {\learner{} $\hyp_{\params} \in \hypSet$};
+
+      % Output of learner
+      \def\output{Output}
+      \node[right = 0.3cm of \learner] (\output) {\predictions};
+
+      % \env -> \oracle & \env -> \learner
+      \onslide<1-3>{
+        \path[line] (\env) -- node[above=0.2cm] {\examples} (\oracle);
+      }
+      \path[line] (\env) -- +(0,-1) |- node[below=0.2cm] {\examples} (\learner);
+
+      % \oracle -> learner
+      \onslide<1-3>{
+        \path[line] (\oracle) -- node[right=0.1cm] {\labels} (\learner);
+      }
+
+      % \learner -> \output
+      \draw[line] (\learner) -- (\output);
+    \end{tikzpicture}
+  \end{textblock}
+
+  \begin{textblock}{90}(5,55)
+    \only<1>{
+    Ingredients:
+    \begin{itemize}
+    \item The environment generates $\nTrainingSamples$ examples
+      $\drawFrom{\example}{\pdfExample}$ (unknown)
+    \item The oracle labels them according to a function $\targetFunc: \exampleSet
+      \mapsto \labelSet$ or a probability distribution $\condpdfLabelExample$ (unknown)
+    \item The learner has a set of functions $\exampleSet
+      \mapsto \labelSet$, noted $\hypSet$
+    \item The goal is to find $\opt{\hyp} \in \hypSet$ that approximates
+      $\targetFunc$
+      \begin{itemize}
+      \item Note that it's possible that $\targetFunc  \not\in \hypSet$
+      \end{itemize}
+    \end{itemize}
+    }
+
+    \only<2>{
+      Different protocols:
+      \begin{itemize}
+      \item Batch learning: all $\nTrainingSamples$ examples are given
+      \item Online learning: examples are given one by one
+      \item More complex:
+        \begin{itemize}
+        \item Active learning: the learner searches for examples
+        \item Reinforcement learning
+        \end{itemize}
+      \end{itemize}
+    }
+    \only<3->{
+      Different tasks:
+      \begin{columns}[T]
+        \begin{column}{0.5\textwidth}
+          \begin{itemize}
+          \item Supervised learning:
+            \begin{itemize}
+            \item Classification: $\labelSet = \setext{1,..,\nClasses}$
+            \item Multi-classification
+            \item Regression: $\labelSet \subset \setR^n$
+            \item Ranking
+            \end{itemize}
+          \item<4-> Unsupervised learning:
+            \begin{itemize}
+            \item Clustering: find groups in $\exampleSet$
+            \item Density estimation: find $\pdfExample$
+            \end{itemize}
+          \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+          \begin{itemize}
+          \item<5-> More complex tasks:
+            \begin{itemize}
+            \item Self-supervised
+            \item Semi-supervised
+            \end{itemize}
+          \end{itemize}
+        \end{column}
+      \end{columns}
+    }
+  \end{textblock}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{How to approximate $\targetFunc$? (1/2)}
+
+  \begin{textblock}{90}(5, 10)
+    \begin{block}{True risk}
+      Suppose that we have a loss function $\lossFunc: \exampleSet \times \labelSet \mapsto
+      \setR^+$ that evaluates how bad one example is classified by an hypothesis $\hyp$.
+      The true risk of $\hyp$ is then:
+      \begin{equation}
+        \begin{split}
+          \apply{\risk}{\hyp} & = \expectation{\apply{\lossFunc}{\apply{\hyp}{\example}, \predLabel}}\\
+                              & = \int_{\example \in \exampleSet, \predLabel \in \exampleSet}
+          \apply{\lossFunc}{\apply{\hyp}{\example}, \predLabel} \pdfExampleLabel \intover{\example} \intover{\predLabel}
+        \end{split}
+      \end{equation}
+    \end{block}
+\end{textblock}
+
+  \begin{textblock}{90}(5, 45)
+    \begin{block}{Examples of loss functions}
+      \begin{itemize}
+      \item For classification:
+        \begin{itemize}
+        \item 0-1 loss:
+          $\apply{\lossFunc}{\apply{\hyp}{\example}, \predLabel} =
+          \begin{cases}
+            0 & \text{if $\apply{\hyp}{\example} \ne \predLabel$} \\
+            1 & \text{if $\apply{\hyp}{\example}  =  \predLabel$}
+          \end{cases}
+          $
+        \item Logistic loss (binary probabilistic classification): $\apply{\lossFunc}{\apply{\hyp}{\example},
+            \predLabel} = -\apply{\log}{\frac{\apply{\hyp}{\example}}{1-\apply{\hyp}{\example}}}$
+        \end{itemize}
+      \item For regression:
+        \begin{itemize}
+        \item Quadratic: $\apply{\lossFunc}{\apply{\hyp}{\example}, \predLabel}
+          = \left( \apply{\hyp}{\example} - \predLabel \right)^2$
+        \end{itemize}
+      \end{itemize}
+    \end{block}
+  \end{textblock}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{How to approximate $\targetFunc$? (2/2)}
+
+  \begin{textblock}{90}(5, 10)
+    \begin{block}{Optimal hypothesis}
+      The best hypothesis $\opt{\hyp}$ is:
+      \[
+        \opt{\hyp} = \argmin_{\hyp \in \hypSet} \apply{\risk}{\hyp}
+      \]
+    \end{block}
+  \end{textblock}
+
+  \begin{textblock}{90}(5, 35)
+    \begin{block}{Generative \vs{} Discriminative approach}
+      \begin{itemize}
+      \item Generative learning
+      \item Discriminative learning
+      \end{itemize}
+    \end{block}
+  \end{textblock}
+\end{frame}
+
+
+\subsection{Theoretical approaches}
+
+\begin{frame}
+  \frametitle{Theoretical approaches}
+
+  \begin{textblock}{100}(5,10)
+    \begin{block}{Test}
+      \begin{itemize}
+      \item Several approaches
+      \item Mainly developed for supervised learning
+      \end{itemize}
+    \end{block}
+  \end{textblock}
+\end{frame}
