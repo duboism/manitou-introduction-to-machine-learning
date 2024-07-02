@@ -279,3 +279,64 @@
     \end{block}
   \end{textblock}
 \end{frame}
+
+
+\subsection{The MNIST dataset}
+
+\begin{frame}
+  \note{
+    \begin{itemize}
+    \item Classification task
+    \item Supervised learning
+    \item Preprocessing
+    \item Split test-train
+    \end{itemize}
+  }
+
+  \frametitle{The MNIST dataset}
+
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+      \item Classic dataset:
+        \begin{itemize}
+        \item Lots of methods have been tested with it
+        \end{itemize}
+      \item<2-> The task is to recognize the digit on the image
+        % \ie{} we are looking
+        % for a function: $\hyp: \, \setR^{\dimExample} \mapsto
+        % \intinterval{0}{9}$
+        \begin{itemize}
+        \item Classification
+        \item Usage: sort mail by ZIP code, process cheques, \etc{}
+        \end{itemize}
+      \item<3-> Train set: 60 000 images
+        \begin{itemize}
+        \item $\trainingSet =
+          \setpredicate{\couple{\example_{i}}{\knownLabel_{i}}}{i=1..\nTrainingSamples}$
+        \item $\example_i \in \setR^{\dimExample}, \dimExample = 784$
+        \item $\knownLabel_i \in \intinterval{0}{9}$
+        \end{itemize}
+      \item<3-> Test set: 10 000 images
+      \item<4-> Pre-processing:
+        \begin{itemize}
+        \item All images have the same size ($28 \times 28$)
+        \item Centered around center of mass of the pixels
+        \end{itemize}
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{tikzpicture}[>=stealth]
+        \node[anchor=south west,inner sep=0] (image) at (0,0) {
+          \includegraphics[width=\columnwidth]{img/MnistExamples.png}
+        };
+        \onslide<2->{
+        \begin{scope}[x={(image.south east)},y={(image.north west)}]
+          \draw[red,ultra thick] (0.22,0.15) rectangle (0.28,0.25);
+        \end{scope}
+        }
+      \end{tikzpicture}
+      \url{http://yann.lecun.com/exdb/mnist/index.html}
+    \end{column}
+  \end{columns}
+\end{frame}
