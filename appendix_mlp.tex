@@ -13,10 +13,6 @@
             \knownLabel_i}}{w_{1,1}^1}, \ldots, \partialDeriv{\apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{w_{k,p}^l},\ldots,\partialDeriv{\apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{w_{N_{4},N_{3}}^{3}} \right)^T
       $
 
-      % $
-      % \grad_{\params} \partialDeriv{1}{m} \sum_{i=1}^m \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} =
-      % \partialDeriv{1}{m} \sum_{i=1}^m \left( \partialDeriv{\apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{w_{1,1}^1},\ldots,\partialDeriv{\apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{w_{k,p}^l},\ldots,\partialDeriv{\apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} }{w_{N_{L-1},N_{L}}^{N_{L-1}}} \right)^T
-      % $
       \begin{itemize}
       \item Analytical calculation is possible but tedious
       \end{itemize}
@@ -35,10 +31,6 @@
       \begin{itemize}
       \item Use the chain rule to compute partial derivatives.
       \end{itemize}
-      % $
-      % \partialDeriv{\apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{w_{k,p}^l} =
-      % \partialDeriv{\apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{o_k^{l+1}} \partialDeriv{o_k^{l+1}}{s_k^{l+1}} \partialDeriv{s_k^{l+1}}{w_{k,p}^{l}}
-      % $
     \end{itemize}
   \end{textblock}
 \end{frame}
