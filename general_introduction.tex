@@ -144,7 +144,9 @@
           \end{cases}
           $
         \item Logistic loss (binary probabilistic classification): $\apply{\lossFunc}{\apply{\hyp}{\example},
-            \predLabel} = -\apply{\log}{\frac{\apply{\hyp}{\example}}{1-\apply{\hyp}{\example}}}$
+            \predLabel} =
+          -\apply{\log}{\frac{\apply{\hyp}{\example}}{1-\apply{\hyp}{\example}}}$
+        \item Non-symmetric loss function
         \end{itemize}
       \item For regression:
         \begin{itemize}
