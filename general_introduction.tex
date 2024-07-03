@@ -121,13 +121,13 @@
       Suppose that we have a loss function $\lossFunc: \exampleSet \times \labelSet \mapsto
       \setR^+$ that evaluates how bad one example is predicted by an hypothesis $\hyp$.
       The true risk of $\hyp$ is then:
-      \begin{equation}
+      \begin{equation*}
         \begin{split}
           \apply{\risk}{\hyp} & = \expectation{\apply{\lossFunc}{\apply{\hyp}{\example}, \predLabel}}\\
                               & = \int_{\example \in \exampleSet, \predLabel \in \exampleSet}
           \apply{\lossFunc}{\apply{\hyp}{\example}, \predLabel} \pdfExampleLabel \intover{\example} \intover{\predLabel}
         \end{split}
-      \end{equation}
+      \end{equation*}
     \end{block}
 \end{textblock}
 
