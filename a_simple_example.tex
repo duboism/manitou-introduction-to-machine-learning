@@ -261,7 +261,9 @@
 
   \begin{block}{In our example}<5->
     \begin{itemize}
-    \item $\predLabel_i = \apply{\hyp_\params}{\example_i}$ is a vector $\vectorext{\prob{0}, \prob{1}, \cdots,
+    \def\vectorextleftdelim{(}
+    \def\vectorextrightdelim{)}
+    \item $\output_i^4 = \apply{\hyp_\params}{\example_i}$ is a vector $\vectorext{\prob{0}, \prob{1}, \cdots,
         \prob{8}, \prob{9}}^T$
     \item $u_i$ is the label \onslide<6->{$\rightarrow$ transform it $\vectorext{0, 0, \cdots, 1, 0}^T$ (one-hot
       encoding)}
@@ -269,8 +271,8 @@
     \begin{center}
       $
         \apply{\lossFunc}{\apply{\hyp_\params}{\example_i},
-          \knownLabel_i} = \only<7>{- \sum_{c=1}^{10} \vectorElem{u_i}{c}
-          \apply{\log}{\vectorElem{\predLabel_i}{c}}}
+          \knownLabel_i} = \only<7>{- \sum_{k=1}^{10} \knownLabel_{i,k}
+          \apply{\log}{\output_{i,k}^4}}
                            \only<8->{- \apply{\log}{\prob{8}}}
       $
     \end{center}
