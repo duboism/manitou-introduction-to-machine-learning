@@ -38,7 +38,7 @@
     \end{center}
   \end{textblock}
 
-  \begin{textblock}{45}(5,60)
+  \begin{textblock}{45}(5,57)
     \begin{itemize}
     \item Feed-forward architecture
     \item<2-> \ac{MLP} at the end
@@ -60,12 +60,17 @@
     \end{itemize}
   \end{textblock}
 
-  \begin{textblock}{45}(50,60)
+  \begin{textblock}{45}(50,57)
     \onslide<6->{
       \begin{itemize}
       \item The idea is that the layers extract more and more abstract features
-      \item Weights are shared: less parameters to learn
-      \item Use the \emph{structure} of the image: translation invariant features
+        (and then classify with the \ac{MLP}
+      \item Weights are shared:
+        \begin{itemize}
+        \item Less parameters to learn
+        \item Translation invariant features
+        \end{itemize}
+      \item Use the \emph{structure} of the image
       \item Many hyper-parameters
       \end{itemize}
     }
@@ -159,7 +164,7 @@
     \begin{itemize}
     \item<1-> No magic!
       \begin{itemize}
-      \item YOU have to do the math
+      \item To develop a new model, YOU have to do the maths
       \item YOU have to do the learning, tune the hyper-parameters, \etc{}
       \end{itemize}
     \item<2-> A bit of Neural Networks:
