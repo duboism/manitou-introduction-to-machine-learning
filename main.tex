@@ -193,6 +193,19 @@
 
 \appendix
 
+% Appendices outline
+\begin{frame}
+  \frametitle{Appendices}
+  \tableofcontents[hidesubsections]
+\end{frame}
+
+\AtBeginSection[]{%
+  \begin{frame}
+    \frametitle{Appendices}
+    \tableofcontents[currentsection,subsectionstyle=show/shaded/hide]
+  \end{frame}
+}
+
 \include{appendix_intro}
 
 \include{appendix_mlp}
