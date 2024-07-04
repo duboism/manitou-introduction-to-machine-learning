@@ -16,7 +16,7 @@
       \tikzstyle{line} = [draw, -latex', thick]
       \def\examples{$\example_1, \example_2, \cdots, \example_{\nTrainingSamples}$}
       \def\labels{$\knownLabel_1, \knownLabel_2, \cdots, \knownLabel_{\nTrainingSamples}$}
-      \def\predictions{${\footnotesize\apply{\hyp_{\params}}{\example_1}, \cdots, \apply{\hyp_{\params}}{\example_{\nTrainingSamples}}}$}
+      \def\predictions{${\footnotesize\apply{\hyp}{\example_1}, \cdots, \apply{\hyp}{\example_{\nTrainingSamples}}}$}
 
       % Environment
       \def\env{Environment}
@@ -28,7 +28,7 @@
 
       % Learner
       \def\learner{Learner}
-      \node[minimum width=2.5cm,draw,thick,below = 1.5cm of \oracle] (\learner) {\learner{} $\hyp_{\params} \in \hypSet$};
+      \node[minimum width=2.5cm,draw,thick,below = 1.5cm of \oracle] (\learner) {\learner{} $\hyp \in \hypSet$};
 
       % Output of learner
       \def\output{Output}
