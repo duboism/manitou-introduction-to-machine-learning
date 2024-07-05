@@ -530,13 +530,13 @@
   \begin{textblock}{90}(5, 15)
     The main results of Statistical Learning Theory are:
     \begin{itemize}
-    \item<1-> We can characterize $\hypSet$ by a number $d_{VC}^{\hypSet}$
+    \item<1-> We can characterize $\hypSet$ by a number $d{VC}_{\hypSet}$
       (Vapnik-Chervonenkis dimensions):
       \begin{itemize}
       \item This dimension measures the capacity of functions in $\hypSet$ to
         separate points in $\exampleSet$
       \end{itemize}
-    \item<2-> \ac{ERM} is consistent i.f.f $d_{VC}^{\hypSet} < \infty$:
+    \item<2-> \ac{ERM} is consistent i.f.f $d^{VC}_{\hypSet} < \infty$:
       \[
         \lim\limits_{\nTrainingSamples \to \infty} \apply{\risk}{\estim{\hyp}} = \apply{\risk}{\opt{\hyp}}
       \]
@@ -550,7 +550,7 @@
     \begin{itemize}
     %\item<4-> Super-impressive in theory
     \item<3-> Those ideas led to the development of new learning algorithms (SVM)
-    \item<4-> In practice, $d_{VC}^{\hypSet}$ is known only in some cases:
+    \item<4-> In practice, $d^{VC}_{\hypSet}$ is known only in some cases:
       \begin{itemize}
       \item Linear classifiers
       \item \ac{MLP}
