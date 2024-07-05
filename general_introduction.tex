@@ -1,10 +1,107 @@
-\section{General introduction}
+\section{Overview of \ac{ML}}
 
-\subsection{Problems, tasks and approaches}
+\subsection{Problems \& tasks}
 
 \begin{frame}
+  \note{
+    \begin{itemize}
+    \item Present classic supervised learning
+    \end{itemize}
+  }
+  \frametitle{Supervised learning (1/2)}
 
-  \frametitle{General setting}
+  \begin{textblock}{90}(5,15)
+    % Inspired by figure 3.4 in \cite{barra2021} (p. 82)
+    \begin{tikzpicture}
+      \tikzstyle{line} = [draw, -latex', thick]
+      \def\examples{$\example_1, \example_2, \cdots, \example_{\nTrainingSamples}$}
+      \def\labels{$\knownLabel_1, \knownLabel_2, \cdots, \knownLabel_{\nTrainingSamples}$}
+      \def\predictions{${\footnotesize\apply{\hyp}{\example_1}, \cdots, \apply{\hyp}{\example_{\nTrainingSamples}}}$}
+
+      % Environment
+      \def\env{Environment}
+      \node[minimum width=2.5cm,ellipse,draw,thick] (\env) at (0, 0) {\env{} $\exampleSet$};
+
+      % Oracle
+      \def\oracle{Oracle}
+      \node[ellipse,draw,thick,right = 2.5cm of \env] (\oracle) {\oracle{}};
+
+      % Learner
+      \def\learner{Learner}
+      \node[minimum width=2.5cm,draw,thick,below = 1.5cm of \oracle] (\learner) {\learner{} $\hyp \in \hypSet$};
+
+      % Output of learner
+      \def\output{Output}
+      \node[right = 0.3cm of \learner] (\output) {\predictions};
+
+      % \env -> \oracle & \env -> \learner
+      \path[line] (\env) -- node[above=0.2cm] {\examples} (\oracle);
+      \path[line] (\env) -- +(0,-1) |- node[below=0.2cm] {\examples} (\learner);
+
+      % \oracle -> learner
+      \path[line] (\oracle) -- node[right=0.1cm] {\labels} (\learner);
+
+      % \learner -> \output
+      \draw[line] (\learner) -- (\output);
+    \end{tikzpicture}
+  \end{textblock}
+
+  \begin{textblock}{90}(5,55)
+    \begin{itemize}
+    \item The environment generates $\nTrainingSamples$ examples
+      $\drawFrom{\example}{\pdfExample}$ (unknown)
+    \item The oracle labels them according to a function $\targetFunc: \exampleSet
+      \mapsto \labelSet$ or a probability distribution $\condpdfLabelExample$ (unknown)
+    \item The learner has a set of functions $\exampleSet
+      \mapsto \labelSet$, noted $\hypSet$
+    \item The goal is to find $\opt{\hyp} \in \hypSet$ that approximates
+      $\targetFunc$
+      \begin{itemize}
+      \item Note that it's possible that $\targetFunc \not\in \hypSet$
+      \end{itemize}
+    \end{itemize}
+  \end{textblock}
+\end{frame}
+
+
+\begin{frame}
+  \note{
+    \begin{itemize}
+    \item Give some details about the tasks
+    \item Link to statistics
+    \end{itemize}
+  }
+  \frametitle{Supervised learning (2/2)}
+
+  \begin{textblock}{90}(5, 15)
+    \begin{block}{Tasks in supervised learning}
+      \begin{itemize}
+      \item Classification: $\labelSet = \setext{1,..,\nClasses}$
+        \begin{itemize}
+        \item Binary classification (concept learning): $\card{\labelSet} = 2$
+        \item Multi-class classification
+        % \item Examples: classify an animal into a species
+        \end{itemize}
+      \item Multi-label classification (multi-output classification): one input can have
+        several classes (potentially a variable number)
+        \begin{itemize}
+        \item Examples: tagging text or images
+        \end{itemize}
+      \item Regression: $\labelSet \subset \setR^n$
+      \item Ranking
+      \end{itemize}
+    \end{block}
+  \end{textblock}
+\end{frame}
+
+
+\begin{frame}
+  \note{
+    \begin{itemize}
+    \item Present unsupervised learning \& link to statistics
+    \end{itemize}
+  }
+  \frametitle{Unsupervised learning}
 
   \begin{textblock}{90}(5,15)
     % Inspired by figure 3.4 in \cite{barra2021} (p. 82)
@@ -18,9 +115,8 @@
       \def\env{Environment}
       \node[minimum width=2.5cm,ellipse,draw,thick] (\env) at (0, 0) {\env{} $\exampleSet$};
 
-      % Oracle
-      \onslide<1-3>{
-        % Node
+      % Oracle is hidden but we need it for node position
+      \invisible{
         \def\oracle{Oracle}
         \node[ellipse,draw,thick,right = 2.5cm of \env] (\oracle) {\oracle{}};
       }
@@ -33,16 +129,8 @@
       \def\output{Output}
       \node[right = 0.3cm of \learner] (\output) {\predictions};
 
-      % \env -> \oracle & \env -> \learner
-      \onslide<1-3>{
-        \path[line] (\env) -- node[above=0.2cm] {\examples} (\oracle);
-      }
+      % \env -> \learner
       \path[line] (\env) -- +(0,-1) |- node[below=0.2cm] {\examples} (\learner);
-
-      % \oracle -> learner
-      \onslide<1-3>{
-        \path[line] (\oracle) -- node[right=0.1cm] {\labels} (\learner);
-      }
 
       % \learner -> \output
       \draw[line] (\learner) -- (\output);
@@ -50,64 +138,79 @@
   \end{textblock}
 
   \begin{textblock}{90}(5,55)
-    \only<1>{
-    Ingredients:
     \begin{itemize}
     \item The environment generates $\nTrainingSamples$ examples
       $\drawFrom{\example}{\pdfExample}$ (unknown)
-    \item The oracle labels them according to a function $\targetFunc: \exampleSet
-      \mapsto \labelSet$ or a probability distribution $\condpdfLabelExample$ (unknown)
-    \item The learner has a set of functions $\exampleSet
-      \mapsto \labelSet$, noted $\hypSet$
-    \item The goal is to find $\opt{\hyp} \in \hypSet$ that approximates
-      $\targetFunc$
+    \item No oracle
+    \item The learner tries to model the environment:
       \begin{itemize}
-      \item Note that it's possible that $\targetFunc  \not\in \hypSet$
+      \item Clustering: find groups in $\exampleSet$
+      \item Density estimation: find $\pdfExample$
       \end{itemize}
     \end{itemize}
-    }
+  \end{textblock}
+\end{frame}
 
-    \only<2>{
-      Different protocols:
+
+\begin{frame}{Learning protocol}
+  \note{
+    \begin{itemize}
+    \item Briefly present the notion of learning protocol
+    \item Difference with statistics
+    \end{itemize}
+  }
+
+  \begin{textblock}{90}(5,15)
+    \begin{block}{}
+      The learning protocol describes the interaction between the learner and the
+      environment:
       \begin{itemize}
-      \item Batch learning: all $\nTrainingSamples$ examples are given
-      \item Online learning: examples are given one by one
-      \item More complex:
+      \item<2-> Batch learning: all $\nTrainingSamples$ examples are given
+      \item<3-> Online learning: examples are given one by one and the learner
+        tries to improve on each
+      \item<4-> More complex protocols:
         \begin{itemize}
         \item Active learning: the learner searches for examples
-        \item Reinforcement learning
         \end{itemize}
       \end{itemize}
-    }
-    \only<3->{
-      Different tasks:
-      \begin{columns}[T]
-        \begin{column}{0.5\textwidth}
-          \begin{itemize}
-          \item Supervised learning:
-            \begin{itemize}
-            \item Classification: $\labelSet = \setext{1,..,\nClasses}$
-            \item Multi-classification
-            \item Regression: $\labelSet \subset \setR^n$
-            \item Ranking
-            \end{itemize}
-          \item<4-> Unsupervised learning:
-            \begin{itemize}
-            \item Clustering: find groups in $\exampleSet$
-            \item Density estimation: find $\pdfExample$
-            \end{itemize}
-          \end{itemize}
-        \end{column}
-        \begin{column}{0.5\textwidth}
-          \begin{itemize}
-          \item<5-> More complex tasks:
-            \begin{itemize}
-            \item Self-supervised
-            \item Semi-supervised
-            \end{itemize}
-          \end{itemize}
-        \end{column}
-      \end{columns}
+    \end{block}
+  \end{textblock}
+\end{frame}
+
+
+\begin{frame}{Other levels of supervision}
+  \note{
+    \begin{itemize}
+    \item
+    \end{itemize}
+  }
+
+  \begin{textblock}{90}(5, 15)
+    You can imagine other levels of supervision:
+    \begin{itemize}
+    \item<2-> Semi-supervised: you have $\ell$ labelled examples and
+      $\nTrainingSamples - \ell$ unlabelled examples
+      \begin{itemize}
+      \item Can you use the unlabelled examples to improve the classification?
+      \end{itemize}
+    \item<3-> Self-supervised: learn a representation of unlabelled data that is
+      useful for later supervised learning
+    \item<4-> Reinforcement learning: the learner receive delayed and sparse signal
+      from the oracle about his performance:
+    \item<5-> .. and mix them
+      \begin{itemize}
+      \item ChatGPT is trained in 3 phases: first in a self-supervised phase
+        (predict the next sentence in a phrase),
+        then in a supervised phase (predicting requests) and first and then with
+        reinforcement learning (to avoid some behaviour)
+      \end{itemize}
+    \end{itemize}
+  \end{textblock}
+
+  \begin{textblock}{90}(5, 85)
+    \onslide<6->{
+      The difference between the task, the protocol or the technique
+      is not always clear
     }
   \end{textblock}
 \end{frame}
@@ -182,17 +285,18 @@
 \end{frame}
 
 
-\subsection{Theoretical approaches}
+\subsection{Theoretical approaches of supervised learning}
 
 \begin{frame}
-  \frametitle{Theoretical approaches}
+  \frametitle{Introduction}
 
   \begin{textblock}{100}(5,10)
-    \begin{block}{Test}
-      \begin{itemize}
-      \item Several approaches
-      \item Mainly developed for supervised learning
-      \end{itemize}
-    \end{block}
+    \begin{itemize}
+    \item Several approaches have been developped to understand
+      supervised learning
+    \item Much less for other cases
+    \end{itemize}
   \end{textblock}
 \end{frame}
+
+
