@@ -3,11 +3,10 @@
 \section{Details on backpropagation}
 
 \begin{frame}[label=Backpropagation]
-  \frametitle{\acl{MLP}: Compute the gradient (1/2)}
+  \frametitle{\acl{MLP}: Compute the gradient (1/4)}
 
   \begin{textblock}{90}(5, 15)
-    \begin{itemize}
-    \item Gradient:
+    \begin{block}{Gradient}
       $
       \grad_{\params} \apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i} =
       \left( \partialDeriv{\apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i},
@@ -16,54 +15,176 @@
 
       \begin{itemize}
       \item Analytical calculation is possible but tedious
+      \item We are going to use the structure of the network to simplify it
       \end{itemize}
-    \item $\hyp_{\params}$ is a composition of functions:
-      \[
-        \apply{\hyp_{\params}}{\example} = \apply{\softMaxFunc}{%
-          \weightMatrix^3 \times
-          \apply{\ReLUFunc}{%
-            \weightMatrix^2 \times
-            \apply{\ReLUFunc}{%
-              \weightMatrix^1 \times \example
-            }
-          }
-        }
-      \]
-      \begin{itemize}
-      \item Use the chain rule to compute partial derivatives.
-      \end{itemize}
-    \end{itemize}
+    \end{block}
+  \end{textblock}
+
+  \begin{textblock}{90}(5, 42)
+    \begin{block}{First step}<2->
+      By the chain rule, we can always write:
+      \begin{equation*}
+        \begin{split}
+          \partialDeriv{\lossFunc}{\weight_{k,p}^{\layer}} & =
+             \partialDeriv{\lossFunc}{s_{k}^{\layer+1}} \times \partialDeriv{s_{k}^{\layer+1}}{\weight_{k,p}^{\layer}} \\
+                                                    & =
+                                                      \partialDeriv{\lossFunc}{s_{k}^{\layer+1}} \times \output_{p}^{\layer} \\
+                                                     & =
+                                                       \delta_{k}^{\ell+1} \times \output_{p}^{\layer}
+        \end{split}
+      \end{equation*}
+    \end{block}
   \end{textblock}
 \end{frame}
 
 \begin{frame}
-  \frametitle{\acl{MLP}: Compute the gradient (2/2)}
+  \frametitle{\acl{MLP}: Compute the gradient (2/4)}
 
-  \begin{textblock}{90}(5, 15)
-    \begin{block}{Derivation of the gradient}
-      \begin{itemize}
-      \item Apply the chain rule at layer $\layer$:
-        $
-        \partialDeriv{\apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{w_{k,p}^\layer} =
-        \partialDeriv{\apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{o_k^{\layer+1}} \partialDeriv{o_k^{\layer+1}}{s_k^{\layer+1}} \partialDeriv{s_k^{\layer+1}}{w_{k,p}^{\layer}}
-        $
+  \begin{textblock}{100}(5, 10)
+    \begin{tikzpicture}
+      \def\xHiddenII{6.6}
+      \def\nameHiddenII{hidden2}
+      \def\xOutput{8.9}
+      \def\nameOutput{output}
+      \def\xLoss{10}
+      \def\nameLoss{loss}
+      \def\missing{missing}
 
-      \item $\partialDeriv{\apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{o_k^{\layer+1}}$: known at the $\layer+1$ layer. $\partialDeriv{\apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{o_k^{L}}$: last layer, $\lossFunc$ must be differentiable w.r.t $o_k^{L}$.
+      \node (origin) at (0, 0) {};
 
-    %\item $\partialDeriv{\apply{\lossFunc}{\apply{\hyp_{\params}}{\example_i}, \knownLabel_i}}{o_k^{L}}$: last layer, $\lossFunc$ must be differentiable w.r.t $o_k^{L}$
+      % Second hidden layer
+      \foreach \m [count=\y] in {1,2,missing,150}
+      \node [every neuron/.try, neuron \m/.try ] (\nameHiddenII-\m) at (\xHiddenII,2.2-\y) {\ifx\m\missing\else {\footnotesize $s_{\m}^3$}\fi};
 
-      \item $\partialDeriv{o_k^{\layer+1}}{s_k^{\layer+1}}$: $o_k^{\layer+1} = \activFunc(s_k^{\layer+1})$, $\activFunc$ as intermediate or final activation function must be differentiable.
+      % Output layer
+      \foreach \m [count=\y] in {0,1,missing,9}
+      \node [every neuron/.try, neuron \m/.try ] (\nameOutput-\m) at (\xOutput,1.6-0.8*\y) {\ifx\m\missing\else {\footnotesize $s_{\m}^4$}\fi};
 
-      \item $\partialDeriv{s_k^{\layer+1}}{w_{k,p}^{\layer}} = \partialDeriv{}{w_{k,p}^{\layer}} \sum_{p' \in \left\{1,\ldots,N_l \right\}}  w_{p', k}^{\layer}o_{p'}^{k}= \partialDeriv{}{w_{k,p}^{\layer}}  w_{p, k}^{\layer}o_{p}^{\layer}=o_{p}^{\layer}$
+      % Second hidden layer -> output
+      \foreach \i in {1}
+      \foreach \j in {0,1,9}
+      \draw [->] (\nameHiddenII-\i) -- (\nameOutput-\j);
 
-    \end{itemize}
-    \end{block}
+      % Loss
+      \node (\nameLoss) at (\xLoss, -0.4) {$\lossFunc$};
+
+      % Output -> loss
+      \foreach \i in {0,1,9}
+      \draw [->] (\nameOutput-\i) -- (\nameLoss);
+    \end{tikzpicture}
   \end{textblock}
 
-  \begin{textblock}{90}(5, 65)
-    \begin{block}{General idea}<2->
+  \begin{textblock}{90}(5, 55)
+    \begin{block}{For output neurons}
+      We can apply the chain rule:
+      $
+      \delta_{k}^4 = \partialDeriv{\lossFunc}{s_{k}^{4}} = \partialDeriv{\lossFunc}{\output_{k}^{4}} \times \partialDeriv{\output_{k}^{4}}{s_{k}^{4}}
+      $
       \begin{itemize}
-      \item Back-propagation works for all feed-forward architectures
+        \item $
+          \partialDeriv{\output_{k}^{4}}{s_{k}^{4}}
+          = \partialDeriv{}{s_{k}^4} \left\lbrace
+            \frac{\apply{\exp}{s_{k}^4}}{\sum_{j=1}^{10} \apply{\exp}{s_{j}^4}} \right\rbrace
+          %= \output_{k}^{4} - \left( \output_{k}^4 \right)^2
+          $
+        \item $
+          \partialDeriv{\lossFunc}{\output_{k}^{4}}
+          = \partialDeriv{}{\output_{k}^{4}} \left\lbrace - \sum_{p=1}^{10} \knownLabel_{i,p}
+          \apply{\log}{\output_{i,p}^4} \right\rbrace
+          = - \frac{\knownLabel_{k}}{\output_k^4}
+          $
+        \end{itemize}
+
+        With this, we can compute $\partialDeriv{\lossFunc}{\weight_{k,p}^{3}}$
+        (for all, $k, p$).
+    \end{block}
+  \end{textblock}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{\acl{MLP}: Compute the gradient (3/4)}
+
+  \begin{textblock}{100}(5, 10)
+    \begin{tikzpicture}
+      \def\xHiddenI{4.3}
+      \def\nameHiddenI{hidden1}
+      \def\xHiddenII{6.6}
+      \def\nameHiddenII{hidden2}
+      \def\xOutput{8.9}
+      \def\nameOutput{output}
+      \def\xLoss{10}
+      \def\nameLoss{loss}
+      \def\missing{missing}
+
+      \node (origin) at (0, 0) {};
+
+      % First hidden layer
+      \foreach \m [count=\y] in {1,2,missing,200}
+      \node [every neuron/.try, neuron \m/.try ] (\nameHiddenI-\m) at (\xHiddenI,2.5-1.1*\y) {\ifx\m\missing\else {\footnotesize $s_{\m}^3$}\fi};
+
+      % Second hidden layer
+      \foreach \m [count=\y] in {1,2,missing,150}
+      \node [every neuron/.try, neuron \m/.try ] (\nameHiddenII-\m) at (\xHiddenII,2.2-\y) {\ifx\m\missing\else {\footnotesize $s_{\m}^3$}\fi};
+
+      % Example of connection
+      \draw [->] (\nameHiddenI-2) -- (\nameHiddenII-1);
+
+      % Output layer
+      \foreach \m [count=\y] in {0,1,missing,9}
+      \node [every neuron/.try, neuron \m/.try ] (\nameOutput-\m) at (\xOutput,1.6-0.8*\y) {\ifx\m\missing\else {\footnotesize $s_{\m}^4$}\fi};
+
+      % Second hidden layer -> output
+      \foreach \i in {1}
+      \foreach \j in {0,1,9}
+      \draw [->] (\nameHiddenII-\i) -- (\nameOutput-\j);
+
+      % Loss
+      \node (\nameLoss) at (\xLoss, -0.4) {$\lossFunc$};
+
+      % Output -> loss
+      \foreach \i in {0,1,9}
+      \draw [->] (\nameOutput-\i) -- (\nameLoss);
+    \end{tikzpicture}
+  \end{textblock}
+
+  \begin{textblock}{90}(5, 52)
+    \begin{block}{At the previous layer}
+      \[
+        \partialDeriv{\lossFunc}{w_{k,p}^{2}}  =
+        \sum_{j=1}^{10} \partialDeriv{\lossFunc}{s_{j}^4} \times
+        \partialDeriv{s_{j}^4}{s_{k}^3} \times
+        \partialDeriv{s_{k}^3}{w_{k,p}^{2}} =
+        \sum_{j=1}^{10} \delta_{j}^{4} \times \partialDeriv{s_{j}^4}{s_{k}^3} \times \output_p^{2}
+      \]
+      Therefore:
+      \[
+        \delta_k^3 =
+        \sum_{j=1}^{10} \delta_{j}^{4} \times
+        \partialDeriv{s_{j}^4}{s_{k}^3} =
+        \sum_{j=1}^{10} \delta_{j}^{4} \times
+        \partialDeriv{s_{k}^4}{\output_{j}^{3}} \times
+        \partialDeriv{\output_{k}^{3}}{s_{k}^3} =
+         \sum_{j=1}^{10} \delta_{j}^{4} \times
+         \weight_{k,j}^{3} \times
+         \partialDeriv{\output_{k}^{3}}{s_{k}^3}
+      \]
+    \end{block}
+  \end{textblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\acl{MLP}: Compute the gradient (3/4}
+
+  \begin{textblock}{90}(5, 15)
+    \begin{block}{General idea}
+      \begin{itemize}
+      \item You can compute the gradient ``backward'':
+        \begin{itemize}
+        \item We start at last layer by computing $\delta_k^4$
+        \item We can compute $\delta_{k'}^3$
+        \end{itemize}
+      \item<2-> Back-propagation works for all feed-forward architectures
         \hyperlink{MLP_Learning_2}{\beamergotobutton{Go back}}
         % Back-propagates to main slide :)
       \end{itemize}
