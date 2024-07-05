@@ -5,7 +5,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[english]{babel}
-\usepackage[x11names]{xcolor}
+\usepackage{xcolor}
 \usepackage{pgfpages}
 \usepackage[style=authortitle,giveninits=true,sorting=none,backend=biber]{biblatex}
 \usepackage[absolute,overlay]{textpos}
@@ -33,7 +33,7 @@
 \input{commands/math_commands}
 
 % Options, definitions and styles
-\setbeameroption{show notes on second screen}
+%\setbeameroption{show notes on second screen}
 \DeclareFontShape{T1}{cmss}{b}{n}{<->ssub * cmss/bx/n}{}
 \AtBeginSection[]{%
   \begin{frame}
@@ -191,6 +191,8 @@
 \include{a_simple_example}
 
 %\include{a_more_convolved_example}
+
+\include{deep_learning}
 
 \appendix
 
