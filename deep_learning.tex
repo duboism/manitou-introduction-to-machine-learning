@@ -21,15 +21,15 @@
         \includegraphics[width=110px]{img/projection.png}
     \end{textblock}
     \begin{textblock}{40}(65, 40)
-    \includegraphics[width=120px]{img/projection_dl.png}
+      \includegraphics[width=120px]{img/projection_dl.png}
     \end{textblock}
 
     
     \begin{textblock}{60}(1, 15)
         \begin{itemize}
             \item Deep learning is the subset of machine learning methods based on Neural Networks (NN)
-            \item NN model learns a complex non-linear function that will project the training data in a high-dimension space where the data is linearly separable or where we have a better representation of the data to solves the task
-            \item To do so, NN model project the data successively through several neural layers improving representation at each step
+            \item NN model learns a complex non-linear function that will project the data in a high-dimension space where the data are linearly separable or where we have a better representation of the data to solves the task
+            \item To do so, NN model project the data non-linearly successively through several neural layers improving representation at each step
             \item The adjective "deep" refers to the use of multiple layers in the network
           \end{itemize}
     \end{textblock}
@@ -38,17 +38,24 @@
   \end{frame}
 
 \begin{frame}{Deep Learning}
-
-  \begin{itemize}
-    \item These layers performs operations which either:
+  \begin{textblock}{60}(1, 15)
     \begin{itemize}
-      \item Project non-linearly (typically linear-layer + non linear activation function)
-      \item Capture the structural patterns and relationships within the data (Convolutional layers in Convolutional Neural Network (CNN), Attention mechanisms in Transformers, Aggregation functions in Graph Neural Network (GNN))
+      \item These layers performs operations which either:
+      \begin{itemize}
+        \item Project non-linearly (typically linear-layer + non linear activation function)
+        \item Capture the structural patterns and relationships within the data (Convolutional layers in Convolutional Neural Network (CNN), Attention mechanisms in Transformers, Aggregation functions in Graph Neural Network (GNN))
+      \end{itemize}
+      \item The combination of non-linear projections and the capture of structural patterns allows neural network models to learn complex non-linear functions, projecting data into a space where their representations can solve the task effectively
+      \item Two examples: The transformers and the GNNs
     \end{itemize}
-    \item The combination of non-linear projections and the capture of structural patterns allows neural network models to learn complex non-linear functions, projecting data into a space where their representations can solve the task effectively
-    \item Two examples: The transformers and the GNNs
-  \end{itemize}
+  \end{textblock}
 
+  \begin{textblock}{40}(65, 20)
+    \includegraphics[width=110px]{img/projection.png}
+  \end{textblock}
+  \begin{textblock}{40}(65, 40)
+    \includegraphics[width=120px]{img/projection_dl.png}
+  \end{textblock}
 
 \end{frame}
 
@@ -57,8 +64,8 @@
 
 \begin{frame}{Transformers}
   \begin{itemize}
-      \item Something often heard: Large Language Models (LLMs) "only" predict the next word in a sentence.
-      \item That's true but the real question is: "how are they doing that?"
+      \item We hear it all the time: Large Language Models (LLMs) predict "only" the next word in a sentence, the most likely word.
+      \item That's true. But the real question is how do LLMs do it??
       \item To answer this question, we need to understand the architectures on which they are based: Transformers and their core mechanism: the attention mechanism
   \end{itemize}
 \end{frame}
