@@ -527,12 +527,43 @@
     \end{itemize}
   }
 
+  \begin{textblock}{90}(5, 15)
+    The main results of Statistical Learning Theory are:
+    \begin{itemize}
+    \item<1-> We can characterize $\hypSet$ by a number $d_{VC}^{\hypSet}$
+      (Vapnik-Chervonenkis dimensions):
+      \begin{itemize}
+      \item This dimension measures the capacity of functions in $\hypSet$ to
+        separate points in $\exampleSet$
+      \end{itemize}
+    \item<2-> \ac{ERM} is consistent i.f.f $d_{VC}^{\hypSet} < \infty$:
+      \[
+        \lim\limits_{\nTrainingSamples \to \infty} \apply{\risk}{\estim{\hyp}} = \apply{\risk}{\opt{\hyp}}
+      \]
+      \[
+        \lim\limits_{\nTrainingSamples \to \infty} \apply{\empRisk}{\estim{\hyp}} = \apply{\risk}{\opt{\hyp}}
+      \]
+    \end{itemize}
+  \end{textblock}
 
+  \begin{textblock}{90}(5, 70)
+    \begin{itemize}
+    %\item<4-> Super-impressive in theory
+    \item<3-> Those ideas led to the development of new learning algorithms (SVM)
+    \item<4-> In practice, $d_{VC}^{\hypSet}$ is known only in some cases:
+      \begin{itemize}
+      \item Linear classifiers
+      \item \ac{MLP}
+      \end{itemize}
+    \end{itemize}
+  \end{textblock}
 \end{frame}
+
 
 \begin{frame}{Over-fitting}
   \note{
     \begin{itemize}
+    \item Explain overfitting
     \end{itemize}
   }
 
@@ -559,12 +590,13 @@
     \end{center}
   \end{textblock}
 
-  \begin{textblock}{90}(5,60)
+  \begin{textblock}{90}(5,65)
     \begin{itemize}
-    \item $\hypSet$ must be chosen according to the problem and
+    \item<4-> $\hypSet$ must be chosen according to the problem and
       $\nTrainingSamples$
-    \item You can modify the \ac{ERM} to avoid over-fitting:
+    \item<5-> You can modify the \ac{ERM} to avoid over-fitting:
       \begin{itemize}
+      \item Ideas from Statistical Learning Theory
       \item Penalize ``complex'' models (regularization)
       \item Empirical methods
       \end{itemize}
