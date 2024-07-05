@@ -64,7 +64,7 @@
 
 \begin{frame}{Transformers: Attention Mechanisms}
   \begin{itemize}
-      \item We hear it all the time: Large Language Models (LLMs) predict "only" the next word in a sentence, the most likely word.
+      \item Something often heard: Large Language Models (LLMs) predict "only" the next word in a sentence, the most likely word.
       \item That's true. But the real question is how do LLMs do it??
       \item To answer this question, we need to understand the architectures on which they are based: Transformers and their core mechanism: the attention mechanism
   \end{itemize}
@@ -102,6 +102,17 @@
 
 
     \end{textblock}
+      \note{
+        \begin{itemize}
+          \item the firts step is to encode the sequence in a embeddings space (in which the words close semanticall are close in the space) and also encode postional encodings
+          \item the next step is to take this encodings and figure out where to attend
+          \item we compute Q, K, V withe separate neural network layers with separate set of weights that transform the encoding in a different way
+          \item Now with this three matric the query the key the value we can compare them to each other to try to figure out where in that self-input the network should attend to what is important 
+          \item And that's the key idea behind this similiraty metric or what you can think of an attention score
+          \item Mathematically the way we can compare this two vectors to understand how similar they are is by taking the dot product. Capture how similar this vector,rather or not tey are pont ing in the same direction   
+        \end{itemize}    
+    }
+    
 
     \begin{textblock}{48}(52, 25)
         \includegraphics<1>[width=150px]{img/transformer_1.png}
@@ -210,7 +221,7 @@
 
 \end{frame}
 
-\begin{frame}{Graph Neural Networks (GNNs)}
+\begin{frame}{Graph Neural Networks (GNNs): Message Passing}
 
   \note{
     \textbf{Key Components of GNNs}:
@@ -219,7 +230,8 @@
         \item \textbf{Aggregation}: Combining information from neighboring nodes
         \item \textbf{Update}: Non-linearly project aggregation to compute new node embeddings
         \item \textbf{Message Passing}: Nodes exchange information with their neighbors to update their embeddings
-    \end{itemize}
+        \item Message passing is repeated throuh all the GNN layers and allows the model to capture deep structural patterns in the graph 
+      \end{itemize}
   }
     \begin{center}\includegraphics[width=200px]{img/gnn_aggregate.png}\end{center}
     \begin{center}\includegraphics[width=200px]{img/gnn_update.png}\end{center}
@@ -230,7 +242,7 @@
   \]
   where \(h_i^{(k)}\) is the embedding of node \(i\) at iteration \(k\), and \(\mathcal{N}(i)\) denotes the neighbors of node \(i\).
 
-    \note{GNN can also be seenn as a generalization of convolution networks (Image seen as graphs) and transformers (sequence of text as a fully connected graph)}
+    \note{GNN can also be seenn as a generalization of convolution networks (Image seen as graphs) and transformers (sequence of text as a fully connected graph). They have a very powerfull expressiveness.}
 
 \end{frame}
 
@@ -238,9 +250,10 @@
     \frametitle{Graph Neural Networks: applications}
     \begin{textblock}{90}(5, 15)
       \begin{itemize}
+        \item Geometric deep learning is a booming topic in AI 
         \item Social Network analysis, Biological and Chemical Networks, Particle Physic, etc
         \item Widely used at LHC, GNNs especially suitable for sparse data of the detectors
-        \item Geometric deep learning is a booming topic in AI 
+
       \end{itemize}
     \end{textblock}
 
