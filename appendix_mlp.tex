@@ -22,7 +22,8 @@
 
   \begin{textblock}{90}(5, 42)
     \begin{block}{First step}<2->
-      By the chain rule, we can always write:
+      As $\lossFunc$ depends on $\weight_{k, p}^{\ell}$ only through
+      $s_{k}^{\ell+1}$, by the chain rule, we can always write:
       \begin{equation*}
         \begin{split}
           \partialDeriv{\lossFunc}{\weight_{k,p}^{\layer}} & =
@@ -33,6 +34,7 @@
                                                        \delta_{k}^{\ell+1} \times \output_{p}^{\layer}
         \end{split}
       \end{equation*}
+      We only need to compute $\delta_{k}^{\layer+1}$.
     \end{block}
   \end{textblock}
 \end{frame}
@@ -83,9 +85,11 @@
       \begin{itemize}
         \item $
           \partialDeriv{\output_{k}^{4}}{s_{k}^{4}}
+          = \partialDeriv{}{s_{k}^{4}} \left\lbrace
+            \apply{\softMaxFunc}{s_{k}^{4}} \right\rbrace
           = \partialDeriv{}{s_{k}^4} \left\lbrace
             \frac{\apply{\exp}{s_{k}^4}}{\sum_{j=1}^{10} \apply{\exp}{s_{j}^4}} \right\rbrace
-          %= \output_{k}^{4} - \left( \output_{k}^4 \right)^2
+          = \output_{k}^{4} - \left( \output_{k}^4 \right)^2
           $
         \item $
           \partialDeriv{\lossFunc}{\output_{k}^{4}}
@@ -94,9 +98,8 @@
           = - \frac{\knownLabel_{k}}{\output_k^4}
           $
         \end{itemize}
-
-        With this, we can compute $\partialDeriv{\lossFunc}{\weight_{k,p}^{3}}$
-        (for all, $k, p$).
+        %With this, we can compute $\partialDeriv{\lossFunc}{\weight_{k,p}^{3}}$
+        %(for all, $k, p$).
     \end{block}
   \end{textblock}
 \end{frame}
@@ -150,6 +153,8 @@
 
   \begin{textblock}{90}(5, 52)
     \begin{block}{At the previous layer}
+      As $\lossFunc$ depends on $\weight_{k, p}^{2}$ through $s_{k}^{3}$ which
+      influences all activations at layer 4:
       \[
         \partialDeriv{\lossFunc}{w_{k,p}^{2}}  =
         \sum_{j=1}^{10} \partialDeriv{\lossFunc}{s_{j}^4} \times
@@ -157,27 +162,46 @@
         \partialDeriv{s_{k}^3}{w_{k,p}^{2}} =
         \sum_{j=1}^{10} \delta_{j}^{4} \times \partialDeriv{s_{j}^4}{s_{k}^3} \times \output_p^{2}
       \]
-      Therefore:
+      By comparison with the first step, we have:
+      $
+      \delta_k^3 =
+      \sum_{j=1}^{10} \delta_{j}^{4} \times
+      \partialDeriv{s_{j}^4}{s_{k}^3}
+      $.
+    \end{block}
+  \end{textblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\acl{MLP}: Compute the gradient (4/4}
+
+  \begin{textblock}{90}(5, 15)
+    \begin{block}{Last step}
+      One last application of the chain rule gives:
       \[
         \delta_k^3 =
         \sum_{j=1}^{10} \delta_{j}^{4} \times
         \partialDeriv{s_{j}^4}{s_{k}^3} =
         \sum_{j=1}^{10} \delta_{j}^{4} \times
         \partialDeriv{s_{k}^4}{\output_{j}^{3}} \times
-        \partialDeriv{\output_{k}^{3}}{s_{k}^3} =
-         \sum_{j=1}^{10} \delta_{j}^{4} \times
-         \weight_{k,j}^{3} \times
-         \partialDeriv{\output_{k}^{3}}{s_{k}^3}
+        \partialDeriv{\output_{k}^{3}}{s_{k}^3}
       \]
+      \begin{itemize}
+      \item $\partialDeriv{s_{k}^4}{\output_{j}^{3}} = \weight_{k,j}^{3}$
+      \item $\partialDeriv{\output_{k}^{3}}{s_{k}^3} =
+        \partialDeriv{}{s_{k}^3} \left\lbrace \apply{\ReLUFunc}{s_{k}^3}
+        \right\rbrace =
+        \begin{cases}
+          s_{k}^3 & \text{if $s_{k}^3 > 0$}\\
+          0 & \text{else}
+        \end{cases}
+        $
+      \end{itemize}
     \end{block}
   \end{textblock}
-\end{frame}
 
-\begin{frame}
-  \frametitle{\acl{MLP}: Compute the gradient (3/4}
-
-  \begin{textblock}{90}(5, 15)
-    \begin{block}{General idea}
+  \begin{textblock}{90}(5, 65)
+    \begin{block}{General idea}<2->
       \begin{itemize}
       \item You can compute the gradient ``backward'':
         \begin{itemize}
